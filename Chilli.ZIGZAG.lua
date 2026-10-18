@@ -1,19 +1,29 @@
 --========================================================
--- CHILLI HUB THAI - ZIGZAG V1.7.1 ADMIN ABUSE FULL MERGED
+-- CHILLI HUB THAI - ZIGZAG V1.8.0 MULTI-HOP TRANSLATION SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
+-- Halloween mappings / verified V1.7.9 sidebar styling retained
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
+local ZIGZAG_RELEASE = "CHILLI_ZIGZAG_V1.8.0_TP_SAFE"
+local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
+-- If executor Auto Execute and a teleport queue both fire, keep the already
+-- running version instead of tearing down/repainting the GUI (no flicker).
+if OLD and OLD.Release == ZIGZAG_RELEASE
+    and OLD.JobId == ZIGZAG_JOB and OLD.Live then
+    return
+end
 if OLD and type(OLD.Disconnect) == "function" then pcall(OLD.Disconnect) end
-local STATE = {Connections={}}
+local STATE = {Connections={},Release=ZIGZAG_RELEASE,JobId=ZIGZAG_JOB,Live=true}
 local function Bind(connection)
     if connection then table.insert(STATE.Connections, connection) end
     return connection
 end
 function STATE.Disconnect()
+    STATE.Live = false
     for _,connection in ipairs(STATE.Connections) do
         pcall(function() connection:Disconnect() end)
     end
@@ -598,6 +608,18 @@ local TRANSLATIONS = {
     ["Instant Steal: OFF"] = "ขโมยทันที: ปิด",
     ["Instant Steal: ON"] = "ขโมยทันที: เปิด",
 
+    -- V1.7.8: floating animal-steal panel (screenshot 2026-10-18)
+    ["Halloween: OFF"] = "ฮาโลวีน: ปิด",
+    ["Halloween: ON"] = "ฮาโลวีน: เปิด",
+    ["Eggs: All"] = "ไข่: ทั้งหมด",
+    ["Eggs: ALL"] = "ไข่: ทั้งหมด",
+    ["Auto Steal: Off"] = "ออโต้ขโมย: ปิด",
+    ["Auto Steal: On"] = "ออโต้ขโมย: เปิด",
+    ["Halloween: Off"] = "ฮาโลวีน: ปิด",
+    ["Halloween: On"] = "ฮาโลวีน: เปิด",
+    ["Eggs"] = "ไข่",
+    ["Halloween"] = "ฮาโลวีน",
+
     -- V1.3: New Chilli Farm > Instant Steal Zones (2026-10-09)
     ["Teleport To Egg"] = "วาร์ปไปหาไข่",
     ["Teleport to Egg"] = "วาร์ปไปหาไข่",
@@ -783,6 +805,67 @@ local ZIGZAG_NEW_STEAL_METHOD_LABELS = {
     ["Tween"] = "เคลื่อนที่ลื่นไหล",
 }
 for english,thai in pairs(ZIGZAG_NEW_STEAL_METHOD_LABELS) do
+    if TRANSLATIONS[english] == nil then
+        TRANSLATIONS[english] = thai
+    end
+end
+
+--========================================================
+-- ZIGZAG 2026-10-18 HALLOWEEN UPDATE (ADDITIVE TRANSLATIONS ONLY)
+-- UI labels captured from CHILLI Hub screenshots; game logic unchanged.
+-- Stays before lookup/cache construction, so every new label is reactive.
+-- No new task loops, GUIs, re-loads, teleport hooks, or .Text overrides.
+--========================================================
+local ZIGZAG_HALLOWEEN_TRANSLATIONS = {
+    ["Halloween Dimension"] = "มิติฮาโลวีน",
+    ["Halloween Monsters"] = "มอนสเตอร์ฮาโลวีน",
+    ["Ghost Dog & Fishing"] = "เควสต์สุนัขผีและตกปลา",
+    ["Ghost Dog and Fishing"] = "เควสต์สุนัขผีและตกปลา",
+    ["Phantom Express"] = "รถไฟภูตพราย",
+    ["Auto Steal Halloween Eggs"] = "ออโต้ขโมยไข่ฮาโลวีน",
+    ["Instant Steal Halloween Eggs"] = "ขโมยไข่ฮาโลวีนทันที",
+    ["Steal Missing Halloween Index"] = "ขโมยไข่ฮาโลวีนที่ยังไม่มีในสารบัญ",
+    ["Steal Speed"] = "ความเร็วขโมยไข่",
+    ["Halloween Eggs To Steal"] = "ไข่ฮาโลวีนที่จะขโมย",
+    ["Halloween Egg Rarities"] = "ระดับความหายากไข่ฮาโลวีน",
+    ["Min Value"] = "มูลค่าขั้นต่ำ",
+    ["Min Value ($/s)"] = "มูลค่าขั้นต่ำ ($/วินาที)",
+    ["Auto Pumpkin Moon"] = "ออโต้กิจกรรมพระจันทร์ฟักทอง",
+    ["Auto Buy Halloween Dimension Egg"] = "ออโต้ซื้อไข่จากมิติฮาโลวีน",
+    ["Auto Farm Monsters"] = "ออโต้ฟาร์มมอนสเตอร์",
+    ["Auto Kill Monsters"] = "ออโต้กำจัดมอนสเตอร์",
+    ["Monsters To Kill"] = "มอนสเตอร์ที่จะกำจัด",
+    ["Monsters"] = "มอนสเตอร์",
+    ["Monster Order"] = "ลำดับการเลือกมอนสเตอร์",
+    ["Closest First"] = "ใกล้ที่สุดก่อน",
+    ["Most Tokens"] = "ได้โทเคนมากที่สุดก่อน",
+    ["Use Weapons"] = "ใช้อาวุธ",
+    ["Auto Ghost Dog Quest"] = "ออโต้ทำเควสต์สุนัขผี",
+    ["Auto Fishing"] = "ออโต้ตกปลา",
+    ["Cast Luck"] = "ตัวคูณโชคในการเหวี่ยงเบ็ด",
+    ["x1.5 Perfect"] = "x1.5 สมบูรณ์แบบ",
+    ["x1.2"] = "x1.2",
+    ["x1.1"] = "x1.1",
+    ["x1.0 Fastest"] = "x1.0 เร็วที่สุด",
+    ["Quest"] = "เควสต์",
+    ["Fish Caught"] = "จำนวนปลาที่จับได้",
+    ["Auto Phantom Express"] = "ออโต้รถไฟภูตพราย",
+    ["Auto Vacuum Ghouler Boss"] = "ออโต้ดูดบอส Ghouler",
+    ["Ghost Target"] = "เป้าหมายผี",
+    ["Rarest First"] = "หายากที่สุดก่อน",
+    ["Auto Trade Souls"] = "ออโต้แลกวิญญาณ",
+    ["Train"] = "รถไฟ",
+    ["Souls"] = "วิญญาณ",
+    ["Not Here"] = "ยังไม่มา",
+    ["Halloween Eggs"] = "ไข่ฮาโลวีน",
+    ["Halloween Rarities"] = "ระดับความหายากไข่ฮาโลวีน",
+    ["Auto Buy Halloween Egg"] = "ออโต้ซื้อไข่ฮาโลวีน",
+    ["Ghost Dog Quest"] = "เควสต์สุนัขผี",
+    ["Pumpkin Moon"] = "พระจันทร์ฟักทอง",
+    ["Ghost Dog"] = "สุนัขผี",
+    ["Fishing"] = "ตกปลา",
+}
+for english,thai in pairs(ZIGZAG_HALLOWEEN_TRANSLATIONS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
     end
@@ -1424,139 +1507,6 @@ local function BindChilli(connection)
     return connection
 end
 --========================================================
--- ZIGZAG V1.7.1: SIDE NAV PURPLE RESTORE (SCOPED VISUAL PATCH)
--- CHILLI sometimes renders its left/right tabs outside the main
--- ScreenGui; the previous TrackChilli only themed that main tree.
--- Recolor ONLY recognized Chilli navigation tabs, not the game HUD.
--- No gameplay calls, no movement hooks, no new loops, no text edits.
---========================================================
-local ZIGZAG_SIDE_LABELS = {
-    ["Farm"]=true,["ฟาร์ม"]=true,
-    ["Player"]=true,["Character"]=true,["ตัวละคร"]=true,
-    ["Predictor"]=true,["คาดการณ์"]=true,
-    ["Progress"]=true,["ความคืบหน้า"]=true,
-    ["Server"]=true,["เซิร์ฟเวอร์"]=true,
-    ["Misc"]=true,["อื่นๆ"]=true,
-    ["Auto Hop"]=true,["ออโต้ย้ายเซิร์ฟเวอร์"]=true,
-    ["Auto Server Hop"]=true,["ย้ายเซิร์ฟเวอร์อัตโนมัติ"]=true,
-    ["Admin Abuse"]=true,["กิจกรรมแอดมิน"]=true,
-    ["Discord"]=true,["ดิสคอร์ด"]=true,
-    ["Quick & Keys"]=true,["คีย์ลัด"]=true,
-    ["Settings"]=true,["การตั้งค่า"]=true,
-    ["Config"]=true,["คอนฟิก"]=true,
-}
-local function ZIGZAG_SideText(object)
-    if not IsTextObject(object) then return nil end
-    local ok, value=pcall(function() return CleanText(object.Text) end)
-    if ok and ZIGZAG_SIDE_LABELS[value] then return value end
-    return nil
-end
-local function ZIGZAG_SideScreen(object)
-    local cur=object
-    while cur and not IsKnownRoot(cur) do
-        if cur:IsA("ScreenGui") then return cur end
-        cur=cur.Parent
-    end
-    return nil
-end
-local function ZIGZAG_SideScreenVerified(screen)
-    if not screen or not MainChilliGui or not MainChilliGui.Parent then return false end
-    if screen==MainChilliGui or MainChilliGui:IsDescendantOf(screen) then return true end
-    -- Independent sidebar ScreenGui must contain 3+ distinct Chilli tab
-    -- labels. Matching a single common label like 'Server' is NOT enough.
-    local unique, count={},0
-    local ok=pcall(function()
-        for _,desc in ipairs(screen:GetDescendants()) do
-            local label=ZIGZAG_SideText(desc)
-            if label and not unique[label] then
-                unique[label]=true
-                count=count+1
-                if count>=3 then return end
-            end
-        end
-    end)
-    if not ok then return false end
-    if count>=3 then return true end
-    -- The source may split tabs into several ScreenGuis named for Chilli.
-    local name=string.lower(tostring(screen.Name or ""))
-    if count>=1 and name:find("chilli",1,true) then return true end
-    return false
-end
-local function ZIGZAG_SideButton(textObject)
-    local cur=textObject
-    local fallback=nil
-    for _=1,6 do
-        if not cur or not cur:IsA("GuiObject") then break end
-        local size=cur.AbsoluteSize
-        if size.X>=85 and size.Y>=25 and size.Y<=130 then
-            if cur:IsA("GuiButton") then return cur end
-            if cur:IsA("Frame") or cur:IsA("ImageLabel") then fallback=cur end
-        end
-        cur=cur.Parent
-    end
-    return fallback or (textObject:IsA("GuiObject") and textObject or nil)
-end
-local function ZIGZAG_StyleSideTab(textObject)
-    if not ZIGZAG_SideText(textObject) then return end
-    if not MainChilliGui or not MainChilliGui.Parent then return end
-    local screen=ZIGZAG_SideScreen(textObject)
-    if not ZIGZAG_SideScreenVerified(screen) then return end
-    local button=ZIGZAG_SideButton(textObject)
-    if not button or not button.Parent then return end
-    -- Keep the original black outlines, button actions and green toggles.
-    -- ThemeObject installs per-property recolor watchers once per object.
-    local function PaintTabAndDecorations(host)
-        ThemeObject(host)
-        for _,visual in ipairs(host:GetDescendants()) do
-            if visual:IsA("UIGradient") or visual:IsA("UIStroke")
-                or visual:IsA("Frame") or visual:IsA("TextButton")
-                or visual:IsA("ImageButton") or visual:IsA("ImageLabel") then
-                ThemeObject(visual)
-            end
-        end
-    end
-    PaintTabAndDecorations(button)
-    -- Some Chilli builds draw the red backing and UIGradient in an
-    -- adjacent wrapper Frame, with a transparent TextButton on top.
-    -- Paint only same-size wrappers, never the entire navigation panel.
-    local base=button.AbsoluteSize
-    local ancestor=button.Parent
-    for _=1,3 do
-        if not ancestor or not ancestor:IsA("GuiObject") then break end
-        local size=ancestor.AbsoluteSize
-        if size.X>=base.X*0.80 and size.X<=base.X*1.24
-            and size.Y>=base.Y*0.80 and size.Y<=base.Y*1.55 then
-            PaintTabAndDecorations(ancestor)
-        else
-            break
-        end
-        ancestor=ancestor.Parent
-    end
-end
-local function ZIGZAG_RefreshSideTabs()
-    if not MainChilliGui or not MainChilliGui.Parent then return end
-    -- Small, finite pass during bind and delayed UI initialization only.
-    -- No RenderStepped, Heartbeat, continuous scan or server-hop changes.
-    local seenScreens={}
-    for _,root in ipairs(UI_ROOTS) do
-        pcall(function()
-            for _,object in ipairs(root:GetDescendants()) do
-                if object:IsA("ScreenGui") and not seenScreens[object] then
-                    seenScreens[object]=true
-                    if ZIGZAG_SideScreenVerified(object) then
-                        for _,label in ipairs(object:GetDescendants()) do
-                            if ZIGZAG_SideText(label) then
-                                ZIGZAG_StyleSideTab(label)
-                            end
-                        end
-                    end
-                end
-            end
-        end)
-    end
-end
-
---========================================================
 -- DR. SCRAMBLE EMPTY AREA GUARD (iPad / low-lag)
 -- Operates only on the Chilli content ScrollingFrame, if one is found.
 -- No UI reconstruction, no feature toggles, no Text edits.
@@ -1729,13 +1679,11 @@ local function TrackChilli(gui)
         WatchDrHeader(object)
         if IsChilliTitle(object) then PlaceZigzagLogo(object) end
     end
-    ZIGZAG_RefreshSideTabs()
     BindChilli(gui.DescendantAdded:Connect(function(object)
         if IsTextObject(object) then
             ApplyTranslation(object,true)
             WatchDrHeader(object)
             if IsChilliTitle(object) then PlaceZigzagLogo(object) end
-            ZIGZAG_StyleSideTab(object)
         end
         ThemeObject(object)
         -- Chilli sometimes parents a border before assigning its size/color.
@@ -1766,7 +1714,6 @@ local function TrackChilli(gui)
             if IsChilliTitle(object) then PlaceZigzagLogo(object) end
         end
         PlaceZigzagWatermark(gui)
-        ZIGZAG_RefreshSideTabs()
     end)
     task.delay(2.0,function()
         if MainChilliGui ~= gui or not gui.Parent then return end
@@ -1774,12 +1721,244 @@ local function TrackChilli(gui)
             ThemeObject(object)
         end
         PlaceZigzagWatermark(gui)
-        ZIGZAG_RefreshSideTabs()
     end)
     BindChilli(gui.AncestryChanged:Connect(function()
         if not gui.Parent then DisconnectChilli() end
     end))
     print("✅ ZIGZAG attached to Chilli")
+end
+
+--========================================================
+-- V1.7.9: SIDEBARS FORCE-PURPLE FIX (LABEL-ANCHORED)
+-- V1.7.8 only looked for a TextButton ANCESTOR, but Chilli often
+-- builds sidebars as a Frame + TextLabel. It also only recolored
+-- red at discovery, so subsequent gradients could remain red.
+-- This patch locates the actual sidebar rectangular surfaces and
+-- gives THEM an event-driven purple theme even if the source
+-- changes its accent after Halloween / color transitions.
+-- It does NOT touch Chilli text, layout, panels, character, or
+-- gameplay functions. No RenderStepped, while loop, or polling.
+--========================================================
+local SIDEBAR_NAMES = {
+    ["ฟาร์ม"]=true,["Farm"]=true,
+    ["ตัวละคร"]=true,["Character"]=true,["Player"]=true,
+    ["คาดการณ์"]=true,["Predictor"]=true,
+    ["ความคืบหน้า"]=true,["Progress"]=true,
+    ["เซิร์ฟเวอร์"]=true,["Server"]=true,
+    ["อื่นๆ"]=true,["Misc"]=true,
+    ["ออโต้ย้ายเซิร์ฟเวอร์"]=true,["Auto Server Hop"]=true,
+    ["กิจกรรมแอดมิน"]=true,["Admin Abuse"]=true,
+    ["ดิสคอร์ด"]=true,["Discord"]=true,
+    ["คีย์ลัด"]=true,["Quick & Keys"]=true,
+    ["การตั้งค่า"]=true,["Settings"]=true,
+    ["คอนฟิก"]=true,["Config"]=true,
+    -- Special 'Venyx' tab deliberately stays red, as in the
+    -- original ZIGZAG purple layout, not in this whitelist.
+}
+local SIDEBAR_TOP = Color3.fromRGB(206,117,255)
+local SIDEBAR_BOTTOM = Color3.fromRGB(144,46,218)
+local SIDEBAR_FILL = Color3.fromRGB(168,68,233)
+local SIDEBAR_TINT = Color3.fromRGB(184,89,246)
+local SIDEBAR_GRADIENT = ColorSequence.new({
+    ColorSequenceKeypoint.new(0,SIDEBAR_TOP),
+    ColorSequenceKeypoint.new(1,SIDEBAR_BOTTOM),
+})
+local SIDEBAR_TRACKED = setmetatable({}, {__mode="k"})
+local SIDEBAR_BUSY = setmetatable({}, {__mode="k"})
+local SIDEBAR_LABEL_WATCHED = setmetatable({}, {__mode="k"})
+local SIDEBAR_CHILD_WATCHED = setmetatable({}, {__mode="k"})
+local SIDEBAR_GRADIENT_WATCHED = setmetatable({}, {__mode="k"})
+
+local function SidebarShape(obj)
+    if not obj or not obj:IsA("GuiObject") then return false end
+    if obj:IsA("ScrollingFrame") then return false end
+    local ok,w,h=pcall(function()
+        return obj.AbsoluteSize.X,obj.AbsoluteSize.Y
+    end)
+    if not ok then return false end
+    return w>=75 and w<=530 and h>=26 and h<=145 and w>=h*1.45
+end
+
+local function StyleSidebarGradient(gradient)
+    if not gradient or not gradient.Parent or SIDEBAR_BUSY[gradient] then return end
+    local ok,value=pcall(function() return gradient.Color end)
+    if not ok or value==SIDEBAR_GRADIENT then return end
+    SIDEBAR_BUSY[gradient]=true
+    SaveStyle(gradient,"Color",SIDEBAR_GRADIENT)
+    SIDEBAR_BUSY[gradient]=nil
+end
+
+local function WatchSidebarGradient(gradient)
+    if not gradient or not gradient:IsA("UIGradient") then return end
+    StyleSidebarGradient(gradient)
+    if SIDEBAR_GRADIENT_WATCHED[gradient] then return end
+    SIDEBAR_GRADIENT_WATCHED[gradient]=true
+    Bind(gradient:GetPropertyChangedSignal("Color"):Connect(function()
+        -- Synchronous correction, rather than one-frame task.defer flicker.
+        if gradient.Parent and not SIDEBAR_BUSY[gradient] then
+            StyleSidebarGradient(gradient)
+        end
+    end))
+end
+
+local function ForceSidebarPurple(surface)
+    if not surface or not surface.Parent or SIDEBAR_BUSY[surface] then return end
+    if not SidebarShape(surface) then return end
+    SIDEBAR_BUSY[surface]=true
+    pcall(function()
+        -- Text labels are usually transparent; never paint their text boxes.
+        if not surface:IsA("TextLabel") and not surface:IsA("TextBox") then
+            if surface.BackgroundTransparency < 0.96
+                and surface.BackgroundColor3 ~= SIDEBAR_FILL then
+                SaveStyle(surface,"BackgroundColor3",SIDEBAR_FILL)
+            end
+            -- A full-sized image-button / image fill can also be the backdrop.
+            if (surface:IsA("ImageLabel") or surface:IsA("ImageButton"))
+                and surface.ImageTransparency < 0.95
+                and surface.ImageColor3 ~= SIDEBAR_TINT then
+                SaveStyle(surface,"ImageColor3",SIDEBAR_TINT)
+            end
+        end
+        -- Keep existing black outlines; recolor only red ones.
+        for _,child in ipairs(surface:GetChildren()) do
+            if child:IsA("UIGradient") then
+                WatchSidebarGradient(child)
+            elseif child:IsA("UIStroke") then
+                RepaintRedProperty(child,"Color")
+            end
+        end
+    end)
+    SIDEBAR_BUSY[surface]=nil
+end
+
+local function TrackSidebarSurface(surface)
+    if not SidebarShape(surface) then return end
+    ForceSidebarPurple(surface)
+    if SIDEBAR_TRACKED[surface] then return end
+    SIDEBAR_TRACKED[surface]=true
+    -- Chilli recolors UI when switching tabs or when the map changes.
+    -- These signals restore purple immediately without full-UI rescans.
+    Bind(surface:GetPropertyChangedSignal("BackgroundColor3"):Connect(function()
+        if surface.Parent then ForceSidebarPurple(surface) end
+    end))
+    if surface:IsA("ImageLabel") or surface:IsA("ImageButton") then
+        Bind(surface:GetPropertyChangedSignal("ImageColor3"):Connect(function()
+            if surface.Parent then ForceSidebarPurple(surface) end
+        end))
+    end
+    if not SIDEBAR_CHILD_WATCHED[surface] then
+        SIDEBAR_CHILD_WATCHED[surface]=true
+        Bind(surface.ChildAdded:Connect(function(child)
+            if child:IsA("UIGradient") then
+                WatchSidebarGradient(child)
+            elseif child:IsA("UIStroke") then
+                RepaintRedProperty(child,"Color")
+            elseif child:IsA("Frame") or child:IsA("ImageLabel")
+                or child:IsA("ImageButton") or child:IsA("TextButton") then
+                -- A new full-size colored backdrop underneath the label.
+                task.defer(function()
+                    if child.Parent and SidebarShape(child) then
+                        TrackSidebarSurface(child)
+                    end
+                end)
+            end
+        end))
+    end
+end
+
+local function StyleSidebarForText(object)
+    if not IsTextObject(object) or not object.Parent then return end
+    local ok,label=pcall(function() return CleanText(object.Text) end)
+    if not ok or not SIDEBAR_NAMES[label] then return end
+    local okPos,centerX,screenW=pcall(function()
+        local camera=workspace.CurrentCamera
+        local width=camera and camera.ViewportSize.X or 0
+        return object.AbsolutePosition.X+object.AbsoluteSize.X*0.5,width
+    end)
+    -- Whitelist only edge-mounted sidebar menus; never color central
+    -- settings, egg/pet dropdowns, or full-width UI overlays.
+    if okPos and screenW>0 and centerX>screenW*0.36
+        and centerX<screenW*0.64 then return end
+    local current=object
+    for depth=1,6 do
+        if not current or current:IsA("ScreenGui") then break end
+        if SidebarShape(current) and
+            (current:IsA("Frame") or current:IsA("CanvasGroup")
+             or current:IsA("TextButton") or current:IsA("ImageButton")
+             or current:IsA("ImageLabel")) then
+            TrackSidebarSurface(current)
+            -- Chilli may use a Frame under a transparent clickable parent.
+            -- Detect only siblings with the same size, not the whole menu.
+            for _,child in ipairs(current:GetChildren()) do
+                if child:IsA("Frame") or child:IsA("ImageLabel")
+                    or child:IsA("ImageButton") or child:IsA("TextButton") then
+                    if SidebarShape(child) then TrackSidebarSurface(child) end
+                end
+            end
+        end
+        current=current.Parent
+    end
+end
+
+local function WatchSidebarLabel(object)
+    if not IsTextObject(object) or SIDEBAR_LABEL_WATCHED[object] then return end
+    -- Watch only rectangular edge text widgets. Source often sets .Text
+    -- *after* parenting, making a one-time label match unreliable.
+    local ok,centerX,w=pcall(function()
+        return object.AbsolutePosition.X+object.AbsoluteSize.X*0.5,
+            object.AbsoluteSize.X
+    end)
+    if not ok or w<55 then return end
+    local camera=workspace.CurrentCamera
+    local viewport=camera and camera.ViewportSize.X or 0
+    if viewport>0 and centerX>viewport*0.36
+        and centerX<viewport*0.64 then return end
+    SIDEBAR_LABEL_WATCHED[object]=true
+    Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
+        if object.Parent then StyleSidebarForText(object) end
+    end))
+    StyleSidebarForText(object)
+end
+
+local FLOATING_PANEL_ROOTS=setmetatable({},{__mode="k"})
+local FLOATING_PANEL_TEXTS=setmetatable({},{__mode="k"})
+local function WatchFloatingPanelText(object)
+    if not IsTextObject(object) or FLOATING_PANEL_TEXTS[object] then return end
+    FLOATING_PANEL_TEXTS[object]=true
+    ApplyTranslation(object,true)
+    Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
+        if object.Parent then ApplyTranslation(object,false) end
+    end))
+end
+local function TrackFloatingPanel(container)
+    if not container or FLOATING_PANEL_ROOTS[container] then return end
+    FLOATING_PANEL_ROOTS[container]=true
+    for _,o in ipairs(container:GetDescendants()) do
+        WatchFloatingPanelText(o)
+    end
+    Bind(container.DescendantAdded:Connect(function(o)
+        if o.Parent then WatchFloatingPanelText(o) end
+    end))
+end
+local function IsStealPanelHeading(object)
+    if not IsTextObject(object) then return false end
+    local ok,t=pcall(function() return string.lower(CleanText(object.Text)) end)
+    return ok and (t=="steal panel" or t=="แผงขโมย")
+end
+local function DetectFloatingPanel(object)
+    if not IsStealPanelHeading(object) then return end
+    local candidate=object
+    for _=1,5 do
+        if not candidate or candidate:IsA("ScreenGui") then break end
+        if candidate:IsA("Frame") or candidate:IsA("CanvasGroup") then
+            local size=candidate.AbsoluteSize
+            if size.X>=180 and size.Y>=130 then
+                TrackFloatingPanel(candidate)
+                return
+            end
+        end
+        candidate=candidate.Parent
+    end
 end
 
 --========================================================
@@ -1830,6 +2009,17 @@ local function WatchRoot(root)
     WatchedRoots[root] = true
     Bind(root.DescendantAdded:Connect(function(object)
         if not IsTextObject(object) then return end
+        task.defer(function()
+            if object.Parent then
+                WatchSidebarLabel(object)
+                DetectFloatingPanel(object)
+            end
+        end)
+        -- Three short initializations only for newly created candidate text.
+        -- No endless retries and no recurring scan.
+        task.delay(0.35,function()
+            if object.Parent then WatchSidebarLabel(object) end
+        end)
         if IsChilliTitle(object) then
             local gui = FindChilliContainer(object)
             if gui then TrackChilli(gui) end
@@ -1845,78 +2035,138 @@ local function WatchRoot(root)
                 local translated = TranslateText(text)
                 if translated ~= text then ApplyTranslation(object,true) end
             end
-            if ZIGZAG_SideText(object) then
-                task.defer(function()
-                    if object.Parent then ZIGZAG_StyleSideTab(object) end
-                end)
-            end
         end
     end))
 end
-for _,root in ipairs(UI_ROOTS) do WatchRoot(root) end
+for _,root in ipairs(UI_ROOTS) do
+    WatchRoot(root)
+    for _,object in ipairs(root:GetDescendants()) do
+        if IsTextObject(object) then
+            WatchSidebarLabel(object)
+            DetectFloatingPanel(object)
+        end
+    end
+end
+
+-- V1.7.9: limited startup discovery in case Chilli paints text/gradients
+-- after parenting. This runs at fixed times; there is no permanent loop.
+local function CheckExistingSidebarButtons()
+    for _,root in ipairs(UI_ROOTS) do
+        if root and root.Parent then
+            for _,object in ipairs(root:GetDescendants()) do
+                if IsTextObject(object) then WatchSidebarLabel(object) end
+            end
+        end
+    end
+end
+for _,delaySeconds in ipairs({0.65,1.6,3.8}) do
+    task.delay(delaySeconds,CheckExistingSidebarButtons)
+end
 
 --========================================================
--- 17A) ZIGZAG TELEPORT: TRANSLATOR-ONLY REAPPLY
--- Fixed: queued payload must NEVER re-run Chilli gameplay loader.
--- Original verified base runs normally on first execution.
--- On destination server, restore Thai/theme to already-running Chilli.
--- Requires executor queue_on_teleport API; if absent use Auto Execute.
+-- 17A. ZIGZAG V1.8.0 — TELEPORT PERSISTENCE (THAI/THEME ONLY)
+-- Intentionally queue ONLY the UI translator+purple theme, never a second
+-- Chilli gameplay loader. The original source continues to run once below.
+-- This avoids the prior repeated character blink after server hopping.
 --========================================================
 do
-    local BOOT_TEMPLATE = [==[
--- ZIGZAG: queued continuation — translator/theme only (no Chilli loader)
-local SOURCE = %q
-local BOOT_TEMPLATE = %q
-local env = (type(getgenv) == "function" and getgenv()) or _G
-local currentJob = tostring(game.JobId or "")
-local sessionKey = "__ZIGZAG_TH_ONLY_HOP_JOB"
--- Prevent duplicate queued bootstrap executions on a single destination server.
-if currentJob ~= "" and env[sessionKey] == currentJob then
+    local ZIGZAG_BOOT_TEMPLATE = [====[--========================================================
+-- ZIGZAG CHILLI V1.8.0 / TELEPORT TRANSLATOR-ONLY CONTINUATION
+-- Always re-arm before running the queued translator to support multi-hop.
+-- Does NOT call the upstream Chilli gameplay loader.
+--========================================================
+local ZIGZAG_TRANSLATOR_SOURCE = %q
+local ZIGZAG_BOOT_TEMPLATE = %q
+local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
+local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
+local ZIGZAG_JOB = tostring(game.JobId or "")
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_ZIGZAG_V1.8.0_TP_SAFE"
+    and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
-if currentJob ~= "" then env[sessionKey] = currentJob end
-local queueFunc = nil
-if type(queue_on_teleport) == "function" then
-    queueFunc = queue_on_teleport
-elseif type(queueonteleport) == "function" then
-    queueFunc = queueonteleport
-elseif type(syn) == "table" and type(syn.queue_on_teleport) == "function" then
-    queueFunc = syn.queue_on_teleport
-elseif type(fluxus) == "table" and type(fluxus.queue_on_teleport) == "function" then
-    queueFunc = fluxus.queue_on_teleport
+local function ZIGZAG_GET_QUEUE()
+    if type(queue_on_teleport)=="function" then return queue_on_teleport end
+    if type(queueonteleport)=="function" then return queueonteleport end
+    if type(syn)=="table" and type(syn.queue_on_teleport)=="function" then
+        return syn.queue_on_teleport
+    end
+    if type(fluxus)=="table" and type(fluxus.queue_on_teleport)=="function" then
+        return fluxus.queue_on_teleport
+    end
+    if type(ZIGZAG_ENV.queue_on_teleport)=="function" then
+        return ZIGZAG_ENV.queue_on_teleport
+    end
+    return nil
 end
-if queueFunc then
-    local queuedOk, queuedErr = pcall(function()
-        queueFunc(string.format(BOOT_TEMPLATE, SOURCE, BOOT_TEMPLATE))
-    end)
-    if not queuedOk then warn("[ZIGZAG] Thai-only queue failed:",queuedErr) end
-end
-local fn,err = loadstring(SOURCE)
-if fn then
-    local ok,runErr = pcall(fn)
-    if not ok then warn("[ZIGZAG] Thai-only translator error:",runErr) end
+local q=ZIGZAG_GET_QUEUE()
+if q then
+    local continuation=string.format(ZIGZAG_BOOT_TEMPLATE,
+        ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
+    local ok,err=pcall(q,continuation)
+    if not ok and type(writefile)=="function" and type(readfile)=="function" then
+        -- Some mobile executors impose a small queue text limit. Save the
+        -- same bootstrap locally and queue a tiny reader instead, if possible.
+        local path="ZIGZAG_CHILLI_V180_TP_CACHE.lua"
+        local saved=pcall(writefile,path,continuation)
+        if saved then
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V180_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            ok,err=pcall(q,tiny)
+        end
+    end
+    if not ok then warn("[ZIGZAG TP] Requeue failed; use Auto Execute:",err) end
 else
-    warn("[ZIGZAG] Thai-only translator compile error:",err)
+    warn("[ZIGZAG TP] Executor lacks teleport queue. Enable Auto Execute for this release.")
 end
-
-]==]
-    local QUEUED_TRANSLATOR_ONLY = [====[
---========================================================
--- CHILLI HUB THAI - ZIGZAG V1.7.1 ADMIN ABUSE FULL MERGED
+-- The queued continuation might run before the destination game is loaded.
+local okLoaded,loaded=pcall(function() return game:IsLoaded() end)
+if okLoaded and not loaded then
+    pcall(function() game.Loaded:Wait() end)
+end
+local players=game:GetService("Players")
+if not players.LocalPlayer then
+    for i=1,30 do
+        if players.LocalPlayer then break end
+        task.wait(0.15)
+    end
+end
+if not players.LocalPlayer then
+    warn("[ZIGZAG TP] LocalPlayer not available; wait for Auto Execute or rerun")
+    return
+end
+local runner,err=loadstring(ZIGZAG_TRANSLATOR_SOURCE)
+if not runner then
+    warn("[ZIGZAG TP] Thai/theme source compile failed:",err)
+    return
+end
+local ok,reason=pcall(runner)
+if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
+]====]
+    local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
+-- CHILLI HUB THAI - ZIGZAG V1.8.0 MULTI-HOP TRANSLATION SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
+-- Halloween mappings / verified V1.7.9 sidebar styling retained
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
+local ZIGZAG_RELEASE = "CHILLI_ZIGZAG_V1.8.0_TP_SAFE"
+local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
+-- If executor Auto Execute and a teleport queue both fire, keep the already
+-- running version instead of tearing down/repainting the GUI (no flicker).
+if OLD and OLD.Release == ZIGZAG_RELEASE
+    and OLD.JobId == ZIGZAG_JOB and OLD.Live then
+    return
+end
 if OLD and type(OLD.Disconnect) == "function" then pcall(OLD.Disconnect) end
-local STATE = {Connections={}}
+local STATE = {Connections={},Release=ZIGZAG_RELEASE,JobId=ZIGZAG_JOB,Live=true}
 local function Bind(connection)
     if connection then table.insert(STATE.Connections, connection) end
     return connection
 end
 function STATE.Disconnect()
+    STATE.Live = false
     for _,connection in ipairs(STATE.Connections) do
         pcall(function() connection:Disconnect() end)
     end
@@ -2501,6 +2751,18 @@ local TRANSLATIONS = {
     ["Instant Steal: OFF"] = "ขโมยทันที: ปิด",
     ["Instant Steal: ON"] = "ขโมยทันที: เปิด",
 
+    -- V1.7.8: floating animal-steal panel (screenshot 2026-10-18)
+    ["Halloween: OFF"] = "ฮาโลวีน: ปิด",
+    ["Halloween: ON"] = "ฮาโลวีน: เปิด",
+    ["Eggs: All"] = "ไข่: ทั้งหมด",
+    ["Eggs: ALL"] = "ไข่: ทั้งหมด",
+    ["Auto Steal: Off"] = "ออโต้ขโมย: ปิด",
+    ["Auto Steal: On"] = "ออโต้ขโมย: เปิด",
+    ["Halloween: Off"] = "ฮาโลวีน: ปิด",
+    ["Halloween: On"] = "ฮาโลวีน: เปิด",
+    ["Eggs"] = "ไข่",
+    ["Halloween"] = "ฮาโลวีน",
+
     -- V1.3: New Chilli Farm > Instant Steal Zones (2026-10-09)
     ["Teleport To Egg"] = "วาร์ปไปหาไข่",
     ["Teleport to Egg"] = "วาร์ปไปหาไข่",
@@ -2686,6 +2948,67 @@ local ZIGZAG_NEW_STEAL_METHOD_LABELS = {
     ["Tween"] = "เคลื่อนที่ลื่นไหล",
 }
 for english,thai in pairs(ZIGZAG_NEW_STEAL_METHOD_LABELS) do
+    if TRANSLATIONS[english] == nil then
+        TRANSLATIONS[english] = thai
+    end
+end
+
+--========================================================
+-- ZIGZAG 2026-10-18 HALLOWEEN UPDATE (ADDITIVE TRANSLATIONS ONLY)
+-- UI labels captured from CHILLI Hub screenshots; game logic unchanged.
+-- Stays before lookup/cache construction, so every new label is reactive.
+-- No new task loops, GUIs, re-loads, teleport hooks, or .Text overrides.
+--========================================================
+local ZIGZAG_HALLOWEEN_TRANSLATIONS = {
+    ["Halloween Dimension"] = "มิติฮาโลวีน",
+    ["Halloween Monsters"] = "มอนสเตอร์ฮาโลวีน",
+    ["Ghost Dog & Fishing"] = "เควสต์สุนัขผีและตกปลา",
+    ["Ghost Dog and Fishing"] = "เควสต์สุนัขผีและตกปลา",
+    ["Phantom Express"] = "รถไฟภูตพราย",
+    ["Auto Steal Halloween Eggs"] = "ออโต้ขโมยไข่ฮาโลวีน",
+    ["Instant Steal Halloween Eggs"] = "ขโมยไข่ฮาโลวีนทันที",
+    ["Steal Missing Halloween Index"] = "ขโมยไข่ฮาโลวีนที่ยังไม่มีในสารบัญ",
+    ["Steal Speed"] = "ความเร็วขโมยไข่",
+    ["Halloween Eggs To Steal"] = "ไข่ฮาโลวีนที่จะขโมย",
+    ["Halloween Egg Rarities"] = "ระดับความหายากไข่ฮาโลวีน",
+    ["Min Value"] = "มูลค่าขั้นต่ำ",
+    ["Min Value ($/s)"] = "มูลค่าขั้นต่ำ ($/วินาที)",
+    ["Auto Pumpkin Moon"] = "ออโต้กิจกรรมพระจันทร์ฟักทอง",
+    ["Auto Buy Halloween Dimension Egg"] = "ออโต้ซื้อไข่จากมิติฮาโลวีน",
+    ["Auto Farm Monsters"] = "ออโต้ฟาร์มมอนสเตอร์",
+    ["Auto Kill Monsters"] = "ออโต้กำจัดมอนสเตอร์",
+    ["Monsters To Kill"] = "มอนสเตอร์ที่จะกำจัด",
+    ["Monsters"] = "มอนสเตอร์",
+    ["Monster Order"] = "ลำดับการเลือกมอนสเตอร์",
+    ["Closest First"] = "ใกล้ที่สุดก่อน",
+    ["Most Tokens"] = "ได้โทเคนมากที่สุดก่อน",
+    ["Use Weapons"] = "ใช้อาวุธ",
+    ["Auto Ghost Dog Quest"] = "ออโต้ทำเควสต์สุนัขผี",
+    ["Auto Fishing"] = "ออโต้ตกปลา",
+    ["Cast Luck"] = "ตัวคูณโชคในการเหวี่ยงเบ็ด",
+    ["x1.5 Perfect"] = "x1.5 สมบูรณ์แบบ",
+    ["x1.2"] = "x1.2",
+    ["x1.1"] = "x1.1",
+    ["x1.0 Fastest"] = "x1.0 เร็วที่สุด",
+    ["Quest"] = "เควสต์",
+    ["Fish Caught"] = "จำนวนปลาที่จับได้",
+    ["Auto Phantom Express"] = "ออโต้รถไฟภูตพราย",
+    ["Auto Vacuum Ghouler Boss"] = "ออโต้ดูดบอส Ghouler",
+    ["Ghost Target"] = "เป้าหมายผี",
+    ["Rarest First"] = "หายากที่สุดก่อน",
+    ["Auto Trade Souls"] = "ออโต้แลกวิญญาณ",
+    ["Train"] = "รถไฟ",
+    ["Souls"] = "วิญญาณ",
+    ["Not Here"] = "ยังไม่มา",
+    ["Halloween Eggs"] = "ไข่ฮาโลวีน",
+    ["Halloween Rarities"] = "ระดับความหายากไข่ฮาโลวีน",
+    ["Auto Buy Halloween Egg"] = "ออโต้ซื้อไข่ฮาโลวีน",
+    ["Ghost Dog Quest"] = "เควสต์สุนัขผี",
+    ["Pumpkin Moon"] = "พระจันทร์ฟักทอง",
+    ["Ghost Dog"] = "สุนัขผี",
+    ["Fishing"] = "ตกปลา",
+}
+for english,thai in pairs(ZIGZAG_HALLOWEEN_TRANSLATIONS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
     end
@@ -3327,139 +3650,6 @@ local function BindChilli(connection)
     return connection
 end
 --========================================================
--- ZIGZAG V1.7.1: SIDE NAV PURPLE RESTORE (SCOPED VISUAL PATCH)
--- CHILLI sometimes renders its left/right tabs outside the main
--- ScreenGui; the previous TrackChilli only themed that main tree.
--- Recolor ONLY recognized Chilli navigation tabs, not the game HUD.
--- No gameplay calls, no movement hooks, no new loops, no text edits.
---========================================================
-local ZIGZAG_SIDE_LABELS = {
-    ["Farm"]=true,["ฟาร์ม"]=true,
-    ["Player"]=true,["Character"]=true,["ตัวละคร"]=true,
-    ["Predictor"]=true,["คาดการณ์"]=true,
-    ["Progress"]=true,["ความคืบหน้า"]=true,
-    ["Server"]=true,["เซิร์ฟเวอร์"]=true,
-    ["Misc"]=true,["อื่นๆ"]=true,
-    ["Auto Hop"]=true,["ออโต้ย้ายเซิร์ฟเวอร์"]=true,
-    ["Auto Server Hop"]=true,["ย้ายเซิร์ฟเวอร์อัตโนมัติ"]=true,
-    ["Admin Abuse"]=true,["กิจกรรมแอดมิน"]=true,
-    ["Discord"]=true,["ดิสคอร์ด"]=true,
-    ["Quick & Keys"]=true,["คีย์ลัด"]=true,
-    ["Settings"]=true,["การตั้งค่า"]=true,
-    ["Config"]=true,["คอนฟิก"]=true,
-}
-local function ZIGZAG_SideText(object)
-    if not IsTextObject(object) then return nil end
-    local ok, value=pcall(function() return CleanText(object.Text) end)
-    if ok and ZIGZAG_SIDE_LABELS[value] then return value end
-    return nil
-end
-local function ZIGZAG_SideScreen(object)
-    local cur=object
-    while cur and not IsKnownRoot(cur) do
-        if cur:IsA("ScreenGui") then return cur end
-        cur=cur.Parent
-    end
-    return nil
-end
-local function ZIGZAG_SideScreenVerified(screen)
-    if not screen or not MainChilliGui or not MainChilliGui.Parent then return false end
-    if screen==MainChilliGui or MainChilliGui:IsDescendantOf(screen) then return true end
-    -- Independent sidebar ScreenGui must contain 3+ distinct Chilli tab
-    -- labels. Matching a single common label like 'Server' is NOT enough.
-    local unique, count={},0
-    local ok=pcall(function()
-        for _,desc in ipairs(screen:GetDescendants()) do
-            local label=ZIGZAG_SideText(desc)
-            if label and not unique[label] then
-                unique[label]=true
-                count=count+1
-                if count>=3 then return end
-            end
-        end
-    end)
-    if not ok then return false end
-    if count>=3 then return true end
-    -- The source may split tabs into several ScreenGuis named for Chilli.
-    local name=string.lower(tostring(screen.Name or ""))
-    if count>=1 and name:find("chilli",1,true) then return true end
-    return false
-end
-local function ZIGZAG_SideButton(textObject)
-    local cur=textObject
-    local fallback=nil
-    for _=1,6 do
-        if not cur or not cur:IsA("GuiObject") then break end
-        local size=cur.AbsoluteSize
-        if size.X>=85 and size.Y>=25 and size.Y<=130 then
-            if cur:IsA("GuiButton") then return cur end
-            if cur:IsA("Frame") or cur:IsA("ImageLabel") then fallback=cur end
-        end
-        cur=cur.Parent
-    end
-    return fallback or (textObject:IsA("GuiObject") and textObject or nil)
-end
-local function ZIGZAG_StyleSideTab(textObject)
-    if not ZIGZAG_SideText(textObject) then return end
-    if not MainChilliGui or not MainChilliGui.Parent then return end
-    local screen=ZIGZAG_SideScreen(textObject)
-    if not ZIGZAG_SideScreenVerified(screen) then return end
-    local button=ZIGZAG_SideButton(textObject)
-    if not button or not button.Parent then return end
-    -- Keep the original black outlines, button actions and green toggles.
-    -- ThemeObject installs per-property recolor watchers once per object.
-    local function PaintTabAndDecorations(host)
-        ThemeObject(host)
-        for _,visual in ipairs(host:GetDescendants()) do
-            if visual:IsA("UIGradient") or visual:IsA("UIStroke")
-                or visual:IsA("Frame") or visual:IsA("TextButton")
-                or visual:IsA("ImageButton") or visual:IsA("ImageLabel") then
-                ThemeObject(visual)
-            end
-        end
-    end
-    PaintTabAndDecorations(button)
-    -- Some Chilli builds draw the red backing and UIGradient in an
-    -- adjacent wrapper Frame, with a transparent TextButton on top.
-    -- Paint only same-size wrappers, never the entire navigation panel.
-    local base=button.AbsoluteSize
-    local ancestor=button.Parent
-    for _=1,3 do
-        if not ancestor or not ancestor:IsA("GuiObject") then break end
-        local size=ancestor.AbsoluteSize
-        if size.X>=base.X*0.80 and size.X<=base.X*1.24
-            and size.Y>=base.Y*0.80 and size.Y<=base.Y*1.55 then
-            PaintTabAndDecorations(ancestor)
-        else
-            break
-        end
-        ancestor=ancestor.Parent
-    end
-end
-local function ZIGZAG_RefreshSideTabs()
-    if not MainChilliGui or not MainChilliGui.Parent then return end
-    -- Small, finite pass during bind and delayed UI initialization only.
-    -- No RenderStepped, Heartbeat, continuous scan or server-hop changes.
-    local seenScreens={}
-    for _,root in ipairs(UI_ROOTS) do
-        pcall(function()
-            for _,object in ipairs(root:GetDescendants()) do
-                if object:IsA("ScreenGui") and not seenScreens[object] then
-                    seenScreens[object]=true
-                    if ZIGZAG_SideScreenVerified(object) then
-                        for _,label in ipairs(object:GetDescendants()) do
-                            if ZIGZAG_SideText(label) then
-                                ZIGZAG_StyleSideTab(label)
-                            end
-                        end
-                    end
-                end
-            end
-        end)
-    end
-end
-
---========================================================
 -- DR. SCRAMBLE EMPTY AREA GUARD (iPad / low-lag)
 -- Operates only on the Chilli content ScrollingFrame, if one is found.
 -- No UI reconstruction, no feature toggles, no Text edits.
@@ -3632,13 +3822,11 @@ local function TrackChilli(gui)
         WatchDrHeader(object)
         if IsChilliTitle(object) then PlaceZigzagLogo(object) end
     end
-    ZIGZAG_RefreshSideTabs()
     BindChilli(gui.DescendantAdded:Connect(function(object)
         if IsTextObject(object) then
             ApplyTranslation(object,true)
             WatchDrHeader(object)
             if IsChilliTitle(object) then PlaceZigzagLogo(object) end
-            ZIGZAG_StyleSideTab(object)
         end
         ThemeObject(object)
         -- Chilli sometimes parents a border before assigning its size/color.
@@ -3669,7 +3857,6 @@ local function TrackChilli(gui)
             if IsChilliTitle(object) then PlaceZigzagLogo(object) end
         end
         PlaceZigzagWatermark(gui)
-        ZIGZAG_RefreshSideTabs()
     end)
     task.delay(2.0,function()
         if MainChilliGui ~= gui or not gui.Parent then return end
@@ -3677,12 +3864,244 @@ local function TrackChilli(gui)
             ThemeObject(object)
         end
         PlaceZigzagWatermark(gui)
-        ZIGZAG_RefreshSideTabs()
     end)
     BindChilli(gui.AncestryChanged:Connect(function()
         if not gui.Parent then DisconnectChilli() end
     end))
     print("✅ ZIGZAG attached to Chilli")
+end
+
+--========================================================
+-- V1.7.9: SIDEBARS FORCE-PURPLE FIX (LABEL-ANCHORED)
+-- V1.7.8 only looked for a TextButton ANCESTOR, but Chilli often
+-- builds sidebars as a Frame + TextLabel. It also only recolored
+-- red at discovery, so subsequent gradients could remain red.
+-- This patch locates the actual sidebar rectangular surfaces and
+-- gives THEM an event-driven purple theme even if the source
+-- changes its accent after Halloween / color transitions.
+-- It does NOT touch Chilli text, layout, panels, character, or
+-- gameplay functions. No RenderStepped, while loop, or polling.
+--========================================================
+local SIDEBAR_NAMES = {
+    ["ฟาร์ม"]=true,["Farm"]=true,
+    ["ตัวละคร"]=true,["Character"]=true,["Player"]=true,
+    ["คาดการณ์"]=true,["Predictor"]=true,
+    ["ความคืบหน้า"]=true,["Progress"]=true,
+    ["เซิร์ฟเวอร์"]=true,["Server"]=true,
+    ["อื่นๆ"]=true,["Misc"]=true,
+    ["ออโต้ย้ายเซิร์ฟเวอร์"]=true,["Auto Server Hop"]=true,
+    ["กิจกรรมแอดมิน"]=true,["Admin Abuse"]=true,
+    ["ดิสคอร์ด"]=true,["Discord"]=true,
+    ["คีย์ลัด"]=true,["Quick & Keys"]=true,
+    ["การตั้งค่า"]=true,["Settings"]=true,
+    ["คอนฟิก"]=true,["Config"]=true,
+    -- Special 'Venyx' tab deliberately stays red, as in the
+    -- original ZIGZAG purple layout, not in this whitelist.
+}
+local SIDEBAR_TOP = Color3.fromRGB(206,117,255)
+local SIDEBAR_BOTTOM = Color3.fromRGB(144,46,218)
+local SIDEBAR_FILL = Color3.fromRGB(168,68,233)
+local SIDEBAR_TINT = Color3.fromRGB(184,89,246)
+local SIDEBAR_GRADIENT = ColorSequence.new({
+    ColorSequenceKeypoint.new(0,SIDEBAR_TOP),
+    ColorSequenceKeypoint.new(1,SIDEBAR_BOTTOM),
+})
+local SIDEBAR_TRACKED = setmetatable({}, {__mode="k"})
+local SIDEBAR_BUSY = setmetatable({}, {__mode="k"})
+local SIDEBAR_LABEL_WATCHED = setmetatable({}, {__mode="k"})
+local SIDEBAR_CHILD_WATCHED = setmetatable({}, {__mode="k"})
+local SIDEBAR_GRADIENT_WATCHED = setmetatable({}, {__mode="k"})
+
+local function SidebarShape(obj)
+    if not obj or not obj:IsA("GuiObject") then return false end
+    if obj:IsA("ScrollingFrame") then return false end
+    local ok,w,h=pcall(function()
+        return obj.AbsoluteSize.X,obj.AbsoluteSize.Y
+    end)
+    if not ok then return false end
+    return w>=75 and w<=530 and h>=26 and h<=145 and w>=h*1.45
+end
+
+local function StyleSidebarGradient(gradient)
+    if not gradient or not gradient.Parent or SIDEBAR_BUSY[gradient] then return end
+    local ok,value=pcall(function() return gradient.Color end)
+    if not ok or value==SIDEBAR_GRADIENT then return end
+    SIDEBAR_BUSY[gradient]=true
+    SaveStyle(gradient,"Color",SIDEBAR_GRADIENT)
+    SIDEBAR_BUSY[gradient]=nil
+end
+
+local function WatchSidebarGradient(gradient)
+    if not gradient or not gradient:IsA("UIGradient") then return end
+    StyleSidebarGradient(gradient)
+    if SIDEBAR_GRADIENT_WATCHED[gradient] then return end
+    SIDEBAR_GRADIENT_WATCHED[gradient]=true
+    Bind(gradient:GetPropertyChangedSignal("Color"):Connect(function()
+        -- Synchronous correction, rather than one-frame task.defer flicker.
+        if gradient.Parent and not SIDEBAR_BUSY[gradient] then
+            StyleSidebarGradient(gradient)
+        end
+    end))
+end
+
+local function ForceSidebarPurple(surface)
+    if not surface or not surface.Parent or SIDEBAR_BUSY[surface] then return end
+    if not SidebarShape(surface) then return end
+    SIDEBAR_BUSY[surface]=true
+    pcall(function()
+        -- Text labels are usually transparent; never paint their text boxes.
+        if not surface:IsA("TextLabel") and not surface:IsA("TextBox") then
+            if surface.BackgroundTransparency < 0.96
+                and surface.BackgroundColor3 ~= SIDEBAR_FILL then
+                SaveStyle(surface,"BackgroundColor3",SIDEBAR_FILL)
+            end
+            -- A full-sized image-button / image fill can also be the backdrop.
+            if (surface:IsA("ImageLabel") or surface:IsA("ImageButton"))
+                and surface.ImageTransparency < 0.95
+                and surface.ImageColor3 ~= SIDEBAR_TINT then
+                SaveStyle(surface,"ImageColor3",SIDEBAR_TINT)
+            end
+        end
+        -- Keep existing black outlines; recolor only red ones.
+        for _,child in ipairs(surface:GetChildren()) do
+            if child:IsA("UIGradient") then
+                WatchSidebarGradient(child)
+            elseif child:IsA("UIStroke") then
+                RepaintRedProperty(child,"Color")
+            end
+        end
+    end)
+    SIDEBAR_BUSY[surface]=nil
+end
+
+local function TrackSidebarSurface(surface)
+    if not SidebarShape(surface) then return end
+    ForceSidebarPurple(surface)
+    if SIDEBAR_TRACKED[surface] then return end
+    SIDEBAR_TRACKED[surface]=true
+    -- Chilli recolors UI when switching tabs or when the map changes.
+    -- These signals restore purple immediately without full-UI rescans.
+    Bind(surface:GetPropertyChangedSignal("BackgroundColor3"):Connect(function()
+        if surface.Parent then ForceSidebarPurple(surface) end
+    end))
+    if surface:IsA("ImageLabel") or surface:IsA("ImageButton") then
+        Bind(surface:GetPropertyChangedSignal("ImageColor3"):Connect(function()
+            if surface.Parent then ForceSidebarPurple(surface) end
+        end))
+    end
+    if not SIDEBAR_CHILD_WATCHED[surface] then
+        SIDEBAR_CHILD_WATCHED[surface]=true
+        Bind(surface.ChildAdded:Connect(function(child)
+            if child:IsA("UIGradient") then
+                WatchSidebarGradient(child)
+            elseif child:IsA("UIStroke") then
+                RepaintRedProperty(child,"Color")
+            elseif child:IsA("Frame") or child:IsA("ImageLabel")
+                or child:IsA("ImageButton") or child:IsA("TextButton") then
+                -- A new full-size colored backdrop underneath the label.
+                task.defer(function()
+                    if child.Parent and SidebarShape(child) then
+                        TrackSidebarSurface(child)
+                    end
+                end)
+            end
+        end))
+    end
+end
+
+local function StyleSidebarForText(object)
+    if not IsTextObject(object) or not object.Parent then return end
+    local ok,label=pcall(function() return CleanText(object.Text) end)
+    if not ok or not SIDEBAR_NAMES[label] then return end
+    local okPos,centerX,screenW=pcall(function()
+        local camera=workspace.CurrentCamera
+        local width=camera and camera.ViewportSize.X or 0
+        return object.AbsolutePosition.X+object.AbsoluteSize.X*0.5,width
+    end)
+    -- Whitelist only edge-mounted sidebar menus; never color central
+    -- settings, egg/pet dropdowns, or full-width UI overlays.
+    if okPos and screenW>0 and centerX>screenW*0.36
+        and centerX<screenW*0.64 then return end
+    local current=object
+    for depth=1,6 do
+        if not current or current:IsA("ScreenGui") then break end
+        if SidebarShape(current) and
+            (current:IsA("Frame") or current:IsA("CanvasGroup")
+             or current:IsA("TextButton") or current:IsA("ImageButton")
+             or current:IsA("ImageLabel")) then
+            TrackSidebarSurface(current)
+            -- Chilli may use a Frame under a transparent clickable parent.
+            -- Detect only siblings with the same size, not the whole menu.
+            for _,child in ipairs(current:GetChildren()) do
+                if child:IsA("Frame") or child:IsA("ImageLabel")
+                    or child:IsA("ImageButton") or child:IsA("TextButton") then
+                    if SidebarShape(child) then TrackSidebarSurface(child) end
+                end
+            end
+        end
+        current=current.Parent
+    end
+end
+
+local function WatchSidebarLabel(object)
+    if not IsTextObject(object) or SIDEBAR_LABEL_WATCHED[object] then return end
+    -- Watch only rectangular edge text widgets. Source often sets .Text
+    -- *after* parenting, making a one-time label match unreliable.
+    local ok,centerX,w=pcall(function()
+        return object.AbsolutePosition.X+object.AbsoluteSize.X*0.5,
+            object.AbsoluteSize.X
+    end)
+    if not ok or w<55 then return end
+    local camera=workspace.CurrentCamera
+    local viewport=camera and camera.ViewportSize.X or 0
+    if viewport>0 and centerX>viewport*0.36
+        and centerX<viewport*0.64 then return end
+    SIDEBAR_LABEL_WATCHED[object]=true
+    Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
+        if object.Parent then StyleSidebarForText(object) end
+    end))
+    StyleSidebarForText(object)
+end
+
+local FLOATING_PANEL_ROOTS=setmetatable({},{__mode="k"})
+local FLOATING_PANEL_TEXTS=setmetatable({},{__mode="k"})
+local function WatchFloatingPanelText(object)
+    if not IsTextObject(object) or FLOATING_PANEL_TEXTS[object] then return end
+    FLOATING_PANEL_TEXTS[object]=true
+    ApplyTranslation(object,true)
+    Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
+        if object.Parent then ApplyTranslation(object,false) end
+    end))
+end
+local function TrackFloatingPanel(container)
+    if not container or FLOATING_PANEL_ROOTS[container] then return end
+    FLOATING_PANEL_ROOTS[container]=true
+    for _,o in ipairs(container:GetDescendants()) do
+        WatchFloatingPanelText(o)
+    end
+    Bind(container.DescendantAdded:Connect(function(o)
+        if o.Parent then WatchFloatingPanelText(o) end
+    end))
+end
+local function IsStealPanelHeading(object)
+    if not IsTextObject(object) then return false end
+    local ok,t=pcall(function() return string.lower(CleanText(object.Text)) end)
+    return ok and (t=="steal panel" or t=="แผงขโมย")
+end
+local function DetectFloatingPanel(object)
+    if not IsStealPanelHeading(object) then return end
+    local candidate=object
+    for _=1,5 do
+        if not candidate or candidate:IsA("ScreenGui") then break end
+        if candidate:IsA("Frame") or candidate:IsA("CanvasGroup") then
+            local size=candidate.AbsoluteSize
+            if size.X>=180 and size.Y>=130 then
+                TrackFloatingPanel(candidate)
+                return
+            end
+        end
+        candidate=candidate.Parent
+    end
 end
 
 --========================================================
@@ -3733,6 +4152,17 @@ local function WatchRoot(root)
     WatchedRoots[root] = true
     Bind(root.DescendantAdded:Connect(function(object)
         if not IsTextObject(object) then return end
+        task.defer(function()
+            if object.Parent then
+                WatchSidebarLabel(object)
+                DetectFloatingPanel(object)
+            end
+        end)
+        -- Three short initializations only for newly created candidate text.
+        -- No endless retries and no recurring scan.
+        task.delay(0.35,function()
+            if object.Parent then WatchSidebarLabel(object) end
+        end)
         if IsChilliTitle(object) then
             local gui = FindChilliContainer(object)
             if gui then TrackChilli(gui) end
@@ -3748,22 +4178,47 @@ local function WatchRoot(root)
                 local translated = TranslateText(text)
                 if translated ~= text then ApplyTranslation(object,true) end
             end
-            if ZIGZAG_SideText(object) then
-                task.defer(function()
-                    if object.Parent then ZIGZAG_StyleSideTab(object) end
-                end)
-            end
         end
     end))
 end
-for _,root in ipairs(UI_ROOTS) do WatchRoot(root) end
+for _,root in ipairs(UI_ROOTS) do
+    WatchRoot(root)
+    for _,object in ipairs(root:GetDescendants()) do
+        if IsTextObject(object) then
+            WatchSidebarLabel(object)
+            DetectFloatingPanel(object)
+        end
+    end
+end
+
+-- V1.7.9: limited startup discovery in case Chilli paints text/gradients
+-- after parenting. This runs at fixed times; there is no permanent loop.
+local function CheckExistingSidebarButtons()
+    for _,root in ipairs(UI_ROOTS) do
+        if root and root.Parent then
+            for _,object in ipairs(root:GetDescendants()) do
+                if IsTextObject(object) then WatchSidebarLabel(object) end
+            end
+        end
+    end
+end
+for _,delaySeconds in ipairs({0.65,1.6,3.8}) do
+    task.delay(delaySeconds,CheckExistingSidebarButtons)
+end
 
 --========================================================
 -- 18-19. TRANSLATOR ARMED + ORIGINAL DIRECT CHILLI LOADER
 --========================================================
 
--- ZIGZAG: Queued after teleport: translate/restore purple theme only.
--- The already-present Chilli Hub owns its gameplay startup; no second loader.
+-- This continuation intentionally does not run SOURCE_URL/Chilli gameplay code.
+-- Chilli's own Auto Execute, or any independent loader, remains responsible
+-- for loading the actual Chilli UI in the destination server.
+local CHILLI_ALREADY_OPEN = FindExistingChilli()
+if CHILLI_ALREADY_OPEN then
+    print("[ZIGZAG TP] Existing Chilli found; translated/recolored without gameplay reload")
+else
+    print("[ZIGZAG TP] Watching for Chilli UI; original gameplay loader not duplicated")
+end
 
 --========================================================
 -- 20-21. STARTUP FALLBACK ONLY, NO PERMANENT FULL SCAN
@@ -3798,13 +4253,14 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.7.1 | Admin Abuse ไทยเพิ่มเติม",
+            Text="V1.8.0 | ไทยและสีม่วง • พร้อมย้ายเซิร์ฟ",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI HUB THAI - ZIGZAG V1.7 RACE / MUTATION FULL MERGED")
+print("✅ CHILLI HUB THAI - ZIGZAG V1.8.0 MULTI-HOP FULL MERGED")
+print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
 print("✅ ALL V1.4 TRANSLATIONS PRESERVED + BUTTERFLY BLOOM / WISP")
@@ -3821,25 +4277,40 @@ print("✅ V1.7.1 ADMIN ABUSE / CAPTURE / MINIGAME TRANSLATIONS")
 print("✅ NO TEXT OVERRIDES FROM THEME / NO PERMANENT FULL SCAN")
 print("==============================================")
 ]====]
-    local queueFunc = nil
-    if type(queue_on_teleport) == "function" then
-        queueFunc = queue_on_teleport
-    elseif type(queueonteleport) == "function" then
-        queueFunc = queueonteleport
-    elseif type(syn) == "table" and type(syn.queue_on_teleport) == "function" then
-        queueFunc = syn.queue_on_teleport
-    elseif type(fluxus) == "table" and type(fluxus.queue_on_teleport) == "function" then
-        queueFunc = fluxus.queue_on_teleport
+    local function ZIGZAG_GET_QUEUE()
+        if type(queue_on_teleport)=="function" then return queue_on_teleport end
+        if type(queueonteleport)=="function" then return queueonteleport end
+        if type(syn)=="table" and type(syn.queue_on_teleport)=="function" then
+            return syn.queue_on_teleport
+        end
+        if type(fluxus)=="table" and type(fluxus.queue_on_teleport)=="function" then
+            return fluxus.queue_on_teleport
+        end
+        if type(ENV.queue_on_teleport)=="function" then
+            return ENV.queue_on_teleport
+        end
+        return nil
     end
-    if queueFunc then
-        local ok,err = pcall(function()
-            queueFunc(string.format(BOOT_TEMPLATE, QUEUED_TRANSLATOR_ONLY, BOOT_TEMPLATE))
-        end)
+    local q=ZIGZAG_GET_QUEUE()
+    if q then
+        local continuation=string.format(ZIGZAG_BOOT_TEMPLATE,
+            ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
+        local ok,err=pcall(q,continuation)
+        if not ok and type(writefile)=="function" and type(readfile)=="function" then
+            local path="ZIGZAG_CHILLI_V180_TP_CACHE.lua"
+            local saved=pcall(writefile,path,continuation)
+            if saved then
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V180_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                ok,err=pcall(q,tiny)
+            end
+        end
         if not ok then
-            warn("[ZIGZAG] ไม่สามารถตั้งค่าโหลดคำแปลหลังย้ายเซิร์ฟ:",err)
+            warn("[ZIGZAG TP] Unable to arm self-contained translator (use Auto Execute):",err)
+        else
+            print("✅ [ZIGZAG TP] Multi-hop Thai & purple theme queued (gameplay loader excluded)")
         end
     else
-        warn("[ZIGZAG] ตัวรันไม่รองรับ queue_on_teleport; กรุณาใช้ Auto Execute ของตัวรัน")
+        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.8.0 on your executor.")
     end
 end
 
@@ -3896,13 +4367,14 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.7.1 | Admin Abuse ไทยเพิ่มเติม",
+            Text="V1.8.0 | ไทยและสีม่วง • พร้อมย้ายเซิร์ฟ",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI HUB THAI - ZIGZAG V1.7 RACE / MUTATION FULL MERGED")
+print("✅ CHILLI HUB THAI - ZIGZAG V1.8.0 MULTI-HOP FULL MERGED")
+print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
 print("✅ ALL V1.4 TRANSLATIONS PRESERVED + BUTTERFLY BLOOM / WISP")
