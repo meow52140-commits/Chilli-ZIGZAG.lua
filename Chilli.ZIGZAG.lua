@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.4 HALLOWEEN STAR FISHING TRANSLATIONS TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.5 HALLOWEEN STAR FISHING BLOOD MOON TRANSLATIONS TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.4_HALLOWEEN_STAR"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.5_HALLOWEEN_STAR_BLOODMOON"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -921,7 +921,7 @@ for english,thai in pairs(ZIGZAG_HALLOWEEN_TRANSLATIONS) do
 end
 
 --========================================================
--- ZIGZAG V1.8.4: 2026-10-20 NEW CHILLI / VENYX LABELS
+-- ZIGZAG V1.8.5: 2026-10-20 NEW CHILLI / VENYX LABELS
 -- From screenshots: Phantom Express wait, fishing spot, Blood Moon.
 -- Additive dictionary entries ONLY; do not change UI behavior.
 --========================================================
@@ -937,6 +937,28 @@ local ZIGZAG_V184_CHILLI_LABELS = {
     ["Only During Blood Moon"] = "เฉพาะช่วงพระจันทร์สีเลือด",
     ["Fighting Large monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดใหญ่",
 }
+--========================================================
+-- ZIGZAG V1.8.5 • NEW CHILLI + VENYX UPDATE (2026-10-21)
+-- Translation entries only, from seven screenshots. No gameplay/UI changes.
+-- Also embedded in the teleport translator-only copy.
+--========================================================
+local ZIGZAG_V185_CHILLI_LABELS = {
+    ["Waiting: nothing to do"] = "กำลังรอ: ไม่มีงานให้ทำ",
+    ["Take Halloween Eggs From Holders"] = "แย่งไข่ฮาโลวีนจากผู้ที่กำลังถือ",
+    ["Teleport To Pumpkins"] = "วาร์ปไปหาฟักทอง",
+    ["Teleport To Monsters"] = "วาร์ปไปหามอนสเตอร์",
+    ["Teleport To Ghosts"] = "วาร์ปไปหาผี",
+    ["Farm All Monsters In Blood Moon"] = "ฟาร์มมอนสเตอร์ทั้งหมดช่วงพระจันทร์สีเลือด",
+    ["Farm Monsters While Fishing"] = "ฟาร์มมอนสเตอร์ระหว่างตกปลา",
+    ["Fishing History"] = "ประวัติการตกปลา",
+    ["Catches"] = "จำนวนที่จับได้",
+}
+for english,thai in pairs(ZIGZAG_V185_CHILLI_LABELS) do
+    if TRANSLATIONS[english] == nil then
+        TRANSLATIONS[english] = thai
+    end
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -2921,7 +2943,7 @@ local TH = {
     ["choose an option"] = "เลือกตัวเลือก",
 }
 
--- ZIGZAG V1.8.4: VENYX v1.2.2 / Halloween & Star / fishing popup
+-- ZIGZAG V1.8.5: VENYX v1.2.2 / Halloween & Star / fishing popup
 -- Lowercase exact UI text only; preserve option IDs, handlers, and loader.
 local ZIGZAG_V184_VENYX_LABELS = {
     ["halloween & star"] = "ฮาโลวีนและดาวตก",
@@ -2936,6 +2958,27 @@ local ZIGZAG_V184_VENYX_LABELS = {
     ["fighting large monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดใหญ่",
 }
 for english,thai in pairs(ZIGZAG_V184_VENYX_LABELS) do
+    if TH[english] == nil then
+        TH[english] = thai
+    end
+end
+
+--========================================================
+-- ZIGZAG V1.8.5 • VENYX v1.2.4 BLOOD MOON / FISHING
+-- Add-only UI label dictionary. Original popup behavior untouched.
+--========================================================
+local ZIGZAG_V185_VENYX_LABELS = {
+    ["farm all monsters in blood moon"] = "ฟาร์มมอนสเตอร์ทั้งหมดช่วงพระจันทร์สีเลือด",
+    ["farm monsters while fishing"] = "ฟาร์มมอนสเตอร์ระหว่างตกปลา",
+    ["waiting: nothing to do"] = "กำลังรอ: ไม่มีงานให้ทำ",
+    ["take halloween eggs from holders"] = "แย่งไข่ฮาโลวีนจากผู้ที่กำลังถือ",
+    ["teleport to pumpkins"] = "วาร์ปไปหาฟักทอง",
+    ["teleport to monsters"] = "วาร์ปไปหามอนสเตอร์",
+    ["teleport to ghosts"] = "วาร์ปไปหาผี",
+    ["fishing history"] = "ประวัติการตกปลา",
+    ["catches"] = "จำนวนที่จับได้",
+}
+for english,thai in pairs(ZIGZAG_V185_VENYX_LABELS) do
     if TH[english] == nil then
         TH[english] = thai
     end
@@ -3783,7 +3826,7 @@ print("✅ CHILLI + VENYX THAI ZIGZAG / single entry; click Chilli's Venyx tab")
 --========================================================
 do
     local ZIGZAG_BOOT_TEMPLATE = [====[--========================================================
--- ZIGZAG CHILLI + VENYX V1.8.4 / TELEPORT TRANSLATOR-ONLY CONTINUATION
+-- ZIGZAG CHILLI + VENYX V1.8.5 / TELEPORT TRANSLATOR-ONLY CONTINUATION
 -- Always re-arm before running the queued translator to support multi-hop.
 -- Does NOT call the upstream Chilli gameplay loader.
 --========================================================
@@ -3792,7 +3835,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.4_HALLOWEEN_STAR"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.5_HALLOWEEN_STAR_BLOODMOON"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -3818,10 +3861,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V184_POPUPS_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V184_POPUPS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -3854,7 +3897,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.4 HALLOWEEN STAR FISHING TRANSLATIONS TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.5 HALLOWEEN STAR FISHING BLOOD MOON TRANSLATIONS TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -3862,7 +3905,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.4_HALLOWEEN_STAR"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.5_HALLOWEEN_STAR_BLOODMOON"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -4727,7 +4770,7 @@ for english,thai in pairs(ZIGZAG_HALLOWEEN_TRANSLATIONS) do
 end
 
 --========================================================
--- ZIGZAG V1.8.4: 2026-10-20 NEW CHILLI / VENYX LABELS
+-- ZIGZAG V1.8.5: 2026-10-20 NEW CHILLI / VENYX LABELS
 -- From screenshots: Phantom Express wait, fishing spot, Blood Moon.
 -- Additive dictionary entries ONLY; do not change UI behavior.
 --========================================================
@@ -4743,6 +4786,28 @@ local ZIGZAG_V184_CHILLI_LABELS = {
     ["Only During Blood Moon"] = "เฉพาะช่วงพระจันทร์สีเลือด",
     ["Fighting Large monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดใหญ่",
 }
+--========================================================
+-- ZIGZAG V1.8.5 • NEW CHILLI + VENYX UPDATE (2026-10-21)
+-- Translation entries only, from seven screenshots. No gameplay/UI changes.
+-- Also embedded in the teleport translator-only copy.
+--========================================================
+local ZIGZAG_V185_CHILLI_LABELS = {
+    ["Waiting: nothing to do"] = "กำลังรอ: ไม่มีงานให้ทำ",
+    ["Take Halloween Eggs From Holders"] = "แย่งไข่ฮาโลวีนจากผู้ที่กำลังถือ",
+    ["Teleport To Pumpkins"] = "วาร์ปไปหาฟักทอง",
+    ["Teleport To Monsters"] = "วาร์ปไปหามอนสเตอร์",
+    ["Teleport To Ghosts"] = "วาร์ปไปหาผี",
+    ["Farm All Monsters In Blood Moon"] = "ฟาร์มมอนสเตอร์ทั้งหมดช่วงพระจันทร์สีเลือด",
+    ["Farm Monsters While Fishing"] = "ฟาร์มมอนสเตอร์ระหว่างตกปลา",
+    ["Fishing History"] = "ประวัติการตกปลา",
+    ["Catches"] = "จำนวนที่จับได้",
+}
+for english,thai in pairs(ZIGZAG_V185_CHILLI_LABELS) do
+    if TRANSLATIONS[english] == nil then
+        TRANSLATIONS[english] = thai
+    end
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -6727,7 +6792,7 @@ local TH = {
     ["choose an option"] = "เลือกตัวเลือก",
 }
 
--- ZIGZAG V1.8.4: VENYX v1.2.2 / Halloween & Star / fishing popup
+-- ZIGZAG V1.8.5: VENYX v1.2.2 / Halloween & Star / fishing popup
 -- Lowercase exact UI text only; preserve option IDs, handlers, and loader.
 local ZIGZAG_V184_VENYX_LABELS = {
     ["halloween & star"] = "ฮาโลวีนและดาวตก",
@@ -6742,6 +6807,27 @@ local ZIGZAG_V184_VENYX_LABELS = {
     ["fighting large monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดใหญ่",
 }
 for english,thai in pairs(ZIGZAG_V184_VENYX_LABELS) do
+    if TH[english] == nil then
+        TH[english] = thai
+    end
+end
+
+--========================================================
+-- ZIGZAG V1.8.5 • VENYX v1.2.4 BLOOD MOON / FISHING
+-- Add-only UI label dictionary. Original popup behavior untouched.
+--========================================================
+local ZIGZAG_V185_VENYX_LABELS = {
+    ["farm all monsters in blood moon"] = "ฟาร์มมอนสเตอร์ทั้งหมดช่วงพระจันทร์สีเลือด",
+    ["farm monsters while fishing"] = "ฟาร์มมอนสเตอร์ระหว่างตกปลา",
+    ["waiting: nothing to do"] = "กำลังรอ: ไม่มีงานให้ทำ",
+    ["take halloween eggs from holders"] = "แย่งไข่ฮาโลวีนจากผู้ที่กำลังถือ",
+    ["teleport to pumpkins"] = "วาร์ปไปหาฟักทอง",
+    ["teleport to monsters"] = "วาร์ปไปหามอนสเตอร์",
+    ["teleport to ghosts"] = "วาร์ปไปหาผี",
+    ["fishing history"] = "ประวัติการตกปลา",
+    ["catches"] = "จำนวนที่จับได้",
+}
+for english,thai in pairs(ZIGZAG_V185_VENYX_LABELS) do
     if TH[english] == nil then
         TH[english] = thai
     end
@@ -7628,13 +7714,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.8.4 | Halloween & Star ภาษาไทย",
+            Text="V1.8.5 | Halloween, Blood Moon & Fishing",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.4 HALLOWEEN STAR FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.5 BLOOD MOON + FISHING FULL MERGED")
 print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -7672,10 +7758,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V184_POPUPS_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V184_POPUPS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -7685,7 +7771,7 @@ print("==============================================")
             print("✅ [ZIGZAG TP] Multi-hop Thai & purple theme queued (gameplay loader excluded)")
         end
     else
-        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.8.4 on your executor.")
+        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.8.5 on your executor.")
     end
 end
 
@@ -7742,13 +7828,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.8.4 | Halloween & Star ภาษาไทย",
+            Text="V1.8.5 | Halloween, Blood Moon & Fishing",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.4 HALLOWEEN STAR FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.5 BLOOD MOON + FISHING FULL MERGED")
 print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
