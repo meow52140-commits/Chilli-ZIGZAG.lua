@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.5 HALLOWEEN STAR FISHING BLOOD MOON TRANSLATIONS TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.6 PRIORITY ROTATION THE HOLLOW TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.5_HALLOWEEN_STAR_BLOODMOON"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.6_PRIORITY_HOLLOW"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -959,6 +959,45 @@ for english,thai in pairs(ZIGZAG_V185_CHILLI_LABELS) do
     end
 end
 
+--========================================================
+-- ZIGZAG V1.8.6 • CHILLI/VENYX V1.2.8 PRIORITY + THE HOLLOW
+-- Additive display-only translations, including screenshots 1-7.
+-- Present both in main translator and teleport-only continuation.
+--========================================================
+local ZIGZAG_V186_CHILLI_LABELS = {
+    ["Priority Rotation"] = "สลับงานตามลำดับความสำคัญ",
+    ["Rotate Fishing And Treadmill"] = "สลับตกปลากับลู่วิ่ง",
+    ["Rotation Switch"] = "เงื่อนไขการสลับงาน",
+    ["Fishing Minutes"] = "เวลาตกปลา (นาที)",
+    ["Treadmill Minutes"] = "เวลาวิ่งลู่ (นาที)",
+    ["Timer"] = "ตั้งเวลา",
+    ["Every day"] = "ทุกวัน",
+    ["Switch"] = "สลับงาน",
+    ["The Hollow"] = "เดอะฮอลโลว์",
+    ["The Hollow Race"] = "การแข่งขันเดอะฮอลโลว์",
+    ["Auto Race The Hollow"] = "แข่งเดอะฮอลโลว์อัตโนมัติ",
+    ["Hollow Race Speed"] = "ความเร็วแข่งเดอะฮอลโลว์",
+    ["Use Race Power-Ups"] = "ใช้ไอเทมเพิ่มพลังระหว่างแข่ง",
+    ["Wins"] = "ชัยชนะ",
+    ["NOW"] = "ตอนนี้",
+    ["DOING NOW"] = "กำลังทำ",
+    ["SWITCH IN"] = "สลับในอีก",
+    ["Farm monsters"] = "ฟาร์มมอนสเตอร์",
+    ["Farm monsters in Blood Moon"] = "ฟาร์มมอนสเตอร์ช่วงพระจันทร์สีเลือด",
+    ["Place eggs"] = "วางไข่",
+    ["Mutate eggs"] = "ทำให้ไข่กลายพันธุ์",
+    ["Wisp quest"] = "ภารกิจ Wisp",
+    ["Riding the Phantom Express"] = "กำลังขึ้นรถไฟภูตพราย",
+    ["Fighting Small monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดเล็ก",
+    ["Top goes first. A task never stops halfway: the next one waits until it finishes. A carried egg is always delivered first."] = "งานลำดับบนสุดทำก่อน งานที่เริ่มแล้วจะทำให้เสร็จก่อนจึงสลับงานถัดไป และจะนำไข่ที่ถืออยู่ไปส่งก่อนเสมอ",
+    ["Lower it if laps do not count"] = "ลดความเร็วลงหากระบบไม่นับรอบการแข่งขัน",
+}
+for english,thai in pairs(ZIGZAG_V186_CHILLI_LABELS) do
+    if TRANSLATIONS[english] == nil then
+        TRANSLATIONS[english] = thai
+    end
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -1021,6 +1060,34 @@ local function TranslateText(text)
         STRING_CACHE[text] = exact
         return exact
     end
+
+    -- V1.8.6 • numeric/dynamic event status, no extra UI watchers.
+    local hollowState,hollowWins,hollowTotal =
+        clean:match("^(%a+)%s*|%s*Wins:%s*(%d+)%s*/%s*(%d+)$")
+    if hollowState and (string.lower(hollowState)=="off" or string.lower(hollowState)=="on") then
+        local result = TranslateState(hollowState) .. " | ชัยชนะ: " .. hollowWins .. "/" .. hollowTotal
+        STRING_CACHE[text] = result
+        return result
+    end
+    local hollowWinsOnly,hollowTotalOnly = clean:match("^Wins:%s*(%d+)%s*/%s*(%d+)$")
+    if hollowWinsOnly then
+        local result = "ชัยชนะ: " .. hollowWinsOnly .. "/" .. hollowTotalOnly
+        STRING_CACHE[text] = result
+        return result
+    end
+    local minutes = clean:match("^(%d+)%s+min$")
+    if minutes then
+        local result = minutes .. " นาที"
+        STRING_CACHE[text] = result
+        return result
+    end
+    local nextTask = clean:match("^NEXT%s+(%d+)$")
+    if nextTask then
+        local result = "ถัดไป " .. nextTask
+        STRING_CACHE[text] = result
+        return result
+    end
+
 
     -- V1.7: Dynamic race countdown (example: Off | Next Racing Event in 17:12)
     -- Exact race labels are mapped above; the rest of the translator is untouched.
@@ -2984,6 +3051,46 @@ for english,thai in pairs(ZIGZAG_V185_VENYX_LABELS) do
     end
 end
 
+--========================================================
+-- ZIGZAG V1.8.6 • VENYX v1.2.8 PRIORITY ROTATION/THE HOLLOW
+-- UI label translations only. Option IDs & callbacks stay intact.
+--========================================================
+local ZIGZAG_V186_VENYX_LABELS = {
+    ["priority rotation"] = "สลับงานตามลำดับความสำคัญ",
+    ["rotate fishing and treadmill"] = "สลับตกปลากับลู่วิ่ง",
+    ["rotation switch"] = "เงื่อนไขการสลับงาน",
+    ["fishing minutes"] = "เวลาตกปลา (นาที)",
+    ["treadmill minutes"] = "เวลาวิ่งลู่ (นาที)",
+    ["timer"] = "ตั้งเวลา",
+    ["every day"] = "ทุกวัน",
+    ["switch"] = "สลับงาน",
+    ["the hollow"] = "เดอะฮอลโลว์",
+    ["the hollow race"] = "การแข่งขันเดอะฮอลโลว์",
+    ["auto race the hollow"] = "แข่งเดอะฮอลโลว์อัตโนมัติ",
+    ["hollow race speed"] = "ความเร็วแข่งเดอะฮอลโลว์",
+    ["use race power-ups"] = "ใช้ไอเทมเพิ่มพลังระหว่างแข่ง",
+    ["wins"] = "ชัยชนะ",
+    ["now"] = "ตอนนี้",
+    ["doing now"] = "กำลังทำ",
+    ["switch in"] = "สลับในอีก",
+    ["next 1"] = "ถัดไป 1",
+    ["next 2"] = "ถัดไป 2",
+    ["next 3"] = "ถัดไป 3",
+    ["farm monsters"] = "ฟาร์มมอนสเตอร์",
+    ["farm monsters in blood moon"] = "ฟาร์มมอนสเตอร์ช่วงพระจันทร์สีเลือด",
+    ["place eggs"] = "วางไข่",
+    ["mutate eggs"] = "ทำให้ไข่กลายพันธุ์",
+    ["wisp quest"] = "ภารกิจ Wisp",
+    ["riding the phantom express"] = "กำลังขึ้นรถไฟภูตพราย",
+    ["fighting small monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดเล็ก",
+    ["top goes first. a task never stops halfway: the next one waits until it finishes. a carried egg is always delivered first."] = "งานลำดับบนสุดทำก่อน งานที่เริ่มแล้วจะทำให้เสร็จก่อนจึงสลับงานถัดไป และจะนำไข่ที่ถืออยู่ไปส่งก่อนเสมอ",
+    ["lower it if laps do not count"] = "ลดความเร็วลงหากระบบไม่นับรอบการแข่งขัน",
+}
+for english,thai in pairs(ZIGZAG_V186_VENYX_LABELS) do
+    -- V1.8.6 supersedes older inconsistent translations for exact labels.
+    TH[english] = thai
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -2993,6 +3100,23 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
+    -- V1.8.6 • Variable race wins, minutes, and priority queue indices.
+    {"^[Oo][Ff][Ff]%s*|%s*[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
+        return "ปิด | ชัยชนะ: " .. wins .. "/" .. total
+    end},
+    {"^[Oo][Nn]%s*|%s*[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
+        return "เปิด | ชัยชนะ: " .. wins .. "/" .. total
+    end},
+    {"^[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
+        return "ชัยชนะ: " .. wins .. "/" .. total
+    end},
+    {"^[Nn][Ee][Xx][Tt]%s+(%d+)$", function(n)
+        return "ถัดไป " .. n
+    end},
+    {"^(%d+)%s+min$", function(n)
+        return n .. " นาที"
+    end},
+
     -- V1.5 • แปลข้อความยาวที่ตัดบรรทัด และอัตราโอกาสการออกสัตว์เลี้ยงจากตู้สุ่ม
     {"^Keeps eggs for recipes that have not shown up yet%.%s*%% is how often a recipe asks for that egg%.$", function()
         return "สำรองไข่ไว้สำหรับสูตรที่ยังไม่ปรากฏ โดย % บอกความถี่ที่สูตรต้องใช้ไข่ชนิดนั้น"
@@ -3826,7 +3950,7 @@ print("✅ CHILLI + VENYX THAI ZIGZAG / single entry; click Chilli's Venyx tab")
 --========================================================
 do
     local ZIGZAG_BOOT_TEMPLATE = [====[--========================================================
--- ZIGZAG CHILLI + VENYX V1.8.5 / TELEPORT TRANSLATOR-ONLY CONTINUATION
+-- ZIGZAG CHILLI + VENYX V1.8.6 / TELEPORT TRANSLATOR-ONLY CONTINUATION
 -- Always re-arm before running the queued translator to support multi-hop.
 -- Does NOT call the upstream Chilli gameplay loader.
 --========================================================
@@ -3835,7 +3959,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.5_HALLOWEEN_STAR_BLOODMOON"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.6_PRIORITY_HOLLOW"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -3861,10 +3985,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -3897,7 +4021,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.5 HALLOWEEN STAR FISHING BLOOD MOON TRANSLATIONS TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.6 PRIORITY ROTATION THE HOLLOW TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -3905,7 +4029,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.5_HALLOWEEN_STAR_BLOODMOON"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.6_PRIORITY_HOLLOW"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -4808,6 +4932,45 @@ for english,thai in pairs(ZIGZAG_V185_CHILLI_LABELS) do
     end
 end
 
+--========================================================
+-- ZIGZAG V1.8.6 • CHILLI/VENYX V1.2.8 PRIORITY + THE HOLLOW
+-- Additive display-only translations, including screenshots 1-7.
+-- Present both in main translator and teleport-only continuation.
+--========================================================
+local ZIGZAG_V186_CHILLI_LABELS = {
+    ["Priority Rotation"] = "สลับงานตามลำดับความสำคัญ",
+    ["Rotate Fishing And Treadmill"] = "สลับตกปลากับลู่วิ่ง",
+    ["Rotation Switch"] = "เงื่อนไขการสลับงาน",
+    ["Fishing Minutes"] = "เวลาตกปลา (นาที)",
+    ["Treadmill Minutes"] = "เวลาวิ่งลู่ (นาที)",
+    ["Timer"] = "ตั้งเวลา",
+    ["Every day"] = "ทุกวัน",
+    ["Switch"] = "สลับงาน",
+    ["The Hollow"] = "เดอะฮอลโลว์",
+    ["The Hollow Race"] = "การแข่งขันเดอะฮอลโลว์",
+    ["Auto Race The Hollow"] = "แข่งเดอะฮอลโลว์อัตโนมัติ",
+    ["Hollow Race Speed"] = "ความเร็วแข่งเดอะฮอลโลว์",
+    ["Use Race Power-Ups"] = "ใช้ไอเทมเพิ่มพลังระหว่างแข่ง",
+    ["Wins"] = "ชัยชนะ",
+    ["NOW"] = "ตอนนี้",
+    ["DOING NOW"] = "กำลังทำ",
+    ["SWITCH IN"] = "สลับในอีก",
+    ["Farm monsters"] = "ฟาร์มมอนสเตอร์",
+    ["Farm monsters in Blood Moon"] = "ฟาร์มมอนสเตอร์ช่วงพระจันทร์สีเลือด",
+    ["Place eggs"] = "วางไข่",
+    ["Mutate eggs"] = "ทำให้ไข่กลายพันธุ์",
+    ["Wisp quest"] = "ภารกิจ Wisp",
+    ["Riding the Phantom Express"] = "กำลังขึ้นรถไฟภูตพราย",
+    ["Fighting Small monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดเล็ก",
+    ["Top goes first. A task never stops halfway: the next one waits until it finishes. A carried egg is always delivered first."] = "งานลำดับบนสุดทำก่อน งานที่เริ่มแล้วจะทำให้เสร็จก่อนจึงสลับงานถัดไป และจะนำไข่ที่ถืออยู่ไปส่งก่อนเสมอ",
+    ["Lower it if laps do not count"] = "ลดความเร็วลงหากระบบไม่นับรอบการแข่งขัน",
+}
+for english,thai in pairs(ZIGZAG_V186_CHILLI_LABELS) do
+    if TRANSLATIONS[english] == nil then
+        TRANSLATIONS[english] = thai
+    end
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -4870,6 +5033,34 @@ local function TranslateText(text)
         STRING_CACHE[text] = exact
         return exact
     end
+
+    -- V1.8.6 • numeric/dynamic event status, no extra UI watchers.
+    local hollowState,hollowWins,hollowTotal =
+        clean:match("^(%a+)%s*|%s*Wins:%s*(%d+)%s*/%s*(%d+)$")
+    if hollowState and (string.lower(hollowState)=="off" or string.lower(hollowState)=="on") then
+        local result = TranslateState(hollowState) .. " | ชัยชนะ: " .. hollowWins .. "/" .. hollowTotal
+        STRING_CACHE[text] = result
+        return result
+    end
+    local hollowWinsOnly,hollowTotalOnly = clean:match("^Wins:%s*(%d+)%s*/%s*(%d+)$")
+    if hollowWinsOnly then
+        local result = "ชัยชนะ: " .. hollowWinsOnly .. "/" .. hollowTotalOnly
+        STRING_CACHE[text] = result
+        return result
+    end
+    local minutes = clean:match("^(%d+)%s+min$")
+    if minutes then
+        local result = minutes .. " นาที"
+        STRING_CACHE[text] = result
+        return result
+    end
+    local nextTask = clean:match("^NEXT%s+(%d+)$")
+    if nextTask then
+        local result = "ถัดไป " .. nextTask
+        STRING_CACHE[text] = result
+        return result
+    end
+
 
     -- V1.7: Dynamic race countdown (example: Off | Next Racing Event in 17:12)
     -- Exact race labels are mapped above; the rest of the translator is untouched.
@@ -6833,6 +7024,46 @@ for english,thai in pairs(ZIGZAG_V185_VENYX_LABELS) do
     end
 end
 
+--========================================================
+-- ZIGZAG V1.8.6 • VENYX v1.2.8 PRIORITY ROTATION/THE HOLLOW
+-- UI label translations only. Option IDs & callbacks stay intact.
+--========================================================
+local ZIGZAG_V186_VENYX_LABELS = {
+    ["priority rotation"] = "สลับงานตามลำดับความสำคัญ",
+    ["rotate fishing and treadmill"] = "สลับตกปลากับลู่วิ่ง",
+    ["rotation switch"] = "เงื่อนไขการสลับงาน",
+    ["fishing minutes"] = "เวลาตกปลา (นาที)",
+    ["treadmill minutes"] = "เวลาวิ่งลู่ (นาที)",
+    ["timer"] = "ตั้งเวลา",
+    ["every day"] = "ทุกวัน",
+    ["switch"] = "สลับงาน",
+    ["the hollow"] = "เดอะฮอลโลว์",
+    ["the hollow race"] = "การแข่งขันเดอะฮอลโลว์",
+    ["auto race the hollow"] = "แข่งเดอะฮอลโลว์อัตโนมัติ",
+    ["hollow race speed"] = "ความเร็วแข่งเดอะฮอลโลว์",
+    ["use race power-ups"] = "ใช้ไอเทมเพิ่มพลังระหว่างแข่ง",
+    ["wins"] = "ชัยชนะ",
+    ["now"] = "ตอนนี้",
+    ["doing now"] = "กำลังทำ",
+    ["switch in"] = "สลับในอีก",
+    ["next 1"] = "ถัดไป 1",
+    ["next 2"] = "ถัดไป 2",
+    ["next 3"] = "ถัดไป 3",
+    ["farm monsters"] = "ฟาร์มมอนสเตอร์",
+    ["farm monsters in blood moon"] = "ฟาร์มมอนสเตอร์ช่วงพระจันทร์สีเลือด",
+    ["place eggs"] = "วางไข่",
+    ["mutate eggs"] = "ทำให้ไข่กลายพันธุ์",
+    ["wisp quest"] = "ภารกิจ Wisp",
+    ["riding the phantom express"] = "กำลังขึ้นรถไฟภูตพราย",
+    ["fighting small monster"] = "กำลังต่อสู้กับมอนสเตอร์ขนาดเล็ก",
+    ["top goes first. a task never stops halfway: the next one waits until it finishes. a carried egg is always delivered first."] = "งานลำดับบนสุดทำก่อน งานที่เริ่มแล้วจะทำให้เสร็จก่อนจึงสลับงานถัดไป และจะนำไข่ที่ถืออยู่ไปส่งก่อนเสมอ",
+    ["lower it if laps do not count"] = "ลดความเร็วลงหากระบบไม่นับรอบการแข่งขัน",
+}
+for english,thai in pairs(ZIGZAG_V186_VENYX_LABELS) do
+    -- V1.8.6 supersedes older inconsistent translations for exact labels.
+    TH[english] = thai
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -6842,6 +7073,23 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
+    -- V1.8.6 • Variable race wins, minutes, and priority queue indices.
+    {"^[Oo][Ff][Ff]%s*|%s*[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
+        return "ปิด | ชัยชนะ: " .. wins .. "/" .. total
+    end},
+    {"^[Oo][Nn]%s*|%s*[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
+        return "เปิด | ชัยชนะ: " .. wins .. "/" .. total
+    end},
+    {"^[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
+        return "ชัยชนะ: " .. wins .. "/" .. total
+    end},
+    {"^[Nn][Ee][Xx][Tt]%s+(%d+)$", function(n)
+        return "ถัดไป " .. n
+    end},
+    {"^(%d+)%s+min$", function(n)
+        return n .. " นาที"
+    end},
+
     -- V1.5 • แปลข้อความยาวที่ตัดบรรทัด และอัตราโอกาสการออกสัตว์เลี้ยงจากตู้สุ่ม
     {"^Keeps eggs for recipes that have not shown up yet%.%s*%% is how often a recipe asks for that egg%.$", function()
         return "สำรองไข่ไว้สำหรับสูตรที่ยังไม่ปรากฏ โดย % บอกความถี่ที่สูตรต้องใช้ไข่ชนิดนั้น"
@@ -7758,10 +8006,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V185_POPUPS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
