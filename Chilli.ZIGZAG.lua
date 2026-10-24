@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.6 PRIORITY ROTATION THE HOLLOW TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.7 AUTO STEAL SELL MUTATION VENYX POPUP TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.6_PRIORITY_HOLLOW"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.7_POPUP_AUTO_SELL"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -998,6 +998,65 @@ for english,thai in pairs(ZIGZAG_V186_CHILLI_LABELS) do
     end
 end
 
+--========================================================
+-- ZIGZAG V1.8.7 • CHILLI AUTO STEAL / SELL / MUTATION / EVENT / VENYX PROMO
+-- Display translations from 7 screenshots (2026-10-25).
+-- No source gameplay, UI hierarchy, callbacks, or movement edits.
+-- Applied in BOTH main and teleport translator-only copies.
+--========================================================
+local ZIGZAG_V187_CHILLI_LABELS = {
+    ["Move To Egg Speed"] = "ความเร็วในการไปหาไข่",
+    ["Move to Egg Speed"] = "ความเร็วในการไปหาไข่",
+    ["Delivery"] = "วิธีส่งไข่กลับฐาน",
+    ["Fast Tween"] = "เคลื่อนที่เร็วแบบ Tween",
+    ["Fast Tween Speed"] = "ความเร็วส่งไข่แบบ Tween",
+    ["Instant Steps"] = "เคลื่อนที่ทันทีแบบเป็นขั้น",
+    ["Leap"] = "กระโดดพุ่ง",
+    ["Auto Claim Money"] = "รับเงินอัตโนมัติ",
+    ["Auto Claim Cash"] = "รับเงินอัตโนมัติ",
+    ["Sell matching eggs once"] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["Sell matching eggs once."] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["Sell Egg Rule"] = "กฎการขายไข่",
+    ["Egg Max Rarity"] = "ความหายากสูงสุดของไข่ที่จะขาย",
+    ["Sell eggs at or below this rarity"] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["Sell eggs at or below this rarity."] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["Egg Sell Value"] = "มูลค่าไข่ที่จะขาย",
+    ["Sell eggs worth less than this (0 = off)"] = "ขายไข่ที่มูลค่าต่ำกว่าที่กำหนด (0 = ปิด)",
+    ["Keep Mutated Eggs"] = "เก็บไข่ที่กลายพันธุ์ไว้",
+    ["Never sell mutated eggs"] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["Never sell mutated eggs."] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["Blacklist Sell Eggs"] = "รายการไข่ห้ามขาย",
+    ["These eggs are never sold"] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["These eggs are never sold."] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["Cursed Island Wars"] = "สงครามเกาะต้องสาป",
+    ["Waiting for Cursed Island Wars"] = "กำลังรอสงครามเกาะต้องสาป",
+    ["Auto Play Cursed Island Wars"] = "เล่นสงครามเกาะต้องสาปอัตโนมัติ",
+    ["Island Wars Target"] = "เป้าหมายสงครามเกาะต้องสาป",
+    ["Enemies And Base"] = "ศัตรูและฐาน",
+    ["Walls And Crystal"] = "กำแพงและคริสตัล",
+    ["Smoother, faster and more ways to steal."] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["Smoother, faster and more ways to steal"] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["Try now"] = "ลองใช้งานเลย",
+    ["Try Now"] = "ลองใช้งานเลย",
+    ["Smoother & faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["Smoother and faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["Less lag, quick to load."] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["Less lag, quick to load"] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["More steal methods"] = "มีวิธีขโมยไข่มากขึ้น",
+    ["Teleport, Fast tween and more."] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["Teleport, Fast tween and more"] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["Teleport, Fast Tween and more."] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["Steal from players"] = "ขโมยไข่จากผู้เล่น",
+    ["Hits whoever takes your egg."] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["Hits whoever takes your egg"] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["Easy setup"] = "ตั้งค่าง่าย",
+    ["Bring your Chilli config over."] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+    ["Bring your Chilli config over"] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+}
+for english,thai in pairs(ZIGZAG_V187_CHILLI_LABELS) do
+    TRANSLATIONS[english] = thai
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -1059,6 +1118,15 @@ local function TranslateText(text)
     if exact then
         STRING_CACHE[text] = exact
         return exact
+    end
+
+    -- V1.8.7 • Mutation capacity (e.g. "20 egg(s) can be mutated")
+    local mutatableCount = string.lower(clean):match("^(%d+)%s+egg%(s%)%s+can%s+be%s+mutated%.?$")
+        or string.lower(clean):match("^(%d+)%s+eggs?%s+can%s+be%s+mutated%.?$")
+    if mutatableCount then
+        local result = "มีไข่ที่กลายพันธุ์ได้ " .. mutatableCount .. " ฟอง"
+        STRING_CACHE[text] = result
+        return result
     end
 
     -- V1.8.6 • numeric/dynamic event status, no extra UI watchers.
@@ -3091,6 +3159,61 @@ for english,thai in pairs(ZIGZAG_V186_VENYX_LABELS) do
     TH[english] = thai
 end
 
+--========================================================
+-- ZIGZAG V1.8.7 • VENYX LABELS + PROMOTIONAL POP-UPS
+-- Covers the corresponding English labels on the native Venyx side.
+-- Only visible display text; no option IDs / callbacks / loader edits.
+--========================================================
+local ZIGZAG_V187_VENYX_LABELS = {
+    ["move to egg speed"] = "ความเร็วในการไปหาไข่",
+    ["delivery"] = "วิธีส่งไข่กลับฐาน",
+    ["fast tween"] = "เคลื่อนที่เร็วแบบ Tween",
+    ["fast tween speed"] = "ความเร็วส่งไข่แบบ Tween",
+    ["instant steps"] = "เคลื่อนที่ทันทีแบบเป็นขั้น",
+    ["leap"] = "กระโดดพุ่ง",
+    ["auto claim money"] = "รับเงินอัตโนมัติ",
+    ["auto claim cash"] = "รับเงินอัตโนมัติ",
+    ["sell matching eggs once"] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["sell matching eggs once."] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["sell egg rule"] = "กฎการขายไข่",
+    ["egg max rarity"] = "ความหายากสูงสุดของไข่ที่จะขาย",
+    ["sell eggs at or below this rarity"] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["sell eggs at or below this rarity."] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["egg sell value"] = "มูลค่าไข่ที่จะขาย",
+    ["sell eggs worth less than this (0 = off)"] = "ขายไข่ที่มูลค่าต่ำกว่าที่กำหนด (0 = ปิด)",
+    ["keep mutated eggs"] = "เก็บไข่ที่กลายพันธุ์ไว้",
+    ["never sell mutated eggs"] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["never sell mutated eggs."] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["blacklist sell eggs"] = "รายการไข่ห้ามขาย",
+    ["these eggs are never sold"] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["these eggs are never sold."] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["cursed island wars"] = "สงครามเกาะต้องสาป",
+    ["waiting for cursed island wars"] = "กำลังรอสงครามเกาะต้องสาป",
+    ["auto play cursed island wars"] = "เล่นสงครามเกาะต้องสาปอัตโนมัติ",
+    ["island wars target"] = "เป้าหมายสงครามเกาะต้องสาป",
+    ["enemies and base"] = "ศัตรูและฐาน",
+    ["walls and crystal"] = "กำแพงและคริสตัล",
+    ["smoother, faster and more ways to steal."] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["smoother, faster and more ways to steal"] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["try now"] = "ลองใช้งานเลย",
+    ["smoother & faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["smoother and faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["less lag, quick to load."] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["less lag, quick to load"] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["more steal methods"] = "มีวิธีขโมยไข่มากขึ้น",
+    ["teleport, fast tween and more."] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["teleport, fast tween and more"] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["steal from players"] = "ขโมยไข่จากผู้เล่น",
+    ["hits whoever takes your egg."] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["hits whoever takes your egg"] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["easy setup"] = "ตั้งค่าง่าย",
+    ["bring your chilli config over."] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+    ["bring your chilli config over"] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+}
+for english,thai in pairs(ZIGZAG_V187_VENYX_LABELS) do
+    TH[english] = thai
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -3100,6 +3223,13 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
+    -- V1.8.7 • Alternate mutation-capacity wording on newer builds.
+    {"^(%d+) eggs? can be mutated%.?$", function(n)
+        return "มีไข่ที่กลายพันธุ์ได้ " .. n .. " ฟอง"
+    end},
+    {"^(%d+) egg%(s%) can be mutated%.?$", function(n)
+        return "มีไข่ที่กลายพันธุ์ได้ " .. n .. " ฟอง"
+    end},
     -- V1.8.6 • Variable race wins, minutes, and priority queue indices.
     {"^[Oo][Ff][Ff]%s*|%s*[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
         return "ปิด | ชัยชนะ: " .. wins .. "/" .. total
@@ -3553,6 +3683,8 @@ local POPUP_UNIQUE={
     ["monster order"]=true,["most tokens"]=true,
     ["ghost target"]=true,["pin options"]=true,
     ["pinned actions"]=true,["selected pinned features"]=true,
+    ["smoother & faster"]=true,["more steal methods"]=true,
+    ["steal from players"]=true,["easy setup"]=true,
     ["quick bar 1"]=true,["steal rarities"]=true,
     ["which mutations"]=true,["auto vacuum ghouler boss"]=true,
 }
@@ -3950,7 +4082,7 @@ print("✅ CHILLI + VENYX THAI ZIGZAG / single entry; click Chilli's Venyx tab")
 --========================================================
 do
     local ZIGZAG_BOOT_TEMPLATE = [====[--========================================================
--- ZIGZAG CHILLI + VENYX V1.8.6 / TELEPORT TRANSLATOR-ONLY CONTINUATION
+-- ZIGZAG CHILLI + VENYX V1.8.7 / TELEPORT TRANSLATOR-ONLY CONTINUATION
 -- Always re-arm before running the queued translator to support multi-hop.
 -- Does NOT call the upstream Chilli gameplay loader.
 --========================================================
@@ -3959,7 +4091,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.6_PRIORITY_HOLLOW"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.7_POPUP_AUTO_SELL"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -3985,10 +4117,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V187_POPUP_AUTO_SELL_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V187_POPUP_AUTO_SELL_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -4021,7 +4153,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.6 PRIORITY ROTATION THE HOLLOW TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.7 AUTO STEAL SELL MUTATION VENYX POPUP TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -4029,7 +4161,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.6_PRIORITY_HOLLOW"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.7_POPUP_AUTO_SELL"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -4971,6 +5103,65 @@ for english,thai in pairs(ZIGZAG_V186_CHILLI_LABELS) do
     end
 end
 
+--========================================================
+-- ZIGZAG V1.8.7 • CHILLI AUTO STEAL / SELL / MUTATION / EVENT / VENYX PROMO
+-- Display translations from 7 screenshots (2026-10-25).
+-- No source gameplay, UI hierarchy, callbacks, or movement edits.
+-- Applied in BOTH main and teleport translator-only copies.
+--========================================================
+local ZIGZAG_V187_CHILLI_LABELS = {
+    ["Move To Egg Speed"] = "ความเร็วในการไปหาไข่",
+    ["Move to Egg Speed"] = "ความเร็วในการไปหาไข่",
+    ["Delivery"] = "วิธีส่งไข่กลับฐาน",
+    ["Fast Tween"] = "เคลื่อนที่เร็วแบบ Tween",
+    ["Fast Tween Speed"] = "ความเร็วส่งไข่แบบ Tween",
+    ["Instant Steps"] = "เคลื่อนที่ทันทีแบบเป็นขั้น",
+    ["Leap"] = "กระโดดพุ่ง",
+    ["Auto Claim Money"] = "รับเงินอัตโนมัติ",
+    ["Auto Claim Cash"] = "รับเงินอัตโนมัติ",
+    ["Sell matching eggs once"] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["Sell matching eggs once."] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["Sell Egg Rule"] = "กฎการขายไข่",
+    ["Egg Max Rarity"] = "ความหายากสูงสุดของไข่ที่จะขาย",
+    ["Sell eggs at or below this rarity"] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["Sell eggs at or below this rarity."] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["Egg Sell Value"] = "มูลค่าไข่ที่จะขาย",
+    ["Sell eggs worth less than this (0 = off)"] = "ขายไข่ที่มูลค่าต่ำกว่าที่กำหนด (0 = ปิด)",
+    ["Keep Mutated Eggs"] = "เก็บไข่ที่กลายพันธุ์ไว้",
+    ["Never sell mutated eggs"] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["Never sell mutated eggs."] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["Blacklist Sell Eggs"] = "รายการไข่ห้ามขาย",
+    ["These eggs are never sold"] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["These eggs are never sold."] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["Cursed Island Wars"] = "สงครามเกาะต้องสาป",
+    ["Waiting for Cursed Island Wars"] = "กำลังรอสงครามเกาะต้องสาป",
+    ["Auto Play Cursed Island Wars"] = "เล่นสงครามเกาะต้องสาปอัตโนมัติ",
+    ["Island Wars Target"] = "เป้าหมายสงครามเกาะต้องสาป",
+    ["Enemies And Base"] = "ศัตรูและฐาน",
+    ["Walls And Crystal"] = "กำแพงและคริสตัล",
+    ["Smoother, faster and more ways to steal."] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["Smoother, faster and more ways to steal"] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["Try now"] = "ลองใช้งานเลย",
+    ["Try Now"] = "ลองใช้งานเลย",
+    ["Smoother & faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["Smoother and faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["Less lag, quick to load."] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["Less lag, quick to load"] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["More steal methods"] = "มีวิธีขโมยไข่มากขึ้น",
+    ["Teleport, Fast tween and more."] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["Teleport, Fast tween and more"] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["Teleport, Fast Tween and more."] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["Steal from players"] = "ขโมยไข่จากผู้เล่น",
+    ["Hits whoever takes your egg."] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["Hits whoever takes your egg"] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["Easy setup"] = "ตั้งค่าง่าย",
+    ["Bring your Chilli config over."] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+    ["Bring your Chilli config over"] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+}
+for english,thai in pairs(ZIGZAG_V187_CHILLI_LABELS) do
+    TRANSLATIONS[english] = thai
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -5032,6 +5223,15 @@ local function TranslateText(text)
     if exact then
         STRING_CACHE[text] = exact
         return exact
+    end
+
+    -- V1.8.7 • Mutation capacity (e.g. "20 egg(s) can be mutated")
+    local mutatableCount = string.lower(clean):match("^(%d+)%s+egg%(s%)%s+can%s+be%s+mutated%.?$")
+        or string.lower(clean):match("^(%d+)%s+eggs?%s+can%s+be%s+mutated%.?$")
+    if mutatableCount then
+        local result = "มีไข่ที่กลายพันธุ์ได้ " .. mutatableCount .. " ฟอง"
+        STRING_CACHE[text] = result
+        return result
     end
 
     -- V1.8.6 • numeric/dynamic event status, no extra UI watchers.
@@ -7064,6 +7264,61 @@ for english,thai in pairs(ZIGZAG_V186_VENYX_LABELS) do
     TH[english] = thai
 end
 
+--========================================================
+-- ZIGZAG V1.8.7 • VENYX LABELS + PROMOTIONAL POP-UPS
+-- Covers the corresponding English labels on the native Venyx side.
+-- Only visible display text; no option IDs / callbacks / loader edits.
+--========================================================
+local ZIGZAG_V187_VENYX_LABELS = {
+    ["move to egg speed"] = "ความเร็วในการไปหาไข่",
+    ["delivery"] = "วิธีส่งไข่กลับฐาน",
+    ["fast tween"] = "เคลื่อนที่เร็วแบบ Tween",
+    ["fast tween speed"] = "ความเร็วส่งไข่แบบ Tween",
+    ["instant steps"] = "เคลื่อนที่ทันทีแบบเป็นขั้น",
+    ["leap"] = "กระโดดพุ่ง",
+    ["auto claim money"] = "รับเงินอัตโนมัติ",
+    ["auto claim cash"] = "รับเงินอัตโนมัติ",
+    ["sell matching eggs once"] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["sell matching eggs once."] = "ขายไข่ที่ตรงเงื่อนไขหนึ่งครั้ง",
+    ["sell egg rule"] = "กฎการขายไข่",
+    ["egg max rarity"] = "ความหายากสูงสุดของไข่ที่จะขาย",
+    ["sell eggs at or below this rarity"] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["sell eggs at or below this rarity."] = "ขายไข่ระดับนี้หรือต่ำกว่า",
+    ["egg sell value"] = "มูลค่าไข่ที่จะขาย",
+    ["sell eggs worth less than this (0 = off)"] = "ขายไข่ที่มูลค่าต่ำกว่าที่กำหนด (0 = ปิด)",
+    ["keep mutated eggs"] = "เก็บไข่ที่กลายพันธุ์ไว้",
+    ["never sell mutated eggs"] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["never sell mutated eggs."] = "ห้ามขายไข่ที่กลายพันธุ์",
+    ["blacklist sell eggs"] = "รายการไข่ห้ามขาย",
+    ["these eggs are never sold"] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["these eggs are never sold."] = "ไข่เหล่านี้จะไม่ถูกขาย",
+    ["cursed island wars"] = "สงครามเกาะต้องสาป",
+    ["waiting for cursed island wars"] = "กำลังรอสงครามเกาะต้องสาป",
+    ["auto play cursed island wars"] = "เล่นสงครามเกาะต้องสาปอัตโนมัติ",
+    ["island wars target"] = "เป้าหมายสงครามเกาะต้องสาป",
+    ["enemies and base"] = "ศัตรูและฐาน",
+    ["walls and crystal"] = "กำแพงและคริสตัล",
+    ["smoother, faster and more ways to steal."] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["smoother, faster and more ways to steal"] = "ลื่นไหลขึ้น เร็วขึ้น พร้อมวิธีขโมยที่หลากหลายกว่าเดิม",
+    ["try now"] = "ลองใช้งานเลย",
+    ["smoother & faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["smoother and faster"] = "ลื่นไหลและเร็วขึ้น",
+    ["less lag, quick to load."] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["less lag, quick to load"] = "แลคน้อยลง โหลดเร็วขึ้น",
+    ["more steal methods"] = "มีวิธีขโมยไข่มากขึ้น",
+    ["teleport, fast tween and more."] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["teleport, fast tween and more"] = "วาร์ป เคลื่อนที่เร็วแบบ Tween และอีกมากมาย",
+    ["steal from players"] = "ขโมยไข่จากผู้เล่น",
+    ["hits whoever takes your egg."] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["hits whoever takes your egg"] = "โจมตีผู้ที่แย่งไข่ของคุณไป",
+    ["easy setup"] = "ตั้งค่าง่าย",
+    ["bring your chilli config over."] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+    ["bring your chilli config over"] = "นำคอนฟิกจาก Chilli มาใช้ได้",
+}
+for english,thai in pairs(ZIGZAG_V187_VENYX_LABELS) do
+    TH[english] = thai
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -7073,6 +7328,13 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
+    -- V1.8.7 • Alternate mutation-capacity wording on newer builds.
+    {"^(%d+) eggs? can be mutated%.?$", function(n)
+        return "มีไข่ที่กลายพันธุ์ได้ " .. n .. " ฟอง"
+    end},
+    {"^(%d+) egg%(s%) can be mutated%.?$", function(n)
+        return "มีไข่ที่กลายพันธุ์ได้ " .. n .. " ฟอง"
+    end},
     -- V1.8.6 • Variable race wins, minutes, and priority queue indices.
     {"^[Oo][Ff][Ff]%s*|%s*[Ww]ins:%s*(%d+)%s*/%s*(%d+)$", function(wins,total)
         return "ปิด | ชัยชนะ: " .. wins .. "/" .. total
@@ -7526,6 +7788,8 @@ local POPUP_UNIQUE={
     ["monster order"]=true,["most tokens"]=true,
     ["ghost target"]=true,["pin options"]=true,
     ["pinned actions"]=true,["selected pinned features"]=true,
+    ["smoother & faster"]=true,["more steal methods"]=true,
+    ["steal from players"]=true,["easy setup"]=true,
     ["quick bar 1"]=true,["steal rarities"]=true,
     ["which mutations"]=true,["auto vacuum ghouler boss"]=true,
 }
@@ -8006,10 +8270,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V187_POPUP_AUTO_SELL_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V186_PRIORITY_HOLLOW_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V187_POPUP_AUTO_SELL_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
