@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.8 PUMPKIN BOSS ESP VENYX V1.4.0 TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET CARD RICHTEXT SAFE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.8_PUMPKIN_BOSS_ESP"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.9_PET_RICHTEXT_SAFE"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1164,8 +1164,34 @@ end
 -- 6. TRANSLATE
 --========================================================
 
+-- V1.8.9 • Preserve live pet-card RichText in floating Steal Panels.
+-- Pet name / rarity / income rows may contain nested <font> and <stroke> tags.
+-- They are game data, not labels.  Do not feed them to TranslateText.
+local function IsDynamicPetCardMarkup(raw)
+    if type(raw)~="string" or #raw<24 then return false end
+    local hasTags=raw:find("<font",1,true) or raw:find("</font",1,true)
+        or raw:find("<stroke",1,true) or raw:find("</stroke",1,true)
+    if not hasTags then return false end
+    return raw:find("<stroke",1,true)~=nil
+        or raw:find("</stroke",1,true)~=nil
+        or raw:find("%$[%d%.,]")~=nil
+        or #raw>180
+end
+
+local function ProtectPetCardText(object,raw)
+    if not IsDynamicPetCardMarkup(raw) then return false end
+    -- RichText markup displayed literally when source labels are recreated
+    -- with RichText=false. Re-enable rendering without changing Text itself.
+    pcall(function()
+        if object.RichText==false then object.RichText=true end
+    end)
+    return true
+end
+
 local function TranslateText(text)
     if type(text) ~= "string" or text == "" then return text end
+    -- Never translate the original HTML-like pet information payload.
+    if IsDynamicPetCardMarkup(text) then return text end
     local cached = STRING_CACHE[text]
     if cached ~= nil then return cached end
     local clean = CleanText(text)
@@ -1460,10 +1486,12 @@ local function ApplyTranslation(object,shouldWatch)
     local changed = false
     pcall(function()
         local oldText = object.Text
-        local newText = TranslateText(oldText)
-        if newText ~= oldText then
-            object.Text = newText
-            changed = true
+        if not ProtectPetCardText(object,oldText) then
+            local newText = TranslateText(oldText)
+            if newText ~= oldText then
+                object.Text = newText
+                changed = true
+            end
         end
     end)
     if object:IsA("TextBox") then
@@ -2219,10 +2247,9 @@ local FLOATING_PANEL_TEXTS=setmetatable({},{__mode="k"})
 local function WatchFloatingPanelText(object)
     if not IsTextObject(object) or FLOATING_PANEL_TEXTS[object] then return end
     FLOATING_PANEL_TEXTS[object]=true
+    -- ApplyTranslation installs one text-change listener.  Its pet-markup
+    -- guard skips live card data but still translates ordinary panel controls.
     ApplyTranslation(object,true)
-    Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
-        if object.Parent then ApplyTranslation(object,false) end
-    end))
 end
 local function TrackFloatingPanel(container)
     if not container or FLOATING_PANEL_ROOTS[container] then return end
@@ -3520,12 +3547,31 @@ local function isText(obj)
     return obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox")
 end
 
+-- V1.8.9 • Keep live animal/egg RichText payloads intact in Venyx panels.
+-- Pinned UI labels still use their earlier RichText translation path.
+local function ProtectLivePetMarkup(obj,raw)
+    if type(raw)~="string" or #raw<24 then return false end
+    local hasTags=raw:find("<font",1,true) or raw:find("</font",1,true)
+        or raw:find("<stroke",1,true) or raw:find("</stroke",1,true)
+    if not hasTags then return false end
+    local isPetPayload=raw:find("<stroke",1,true)~=nil
+        or raw:find("</stroke",1,true)~=nil
+        or raw:find("%$[%d%.,]")~=nil
+        or #raw>180
+    if not isPetPayload then return false end
+    pcall(function()
+        if obj.RichText==false then obj.RichText=true end
+    end)
+    return true
+end
+
 local function translateProperty(obj, property)
     if not STATE.Running or STATE.Busy[obj] then return end
     local ok, current = pcall(function() return obj[property] end)
     if not ok or type(current) ~= "string" then return end
     -- Never replace what the user has typed into search/config text boxes.
     if property == "Text" and obj:IsA("TextBox") then return end
+    if property == "Text" and ProtectLivePetMarkup(obj,current) then return end
     local updated = translate(current)
     if updated == current then return end
     STATE.Busy[obj] = true
@@ -4229,7 +4275,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.8_PUMPKIN_BOSS_ESP"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.9_PET_RICHTEXT_SAFE"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -4255,10 +4301,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V188_PUMPKIN_BOSS_ESP_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V188_PUMPKIN_BOSS_ESP_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -4291,7 +4337,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.8 PUMPKIN BOSS ESP VENYX V1.4.0 TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET CARD RICHTEXT SAFE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -4299,7 +4345,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.8_PUMPKIN_BOSS_ESP"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.9_PET_RICHTEXT_SAFE"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -5407,8 +5453,34 @@ end
 -- 6. TRANSLATE
 --========================================================
 
+-- V1.8.9 • Preserve live pet-card RichText in floating Steal Panels.
+-- Pet name / rarity / income rows may contain nested <font> and <stroke> tags.
+-- They are game data, not labels.  Do not feed them to TranslateText.
+local function IsDynamicPetCardMarkup(raw)
+    if type(raw)~="string" or #raw<24 then return false end
+    local hasTags=raw:find("<font",1,true) or raw:find("</font",1,true)
+        or raw:find("<stroke",1,true) or raw:find("</stroke",1,true)
+    if not hasTags then return false end
+    return raw:find("<stroke",1,true)~=nil
+        or raw:find("</stroke",1,true)~=nil
+        or raw:find("%$[%d%.,]")~=nil
+        or #raw>180
+end
+
+local function ProtectPetCardText(object,raw)
+    if not IsDynamicPetCardMarkup(raw) then return false end
+    -- RichText markup displayed literally when source labels are recreated
+    -- with RichText=false. Re-enable rendering without changing Text itself.
+    pcall(function()
+        if object.RichText==false then object.RichText=true end
+    end)
+    return true
+end
+
 local function TranslateText(text)
     if type(text) ~= "string" or text == "" then return text end
+    -- Never translate the original HTML-like pet information payload.
+    if IsDynamicPetCardMarkup(text) then return text end
     local cached = STRING_CACHE[text]
     if cached ~= nil then return cached end
     local clean = CleanText(text)
@@ -5703,10 +5775,12 @@ local function ApplyTranslation(object,shouldWatch)
     local changed = false
     pcall(function()
         local oldText = object.Text
-        local newText = TranslateText(oldText)
-        if newText ~= oldText then
-            object.Text = newText
-            changed = true
+        if not ProtectPetCardText(object,oldText) then
+            local newText = TranslateText(oldText)
+            if newText ~= oldText then
+                object.Text = newText
+                changed = true
+            end
         end
     end)
     if object:IsA("TextBox") then
@@ -6462,10 +6536,9 @@ local FLOATING_PANEL_TEXTS=setmetatable({},{__mode="k"})
 local function WatchFloatingPanelText(object)
     if not IsTextObject(object) or FLOATING_PANEL_TEXTS[object] then return end
     FLOATING_PANEL_TEXTS[object]=true
+    -- ApplyTranslation installs one text-change listener.  Its pet-markup
+    -- guard skips live card data but still translates ordinary panel controls.
     ApplyTranslation(object,true)
-    Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
-        if object.Parent then ApplyTranslation(object,false) end
-    end))
 end
 local function TrackFloatingPanel(container)
     if not container or FLOATING_PANEL_ROOTS[container] then return end
@@ -7763,12 +7836,31 @@ local function isText(obj)
     return obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox")
 end
 
+-- V1.8.9 • Keep live animal/egg RichText payloads intact in Venyx panels.
+-- Pinned UI labels still use their earlier RichText translation path.
+local function ProtectLivePetMarkup(obj,raw)
+    if type(raw)~="string" or #raw<24 then return false end
+    local hasTags=raw:find("<font",1,true) or raw:find("</font",1,true)
+        or raw:find("<stroke",1,true) or raw:find("</stroke",1,true)
+    if not hasTags then return false end
+    local isPetPayload=raw:find("<stroke",1,true)~=nil
+        or raw:find("</stroke",1,true)~=nil
+        or raw:find("%$[%d%.,]")~=nil
+        or #raw>180
+    if not isPetPayload then return false end
+    pcall(function()
+        if obj.RichText==false then obj.RichText=true end
+    end)
+    return true
+end
+
 local function translateProperty(obj, property)
     if not STATE.Running or STATE.Busy[obj] then return end
     local ok, current = pcall(function() return obj[property] end)
     if not ok or type(current) ~= "string" then return end
     -- Never replace what the user has typed into search/config text boxes.
     if property == "Text" and obj:IsA("TextBox") then return end
+    if property == "Text" and ProtectLivePetMarkup(obj,current) then return end
     local updated = translate(current)
     if updated == current then return end
     STATE.Busy[obj] = true
@@ -8502,13 +8594,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.8.8 | Pumpkin Boss, ESP & Venyx v1.4.0",
+            Text="V1.8.9 | Pet-card RichText display guard",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.8 PUMPKIN BOSS + ESP FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET-CARD RICHTEXT SAFE FULL MERGED")
 print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -8546,10 +8638,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V188_PUMPKIN_BOSS_ESP_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V188_PUMPKIN_BOSS_ESP_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -8559,7 +8651,7 @@ print("==============================================")
             print("✅ [ZIGZAG TP] Multi-hop Thai & purple theme queued (gameplay loader excluded)")
         end
     else
-        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.8.5 on your executor.")
+        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.8.9 on your executor.")
     end
 end
 
@@ -8616,13 +8708,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.8.8 | Pumpkin Boss, ESP & Venyx v1.4.0",
+            Text="V1.8.9 | Pet-card RichText display guard",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.8 PUMPKIN BOSS + ESP FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET-CARD RICHTEXT SAFE FULL MERGED")
 print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
