@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET CARD RICHTEXT SAFE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW LAG WALK QUICK STEPS POPUP TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.9_PET_RICHTEXT_SAFE"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.1_LOW_LAG_TRANSLATION"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1122,6 +1122,31 @@ for english,thai in pairs(ZIGZAG_V188_CHILLI_LABELS) do
     TRANSLATIONS[english] = thai
 end
 
+--========================================================
+-- ZIGZAG V1.9.1 • WALK / QUICK STEPS / TELEPORT POPUP
+-- Label-only entries, no value handlers or gameplay code changed.
+-- Duplicated in queued teleport continuation.
+--========================================================
+local ZIGZAG_V191_CHILLI_LABELS = {
+    ["Walk"] = "เดิน",
+    ["Quick Steps"] = "ก้าวเร็วเป็นขั้น",
+    ["Quick steps"] = "ก้าวเร็วเป็นขั้น",
+    ["Sprint"] = "วิ่งเร็ว",
+    ["Run"] = "วิ่ง",
+    ["Teleport Zones"] = "โซนที่วาร์ปได้",
+    ["Teleport Zone"] = "โซนวาร์ป",
+    ["Teleport delivery method"] = "วิธีส่งไข่กลับฐานแบบวาร์ป",
+    ["Teleport Delivery Method"] = "วิธีส่งไข่กลับฐานแบบวาร์ป",
+    ["Move to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["Go to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["Delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["Quick Steps Delivery"] = "ส่งไข่กลับฐานแบบก้าวเร็ว",
+    ["Vacuuming ghosts"] = "กำลังดูดจับผี",
+}
+for en,th in pairs(ZIGZAG_V191_CHILLI_LABELS) do
+    TRANSLATIONS[en] = th
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -1209,6 +1234,14 @@ local function TranslateText(text)
     if exact then
         STRING_CACHE[text] = exact
         return exact
+    end
+
+    -- V1.9.1 • Venyx/Chilli ghost quest counter changes live.
+    local ghostsNow,ghostsGoal = clean:match("^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$")
+    if ghostsNow then
+        local result = "กำลังดูดจับผี " .. ghostsNow .. "/" .. ghostsGoal
+        STRING_CACHE[text] = result
+        return result
     end
 
     -- V1.8.7 • Mutation capacity (e.g. "20 egg(s) can be mutated")
@@ -2037,13 +2070,8 @@ local function TrackChilli(gui)
         end
         PlaceZigzagWatermark(gui)
     end)
-    task.delay(2.0,function()
-        if MainChilliGui ~= gui or not gui.Parent then return end
-        for _,object in ipairs(gui:GetDescendants()) do
-            ThemeObject(object)
-        end
-        PlaceZigzagWatermark(gui)
-    end)
+    -- V1.9.1: Removed a redundant second full-GUI theme pass.
+    -- DescendantAdded and property listeners restore late red colors.
     BindChilli(gui.AncestryChanged:Connect(function()
         if not gui.Parent then DisconnectChilli() end
     end))
@@ -2386,7 +2414,8 @@ local function CheckExistingSidebarButtons()
         end
     end
 end
-for _,delaySeconds in ipairs({0.65,1.6,3.8}) do
+-- V1.9.1: one delayed sidebar discovery instead of three full GUI scans.
+for _,delaySeconds in ipairs({1.6}) do
     task.delay(delaySeconds,CheckExistingSidebarButtons)
 end
 
@@ -3369,6 +3398,29 @@ for english,thai in pairs(ZIGZAG_V188_VENYX_LABELS) do
     TH[english] = thai
 end
 
+--========================================================
+-- ZIGZAG V1.9.1 • VENYX v1.4.3 MOVEMENT / DELIVERY POP-UP
+-- Mirror labels from Chilli, including standalone modal windows.
+--========================================================
+local ZIGZAG_V191_VENYX_LABELS = {
+    ["walk"] = "เดิน",
+    ["quick steps"] = "ก้าวเร็วเป็นขั้น",
+    ["quick step"] = "ก้าวเร็วเป็นขั้น",
+    ["sprint"] = "วิ่งเร็ว",
+    ["run"] = "วิ่ง",
+    ["teleport zones"] = "โซนที่วาร์ปได้",
+    ["teleport zone"] = "โซนวาร์ป",
+    ["teleport delivery method"] = "วิธีส่งไข่กลับฐานแบบวาร์ป",
+    ["move to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["go to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["quick steps delivery"] = "ส่งไข่กลับฐานแบบก้าวเร็ว",
+    ["vacuuming ghosts"] = "กำลังดูดจับผี",
+}
+for en,th in pairs(ZIGZAG_V191_VENYX_LABELS) do
+    TH[en] = th
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -3378,6 +3430,11 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
+    -- V1.9.1 • Live ghost quest counter (e.g. Vacuuming ghosts 3/50).
+    {"^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$", function(now, goal)
+        return "กำลังดูดจับผี " .. now .. "/" .. goal
+    end},
+
     -- V1.8.7 • Alternate mutation-capacity wording on newer builds.
     {"^(%d+) eggs? can be mutated%.?$", function(n)
         return "มีไข่ที่กลายพันธุ์ได้ " .. n .. " ฟอง"
@@ -3868,6 +3925,8 @@ local POPUP_UNIQUE={
     ["smoother & faster"]=true,["more steal methods"]=true,
     ["steal from players"]=true,["easy setup"]=true,
     ["pumpkin boss"]=true,["auto pumpkin boss"]=true,
+    ["teleport delivery method"]=true,
+    ["quick steps delivery"]=true,
     ["esp other base eggs"]=true,["inventory values"]=true,
     ["quick bar 1"]=true,["steal rarities"]=true,
     ["which mutations"]=true,["auto vacuum ghouler boss"]=true,
@@ -3989,15 +4048,21 @@ armVenyxHosts()
 -- After Venyx has appeared, a click can open a separate pop-up/dropdown
 -- not attached under its ScreenGui. Recheck once on touch (debounced),
 -- no endless timer and no scanning each frame.
+-- V1.9.1 • THROTTLED popup fallback (DescendantAdded is the main path).
+-- No full-root scan on every screen tap; worst case one scan / 3 seconds.
 local POPUP_TOUCH_PENDING=false
+local POPUP_TOUCH_LAST=-1000
 local okInput,UIS=pcall(function() return game:GetService("UserInputService") end)
 if okInput and UIS then
     bind(UIS.InputEnded:Connect(function(input)
         if not STATE.MainSeen or not STATE.Running or POPUP_TOUCH_PENDING then return end
+        local now=os.clock()
+        if now-POPUP_TOUCH_LAST<3 then return end
         if input.UserInputType~=Enum.UserInputType.Touch and
            input.UserInputType~=Enum.UserInputType.MouseButton1 then return end
         POPUP_TOUCH_PENDING=true
-        task.delay(0.10,function()
+        POPUP_TOUCH_LAST=now
+        task.delay(0.20,function()
             POPUP_TOUCH_PENDING=false
             if STATE.Running then pcall(STATE.Recheck) end
         end)
@@ -4005,7 +4070,8 @@ if okInput and UIS then
 end
 -- Only a handful of discovery checks during startup. This catches a GUI
 -- that was already open before the translator ran, including gethui roots.
-for _,s in ipairs({0.1,0.6,1.6,3.2,6.0}) do
+-- V1.9.1: fewer startup full-root scans, on-demand popup discovery remains.
+for _,s in ipairs({0.6,2.4}) do
     task.delay(s,function()
         if not STATE.Running then return end
         armVenyxHosts()
@@ -4260,22 +4326,22 @@ print("✅ CHILLI + VENYX THAI ZIGZAG / single entry; click Chilli's Venyx tab")
 
 --========================================================
 -- 17A. ZIGZAG V1.8.0 — TELEPORT PERSISTENCE (THAI/THEME ONLY)
--- Intentionally queue ONLY the UI translator+purple theme, never a second
--- Chilli gameplay loader. The original source continues to run once below.
--- This avoids the prior repeated character blink after server hopping.
+-- Queue the UI translator+purple theme, plus a late bounded gameplay recovery
+-- for cases where the destination server is ready but Auto Execute missed.
+-- Existing Chilli is never reloaded; avoids character blinking.
 --========================================================
 do
     local ZIGZAG_BOOT_TEMPLATE = [====[--========================================================
--- ZIGZAG CHILLI + VENYX V1.8.7 / TELEPORT TRANSLATOR-ONLY CONTINUATION
+-- ZIGZAG CHILLI + VENYX V1.9.0 / TELEPORT RECOVERY CONTINUATION
 -- Always re-arm before running the queued translator to support multi-hop.
--- Does NOT call the upstream Chilli gameplay loader.
+-- Restores Chilli only if UI is still absent after a bounded wait.
 --========================================================
 local ZIGZAG_TRANSLATOR_SOURCE = %q
 local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.8.9_PET_RICHTEXT_SAFE"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.1_LOW_LAG_TRANSLATION"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -4301,10 +4367,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -4337,7 +4403,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET CARD RICHTEXT SAFE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW LAG WALK QUICK STEPS POPUP TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -4345,7 +4411,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.8.9_PET_RICHTEXT_SAFE"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.1_LOW_LAG_TRANSLATION"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -5411,6 +5477,31 @@ for english,thai in pairs(ZIGZAG_V188_CHILLI_LABELS) do
     TRANSLATIONS[english] = thai
 end
 
+--========================================================
+-- ZIGZAG V1.9.1 • WALK / QUICK STEPS / TELEPORT POPUP
+-- Label-only entries, no value handlers or gameplay code changed.
+-- Duplicated in queued teleport continuation.
+--========================================================
+local ZIGZAG_V191_CHILLI_LABELS = {
+    ["Walk"] = "เดิน",
+    ["Quick Steps"] = "ก้าวเร็วเป็นขั้น",
+    ["Quick steps"] = "ก้าวเร็วเป็นขั้น",
+    ["Sprint"] = "วิ่งเร็ว",
+    ["Run"] = "วิ่ง",
+    ["Teleport Zones"] = "โซนที่วาร์ปได้",
+    ["Teleport Zone"] = "โซนวาร์ป",
+    ["Teleport delivery method"] = "วิธีส่งไข่กลับฐานแบบวาร์ป",
+    ["Teleport Delivery Method"] = "วิธีส่งไข่กลับฐานแบบวาร์ป",
+    ["Move to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["Go to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["Delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["Quick Steps Delivery"] = "ส่งไข่กลับฐานแบบก้าวเร็ว",
+    ["Vacuuming ghosts"] = "กำลังดูดจับผี",
+}
+for en,th in pairs(ZIGZAG_V191_CHILLI_LABELS) do
+    TRANSLATIONS[en] = th
+end
+
 for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
     if TRANSLATIONS[english] == nil then
         TRANSLATIONS[english] = thai
@@ -5498,6 +5589,14 @@ local function TranslateText(text)
     if exact then
         STRING_CACHE[text] = exact
         return exact
+    end
+
+    -- V1.9.1 • Venyx/Chilli ghost quest counter changes live.
+    local ghostsNow,ghostsGoal = clean:match("^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$")
+    if ghostsNow then
+        local result = "กำลังดูดจับผี " .. ghostsNow .. "/" .. ghostsGoal
+        STRING_CACHE[text] = result
+        return result
     end
 
     -- V1.8.7 • Mutation capacity (e.g. "20 egg(s) can be mutated")
@@ -6326,13 +6425,8 @@ local function TrackChilli(gui)
         end
         PlaceZigzagWatermark(gui)
     end)
-    task.delay(2.0,function()
-        if MainChilliGui ~= gui or not gui.Parent then return end
-        for _,object in ipairs(gui:GetDescendants()) do
-            ThemeObject(object)
-        end
-        PlaceZigzagWatermark(gui)
-    end)
+    -- V1.9.1: Removed a redundant second full-GUI theme pass.
+    -- DescendantAdded and property listeners restore late red colors.
     BindChilli(gui.AncestryChanged:Connect(function()
         if not gui.Parent then DisconnectChilli() end
     end))
@@ -6675,7 +6769,8 @@ local function CheckExistingSidebarButtons()
         end
     end
 end
-for _,delaySeconds in ipairs({0.65,1.6,3.8}) do
+-- V1.9.1: one delayed sidebar discovery instead of three full GUI scans.
+for _,delaySeconds in ipairs({1.6}) do
     task.delay(delaySeconds,CheckExistingSidebarButtons)
 end
 
@@ -7658,6 +7753,29 @@ for english,thai in pairs(ZIGZAG_V188_VENYX_LABELS) do
     TH[english] = thai
 end
 
+--========================================================
+-- ZIGZAG V1.9.1 • VENYX v1.4.3 MOVEMENT / DELIVERY POP-UP
+-- Mirror labels from Chilli, including standalone modal windows.
+--========================================================
+local ZIGZAG_V191_VENYX_LABELS = {
+    ["walk"] = "เดิน",
+    ["quick steps"] = "ก้าวเร็วเป็นขั้น",
+    ["quick step"] = "ก้าวเร็วเป็นขั้น",
+    ["sprint"] = "วิ่งเร็ว",
+    ["run"] = "วิ่ง",
+    ["teleport zones"] = "โซนที่วาร์ปได้",
+    ["teleport zone"] = "โซนวาร์ป",
+    ["teleport delivery method"] = "วิธีส่งไข่กลับฐานแบบวาร์ป",
+    ["move to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["go to egg method"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["quick steps delivery"] = "ส่งไข่กลับฐานแบบก้าวเร็ว",
+    ["vacuuming ghosts"] = "กำลังดูดจับผี",
+}
+for en,th in pairs(ZIGZAG_V191_VENYX_LABELS) do
+    TH[en] = th
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -7667,6 +7785,11 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
+    -- V1.9.1 • Live ghost quest counter (e.g. Vacuuming ghosts 3/50).
+    {"^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$", function(now, goal)
+        return "กำลังดูดจับผี " .. now .. "/" .. goal
+    end},
+
     -- V1.8.7 • Alternate mutation-capacity wording on newer builds.
     {"^(%d+) eggs? can be mutated%.?$", function(n)
         return "มีไข่ที่กลายพันธุ์ได้ " .. n .. " ฟอง"
@@ -8157,6 +8280,8 @@ local POPUP_UNIQUE={
     ["smoother & faster"]=true,["more steal methods"]=true,
     ["steal from players"]=true,["easy setup"]=true,
     ["pumpkin boss"]=true,["auto pumpkin boss"]=true,
+    ["teleport delivery method"]=true,
+    ["quick steps delivery"]=true,
     ["esp other base eggs"]=true,["inventory values"]=true,
     ["quick bar 1"]=true,["steal rarities"]=true,
     ["which mutations"]=true,["auto vacuum ghouler boss"]=true,
@@ -8278,15 +8403,21 @@ armVenyxHosts()
 -- After Venyx has appeared, a click can open a separate pop-up/dropdown
 -- not attached under its ScreenGui. Recheck once on touch (debounced),
 -- no endless timer and no scanning each frame.
+-- V1.9.1 • THROTTLED popup fallback (DescendantAdded is the main path).
+-- No full-root scan on every screen tap; worst case one scan / 3 seconds.
 local POPUP_TOUCH_PENDING=false
+local POPUP_TOUCH_LAST=-1000
 local okInput,UIS=pcall(function() return game:GetService("UserInputService") end)
 if okInput and UIS then
     bind(UIS.InputEnded:Connect(function(input)
         if not STATE.MainSeen or not STATE.Running or POPUP_TOUCH_PENDING then return end
+        local now=os.clock()
+        if now-POPUP_TOUCH_LAST<3 then return end
         if input.UserInputType~=Enum.UserInputType.Touch and
            input.UserInputType~=Enum.UserInputType.MouseButton1 then return end
         POPUP_TOUCH_PENDING=true
-        task.delay(0.10,function()
+        POPUP_TOUCH_LAST=now
+        task.delay(0.20,function()
             POPUP_TOUCH_PENDING=false
             if STATE.Running then pcall(STATE.Recheck) end
         end)
@@ -8294,7 +8425,8 @@ if okInput and UIS then
 end
 -- Only a handful of discovery checks during startup. This catches a GUI
 -- that was already open before the translator ran, including gethui roots.
-for _,s in ipairs({0.1,0.6,1.6,3.2,6.0}) do
+-- V1.9.1: fewer startup full-root scans, on-demand popup discovery remains.
+for _,s in ipairs({0.6,2.4}) do
     task.delay(s,function()
         if not STATE.Running then return end
         armVenyxHosts()
@@ -8551,14 +8683,85 @@ print("✅ CHILLI + VENYX THAI ZIGZAG / single entry; click Chilli's Venyx tab")
 -- 18-19. TRANSLATOR ARMED + ORIGINAL DIRECT CHILLI LOADER
 --========================================================
 
--- This continuation intentionally does not run SOURCE_URL/Chilli gameplay code.
--- Chilli's own Auto Execute, or any independent loader, remains responsible
--- for loading the actual Chilli UI in the destination server.
+-- This continuation starts translation immediately. A separate bounded
+-- recovery check below loads Chilli ONLY if its UI is still absent.
 local CHILLI_ALREADY_OPEN = FindExistingChilli()
 if CHILLI_ALREADY_OPEN then
     print("[ZIGZAG TP] Existing Chilli found; translated/recolored without gameplay reload")
 else
     print("[ZIGZAG TP] Watching for Chilli UI; original gameplay loader not duplicated")
+end
+
+--========================================================
+-- ZIGZAG V1.9.0: BOUNDED RECOVERY ON SERVER JOIN / REJOIN
+-- The executor may replay only the teleport translator (not gameplay).
+-- After the destination settles, recover the Chilli ORIGINAL SOURCE ONLY
+-- if no Chilli window is present. No gameplay tweaks or looped scanning.
+-- Works in both original entry and queued translator-only continuation.
+-- If Roblox/app/executor has closed entirely, Auto Execute is still required.
+--========================================================
+do
+    local RECOVERY_ENV = (type(getgenv)=="function" and getgenv()) or _G
+    local RECOVERY_JOB = tostring(game.JobId or "")
+    local guard = RECOVERY_ENV.__ZIGZAG_CHILLI_V190_RECOVERY
+    if type(guard)~="table" or guard.JobId~=RECOVERY_JOB then
+        guard={JobId=RECOVERY_JOB,Busy=false,Tries=0,LastAt=-1000}
+        RECOVERY_ENV.__ZIGZAG_CHILLI_V190_RECOVERY=guard
+    end
+    local function ready()
+        if not STATE.Live or STATE.JobId~=RECOVERY_JOB then return true end
+        if FindExistingChilli() then
+            local v=RECOVERY_ENV.__ZIGZAG_VENYX_THAI_STATE
+            if v and v.Running and type(v.Recheck)=="function" then
+                pcall(v.Recheck)
+            end
+            return true
+        end
+        return false
+    end
+    task.spawn(function()
+        -- Two bounded attempts: allow native Chilli/Auto Execute to win first.
+        for _,waitSeconds in ipairs({18,25}) do
+            task.wait(waitSeconds)
+            if ready() then return end
+            if guard.Tries>=2 then return end
+            local now=os.clock()
+            if guard.Busy or now-guard.LastAt<12 then
+                warn("[ZIGZAG RECOVERY] Loader already in progress; no duplicate")
+            else
+                guard.Busy=true
+                guard.Tries=guard.Tries+1
+                guard.LastAt=now
+                print("[ZIGZAG RECOVERY] Chilli UI absent; trying original loader",guard.Tries)
+                local ok,reason=pcall(function()
+                    local code=game:HttpGet(SOURCE_URL)
+                    if type(code)~="string" or code=="" then
+                        error("Chilli source download returned empty data")
+                    end
+                    local start,syntaxError=loadstring(code)
+                    if type(start)~="function" then
+                        error(syntaxError or "Chilli source compilation failed")
+                    end
+                    start()
+                end)
+                guard.Busy=false
+                if not ok then
+                    warn("[ZIGZAG RECOVERY] Chilli retry error:",reason)
+                else
+                    print("[ZIGZAG RECOVERY] Original Chilli loader executed")
+                end
+                -- UI can appear asynchronously; let it initialize.
+                task.wait(3)
+                if ready() then
+                    print("✅ [ZIGZAG RECOVERY] Chilli + Venyx translation restored")
+                    return
+                end
+            end
+        end
+        if STATE.Live and not FindExistingChilli() then
+            warn("[ZIGZAG RECOVERY] No Chilli UI after bounded recovery. Check Auto Execute, connection, or executor output")
+        end
+    end)
 end
 
 --========================================================
@@ -8594,13 +8797,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.8.9 | Pet-card RichText display guard",
+            Text="V1.9.1 | Low-lag UI + Thai movement/popups",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET-CARD RICHTEXT SAFE FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW-LAG TRANSLATION FULL MERGED")
 print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -8638,10 +8841,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V189_PET_RICHTEXT_SAFE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -8673,6 +8876,78 @@ if not CHILLI_ALREADY_OPEN then
             if not success then warn("[ZIGZAG] Chilli Runtime Error:",runError) end
         end
     end
+end
+
+--========================================================
+-- ZIGZAG V1.9.0: BOUNDED RECOVERY ON SERVER JOIN / REJOIN
+-- The executor may replay only the teleport translator (not gameplay).
+-- After the destination settles, recover the Chilli ORIGINAL SOURCE ONLY
+-- if no Chilli window is present. No gameplay tweaks or looped scanning.
+-- Works in both original entry and queued translator-only continuation.
+-- If Roblox/app/executor has closed entirely, Auto Execute is still required.
+--========================================================
+do
+    local RECOVERY_ENV = (type(getgenv)=="function" and getgenv()) or _G
+    local RECOVERY_JOB = tostring(game.JobId or "")
+    local guard = RECOVERY_ENV.__ZIGZAG_CHILLI_V190_RECOVERY
+    if type(guard)~="table" or guard.JobId~=RECOVERY_JOB then
+        guard={JobId=RECOVERY_JOB,Busy=false,Tries=0,LastAt=-1000}
+        RECOVERY_ENV.__ZIGZAG_CHILLI_V190_RECOVERY=guard
+    end
+    local function ready()
+        if not STATE.Live or STATE.JobId~=RECOVERY_JOB then return true end
+        if FindExistingChilli() then
+            local v=RECOVERY_ENV.__ZIGZAG_VENYX_THAI_STATE
+            if v and v.Running and type(v.Recheck)=="function" then
+                pcall(v.Recheck)
+            end
+            return true
+        end
+        return false
+    end
+    task.spawn(function()
+        -- Two bounded attempts: allow native Chilli/Auto Execute to win first.
+        for _,waitSeconds in ipairs({18,25}) do
+            task.wait(waitSeconds)
+            if ready() then return end
+            if guard.Tries>=2 then return end
+            local now=os.clock()
+            if guard.Busy or now-guard.LastAt<12 then
+                warn("[ZIGZAG RECOVERY] Loader already in progress; no duplicate")
+            else
+                guard.Busy=true
+                guard.Tries=guard.Tries+1
+                guard.LastAt=now
+                print("[ZIGZAG RECOVERY] Chilli UI absent; trying original loader",guard.Tries)
+                local ok,reason=pcall(function()
+                    local code=game:HttpGet(SOURCE_URL)
+                    if type(code)~="string" or code=="" then
+                        error("Chilli source download returned empty data")
+                    end
+                    local start,syntaxError=loadstring(code)
+                    if type(start)~="function" then
+                        error(syntaxError or "Chilli source compilation failed")
+                    end
+                    start()
+                end)
+                guard.Busy=false
+                if not ok then
+                    warn("[ZIGZAG RECOVERY] Chilli retry error:",reason)
+                else
+                    print("[ZIGZAG RECOVERY] Original Chilli loader executed")
+                end
+                -- UI can appear asynchronously; let it initialize.
+                task.wait(3)
+                if ready() then
+                    print("✅ [ZIGZAG RECOVERY] Chilli + Venyx translation restored")
+                    return
+                end
+            end
+        end
+        if STATE.Live and not FindExistingChilli() then
+            warn("[ZIGZAG RECOVERY] No Chilli UI after bounded recovery. Check Auto Execute, connection, or executor output")
+        end
+    end)
 end
 
 --========================================================
@@ -8708,13 +8983,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.8.9 | Pet-card RichText display guard",
+            Text="V1.9.1 | Low-lag UI + Thai movement/popups",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.8.9 PET-CARD RICHTEXT SAFE FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW-LAG TRANSLATION FULL MERGED")
 print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
