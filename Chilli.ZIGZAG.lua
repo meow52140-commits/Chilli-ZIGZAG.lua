@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW LAG WALK QUICK STEPS POPUP TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE RESPONSIVE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.1_LOW_LAG_TRANSLATION"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.2_RESPONSIVE_PURPLE"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1123,7 +1123,7 @@ for english,thai in pairs(ZIGZAG_V188_CHILLI_LABELS) do
 end
 
 --========================================================
--- ZIGZAG V1.9.1 • WALK / QUICK STEPS / TELEPORT POPUP
+-- ZIGZAG V1.9.2 • WALK / QUICK STEPS / TELEPORT POPUP
 -- Label-only entries, no value handlers or gameplay code changed.
 -- Duplicated in queued teleport continuation.
 --========================================================
@@ -1236,7 +1236,7 @@ local function TranslateText(text)
         return exact
     end
 
-    -- V1.9.1 • Venyx/Chilli ghost quest counter changes live.
+    -- V1.9.2 • Venyx/Chilli ghost quest counter changes live.
     local ghostsNow,ghostsGoal = clean:match("^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$")
     if ghostsNow then
         local result = "กำลังดูดจับผี " .. ghostsNow .. "/" .. ghostsGoal
@@ -1649,19 +1649,12 @@ local function SaveStyle(object,property,newValue)
     THEME_WRITING[object] = nil
 end
 
+-- V1.9.2 RESPONSIVE: every device uses different AbsoluteSize values.
+-- Visual recoloring must NOT depend on pixels or a PC-sized widget.
+-- Scope stays inside the detected Chilli GUI (TrackChilli), so game HUD
+-- and green feature toggles are never recolored by this detector.
 local function IsLargeThemeSurface(object)
-    if not object or not object:IsA("GuiObject") then return false end
-    local ok,w,h = pcall(function()
-        local size = object.AbsoluteSize
-        return size.X,size.Y
-    end)
-    if not ok then return false end
-    if w < 85 and h < 28 then
-        local sx = object.Size
-        if sx.X.Offset < 85 and sx.X.Scale < 0.18 then return false end
-    end
-    return w >= 85 or object.Size.X.Offset >= 85
-        or (object.Size.X.Scale >= 0.18 and h >= 27)
+    return object ~= nil and object:IsA("GuiObject")
 end
 
 local function ParentVisualSurface(object)
@@ -1679,10 +1672,11 @@ local function IsThemeVisual(object)
     if object:IsA("UIStroke") or object:IsA("UIGradient") then
         return IsLargeThemeSurface(ParentVisualSurface(object))
     end
-    return object:IsA("GuiObject") and IsLargeThemeSurface(object)
-        and (object:IsA("Frame") or object:IsA("TextButton")
-          or object:IsA("ImageButton") or object:IsA("ScrollingFrame")
-          or object:IsA("TextLabel") or object:IsA("ImageLabel"))
+    return object:IsA("GuiObject")
+        and (object:IsA("Frame") or object:IsA("CanvasGroup")
+          or object:IsA("TextButton") or object:IsA("ImageButton")
+          or object:IsA("ScrollingFrame") or object:IsA("TextLabel")
+          or object:IsA("ImageLabel"))
 end
 
 local function RepaintRedProperty(object,property)
@@ -1767,8 +1761,13 @@ local function ThemeObject(object)
 
     -- Only recolor explicitly red-tinted GUI art, not colored icons.
     if object:IsA("ImageLabel") or object:IsA("ImageButton") then
-        RepaintRedProperty(object,"ImageColor3")
-        WatchThemeProperty(object,"ImageColor3")
+        -- On mobile, keep tiny item/game icons unchanged. Recolor large
+        -- UI art/tabs only; the nav tabs' own frames are handled above.
+        local sz = object.AbsoluteSize
+        if sz.X >= 34 and sz.Y >= 18 then
+            RepaintRedProperty(object,"ImageColor3")
+            WatchThemeProperty(object,"ImageColor3")
+        end
     end
 
     -- Preserve dark-purple surfaces, but don't force transparency or ZIndex.
@@ -2070,7 +2069,7 @@ local function TrackChilli(gui)
         end
         PlaceZigzagWatermark(gui)
     end)
-    -- V1.9.1: Removed a redundant second full-GUI theme pass.
+    -- V1.9.2: Removed a redundant second full-GUI theme pass.
     -- DescendantAdded and property listeners restore late red colors.
     BindChilli(gui.AncestryChanged:Connect(function()
         if not gui.Parent then DisconnectChilli() end
@@ -2102,8 +2101,12 @@ local SIDEBAR_NAMES = {
     ["คีย์ลัด"]=true,["Quick & Keys"]=true,
     ["การตั้งค่า"]=true,["Settings"]=true,
     ["คอนฟิก"]=true,["Config"]=true,
-    -- Special 'Venyx' tab deliberately stays red, as in the
-    -- original ZIGZAG purple layout, not in this whitelist.
+    -- V1.9.2: All navigation buttons use purple including Venyx.
+    ["Venyx"]=true,["VENYX"]=true,
+    ["กิจกรรม"]=true,["Events"]=true,["Event"]=true,
+    ["สคริปต์"]=true,["Scripts"]=true,
+    ["คู่มือ"]=true,["Guide"]=true,
+    ["คอนฟิก"]=true,["Config"]=true,
 }
 local SIDEBAR_TOP = Color3.fromRGB(206,117,255)
 local SIDEBAR_BOTTOM = Color3.fromRGB(144,46,218)
@@ -2126,7 +2129,9 @@ local function SidebarShape(obj)
         return obj.AbsoluteSize.X,obj.AbsoluteSize.Y
     end)
     if not ok then return false end
-    return w>=75 and w<=530 and h>=26 and h<=145 and w>=h*1.45
+    -- 75 px / 26 px excluded scaled mobile nav tabs in V1.9.1.
+    -- Use compact minimums, while still excluding extremely small glyphs.
+    return w>=30 and w<=720 and h>=15 and h<=175 and w>=h*1.12
 end
 
 local function StyleSidebarGradient(gradient)
@@ -2227,8 +2232,8 @@ local function StyleSidebarForText(object)
     end)
     -- Whitelist only edge-mounted sidebar menus; never color central
     -- settings, egg/pet dropdowns, or full-width UI overlays.
-    if okPos and screenW>0 and centerX>screenW*0.36
-        and centerX<screenW*0.64 then return end
+    -- Small-device Chilli layout can place nav tabs inside the center
+    -- 36%-64% of the viewport. Never reject known nav labels on X alone.
     local current=object
     for depth=1,6 do
         if not current or current:IsA("ScreenGui") then break end
@@ -2258,11 +2263,10 @@ local function WatchSidebarLabel(object)
         return object.AbsolutePosition.X+object.AbsoluteSize.X*0.5,
             object.AbsoluteSize.X
     end)
-    if not ok or w<55 then return end
-    local camera=workspace.CurrentCamera
-    local viewport=camera and camera.ViewportSize.X or 0
-    if viewport>0 and centerX>viewport*0.36
-        and centerX<viewport*0.64 then return end
+    if not ok or w<24 then return end
+    -- Do not reject center labels at registration: small mobile windows may
+    -- move the sidebars across the center when scaling/orienting. The actual
+    -- callback still checks known menu titles and rectangle ancestry.
     SIDEBAR_LABEL_WATCHED[object]=true
     Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
         if object.Parent then StyleSidebarForText(object) end
@@ -2414,7 +2418,7 @@ local function CheckExistingSidebarButtons()
         end
     end
 end
--- V1.9.1: one delayed sidebar discovery instead of three full GUI scans.
+-- V1.9.2: one delayed sidebar discovery instead of three full GUI scans.
 for _,delaySeconds in ipairs({1.6}) do
     task.delay(delaySeconds,CheckExistingSidebarButtons)
 end
@@ -3399,7 +3403,7 @@ for english,thai in pairs(ZIGZAG_V188_VENYX_LABELS) do
 end
 
 --========================================================
--- ZIGZAG V1.9.1 • VENYX v1.4.3 MOVEMENT / DELIVERY POP-UP
+-- ZIGZAG V1.9.2 • VENYX v1.4.3 MOVEMENT / DELIVERY POP-UP
 -- Mirror labels from Chilli, including standalone modal windows.
 --========================================================
 local ZIGZAG_V191_VENYX_LABELS = {
@@ -3430,7 +3434,7 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
-    -- V1.9.1 • Live ghost quest counter (e.g. Vacuuming ghosts 3/50).
+    -- V1.9.2 • Live ghost quest counter (e.g. Vacuuming ghosts 3/50).
     {"^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$", function(now, goal)
         return "กำลังดูดจับผี " .. now .. "/" .. goal
     end},
@@ -3796,6 +3800,77 @@ local function AddVenyxCredit(root)
     -- Only cosmetic. Never modifies Venyx's control values or callbacks.
 end
 
+-- V1.9.2 | ZIGZAG responsive purple accents for Venyx & its popups.
+-- Runs only in confirmed Venyx root(s), not the game's own UI.
+-- Recolors red/orange paint, preserves dark backgrounds and green toggles.
+local ZIGZAG_VENYX_PURPLE_WATCHED=setmetatable({}, {__mode="k"})
+local ZIGZAG_VENYX_PURPLE_BUSY=setmetatable({}, {__mode="k"})
+local function ZIGZAG_VENYX_IsWarm(c)
+    if typeof(c)~="Color3" then return false end
+    return c.R>=0.36 and c.R>c.G*1.30 and c.R>c.B*1.24
+        and c.R-math.max(c.G,c.B)>0.14
+end
+local function ZIGZAG_VENYX_Repaint(obj,prop)
+    if not STATE.Running or not obj.Parent or ZIGZAG_VENYX_PURPLE_BUSY[obj] then return end
+    local ok,value=pcall(function()return obj[prop] end)
+    if not ok then return end
+    if prop=="Color" and obj:IsA("UIGradient") then
+        local points,changed={},false
+        for _,point in ipairs(value.Keypoints) do
+            local c=point.Value
+            if ZIGZAG_VENYX_IsWarm(c) then
+                local _,sat,bright=Color3.toHSV(c)
+                c=Color3.fromHSV(0.765,math.clamp(sat*0.93,0.48,0.94),math.clamp(bright*0.96,0.30,1))
+                changed=true
+            end
+            points[#points+1]=ColorSequenceKeypoint.new(point.Time,c)
+        end
+        if not changed then return end
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=true
+        pcall(function()obj.Color=ColorSequence.new(points) end)
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=nil
+    elseif ZIGZAG_VENYX_IsWarm(value) then
+        local _,sat,bright=Color3.toHSV(value)
+        local purple=Color3.fromHSV(0.765,math.clamp(sat*0.93,0.48,0.94),math.clamp(bright*0.96,0.30,1))
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=true
+        pcall(function()obj[prop]=purple end)
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=nil
+    end
+end
+local function ZIGZAG_VENYX_ThemeOne(obj)
+    if not STATE.Running or not obj or not obj.Parent then return end
+    local props=nil
+    if obj:IsA("UIGradient") or obj:IsA("UIStroke") then
+        if not (obj.Parent and obj.Parent:IsA("GuiObject")) then return end
+        props={"Color"}
+    elseif obj:IsA("Frame") or obj:IsA("CanvasGroup") or obj:IsA("ScrollingFrame")
+        or obj:IsA("TextButton") or obj:IsA("TextLabel") or obj:IsA("TextBox")
+        or obj:IsA("ImageButton") or obj:IsA("ImageLabel") then
+        props={"BackgroundColor3","BorderColor3"}
+        if (obj:IsA("ImageButton") or obj:IsA("ImageLabel"))
+            and obj.AbsoluteSize.X>=34 and obj.AbsoluteSize.Y>=18 then
+            props[#props+1]="ImageColor3"
+        end
+    end
+    if not props then return end
+    local seen=ZIGZAG_VENYX_PURPLE_WATCHED[obj]
+    if not seen then seen={}; ZIGZAG_VENYX_PURPLE_WATCHED[obj]=seen end
+    for _,prop in ipairs(props) do
+        ZIGZAG_VENYX_Repaint(obj,prop)
+        if not seen[prop] then
+            seen[prop]=true
+            local ok,conn=pcall(function()
+                return obj:GetPropertyChangedSignal(prop):Connect(function()
+                    if ZIGZAG_VENYX_PURPLE_BUSY[obj] or not STATE.Running then return end
+                    -- Event-driven; no full-screen recolor scans or frame loops.
+                    ZIGZAG_VENYX_Repaint(obj,prop)
+                end)
+            end)
+            if ok and conn then bind(conn) else seen[prop]=nil end
+        end
+    end
+end
+
 local function observeRoot(root)
     if not STATE.Running or STATE.Roots[root] then return end
     STATE.Roots[root] = true
@@ -3806,13 +3881,20 @@ local function observeRoot(root)
         STATE.MainSeen=true
         pcall(AddVenyxCredit,root)
     end
-    for _,obj in ipairs(root:GetDescendants()) do watchText(obj) end
+    for _,obj in ipairs(root:GetDescendants()) do
+        watchText(obj)
+        ZIGZAG_VENYX_ThemeOne(obj)
+    end
     bind(root.DescendantAdded:Connect(function(obj)
-        -- Postpone one frame: Venyx may set new text just after parenting.
+        -- Postpone one frame: Venyx may set new text and colors after parenting.
         task.defer(function()
             if not STATE.Running then return end
             watchText(obj)
-            for _,nested in ipairs(obj:GetDescendants()) do watchText(nested) end
+            ZIGZAG_VENYX_ThemeOne(obj)
+            for _,nested in ipairs(obj:GetDescendants()) do
+                watchText(nested)
+                ZIGZAG_VENYX_ThemeOne(nested)
+            end
         end)
     end))
     print("[ZIGZAG VENYX THAI] พบ UI Venyx และเปิดตัวแปลไทยแล้ว")
@@ -4048,7 +4130,7 @@ armVenyxHosts()
 -- After Venyx has appeared, a click can open a separate pop-up/dropdown
 -- not attached under its ScreenGui. Recheck once on touch (debounced),
 -- no endless timer and no scanning each frame.
--- V1.9.1 • THROTTLED popup fallback (DescendantAdded is the main path).
+-- V1.9.2 • THROTTLED popup fallback (DescendantAdded is the main path).
 -- No full-root scan on every screen tap; worst case one scan / 3 seconds.
 local POPUP_TOUCH_PENDING=false
 local POPUP_TOUCH_LAST=-1000
@@ -4070,7 +4152,7 @@ if okInput and UIS then
 end
 -- Only a handful of discovery checks during startup. This catches a GUI
 -- that was already open before the translator ran, including gethui roots.
--- V1.9.1: fewer startup full-root scans, on-demand popup discovery remains.
+-- V1.9.2: fewer startup full-root scans, on-demand popup discovery remains.
 for _,s in ipairs({0.6,2.4}) do
     task.delay(s,function()
         if not STATE.Running then return end
@@ -4341,7 +4423,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.1_LOW_LAG_TRANSLATION"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.2_RESPONSIVE_PURPLE"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -4367,10 +4449,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -4403,7 +4485,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW LAG WALK QUICK STEPS POPUP TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE RESPONSIVE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -4411,7 +4493,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.1_LOW_LAG_TRANSLATION"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.2_RESPONSIVE_PURPLE"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -5478,7 +5560,7 @@ for english,thai in pairs(ZIGZAG_V188_CHILLI_LABELS) do
 end
 
 --========================================================
--- ZIGZAG V1.9.1 • WALK / QUICK STEPS / TELEPORT POPUP
+-- ZIGZAG V1.9.2 • WALK / QUICK STEPS / TELEPORT POPUP
 -- Label-only entries, no value handlers or gameplay code changed.
 -- Duplicated in queued teleport continuation.
 --========================================================
@@ -5591,7 +5673,7 @@ local function TranslateText(text)
         return exact
     end
 
-    -- V1.9.1 • Venyx/Chilli ghost quest counter changes live.
+    -- V1.9.2 • Venyx/Chilli ghost quest counter changes live.
     local ghostsNow,ghostsGoal = clean:match("^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$")
     if ghostsNow then
         local result = "กำลังดูดจับผี " .. ghostsNow .. "/" .. ghostsGoal
@@ -6004,19 +6086,12 @@ local function SaveStyle(object,property,newValue)
     THEME_WRITING[object] = nil
 end
 
+-- V1.9.2 RESPONSIVE: every device uses different AbsoluteSize values.
+-- Visual recoloring must NOT depend on pixels or a PC-sized widget.
+-- Scope stays inside the detected Chilli GUI (TrackChilli), so game HUD
+-- and green feature toggles are never recolored by this detector.
 local function IsLargeThemeSurface(object)
-    if not object or not object:IsA("GuiObject") then return false end
-    local ok,w,h = pcall(function()
-        local size = object.AbsoluteSize
-        return size.X,size.Y
-    end)
-    if not ok then return false end
-    if w < 85 and h < 28 then
-        local sx = object.Size
-        if sx.X.Offset < 85 and sx.X.Scale < 0.18 then return false end
-    end
-    return w >= 85 or object.Size.X.Offset >= 85
-        or (object.Size.X.Scale >= 0.18 and h >= 27)
+    return object ~= nil and object:IsA("GuiObject")
 end
 
 local function ParentVisualSurface(object)
@@ -6034,10 +6109,11 @@ local function IsThemeVisual(object)
     if object:IsA("UIStroke") or object:IsA("UIGradient") then
         return IsLargeThemeSurface(ParentVisualSurface(object))
     end
-    return object:IsA("GuiObject") and IsLargeThemeSurface(object)
-        and (object:IsA("Frame") or object:IsA("TextButton")
-          or object:IsA("ImageButton") or object:IsA("ScrollingFrame")
-          or object:IsA("TextLabel") or object:IsA("ImageLabel"))
+    return object:IsA("GuiObject")
+        and (object:IsA("Frame") or object:IsA("CanvasGroup")
+          or object:IsA("TextButton") or object:IsA("ImageButton")
+          or object:IsA("ScrollingFrame") or object:IsA("TextLabel")
+          or object:IsA("ImageLabel"))
 end
 
 local function RepaintRedProperty(object,property)
@@ -6122,8 +6198,13 @@ local function ThemeObject(object)
 
     -- Only recolor explicitly red-tinted GUI art, not colored icons.
     if object:IsA("ImageLabel") or object:IsA("ImageButton") then
-        RepaintRedProperty(object,"ImageColor3")
-        WatchThemeProperty(object,"ImageColor3")
+        -- On mobile, keep tiny item/game icons unchanged. Recolor large
+        -- UI art/tabs only; the nav tabs' own frames are handled above.
+        local sz = object.AbsoluteSize
+        if sz.X >= 34 and sz.Y >= 18 then
+            RepaintRedProperty(object,"ImageColor3")
+            WatchThemeProperty(object,"ImageColor3")
+        end
     end
 
     -- Preserve dark-purple surfaces, but don't force transparency or ZIndex.
@@ -6425,7 +6506,7 @@ local function TrackChilli(gui)
         end
         PlaceZigzagWatermark(gui)
     end)
-    -- V1.9.1: Removed a redundant second full-GUI theme pass.
+    -- V1.9.2: Removed a redundant second full-GUI theme pass.
     -- DescendantAdded and property listeners restore late red colors.
     BindChilli(gui.AncestryChanged:Connect(function()
         if not gui.Parent then DisconnectChilli() end
@@ -6457,8 +6538,12 @@ local SIDEBAR_NAMES = {
     ["คีย์ลัด"]=true,["Quick & Keys"]=true,
     ["การตั้งค่า"]=true,["Settings"]=true,
     ["คอนฟิก"]=true,["Config"]=true,
-    -- Special 'Venyx' tab deliberately stays red, as in the
-    -- original ZIGZAG purple layout, not in this whitelist.
+    -- V1.9.2: All navigation buttons use purple including Venyx.
+    ["Venyx"]=true,["VENYX"]=true,
+    ["กิจกรรม"]=true,["Events"]=true,["Event"]=true,
+    ["สคริปต์"]=true,["Scripts"]=true,
+    ["คู่มือ"]=true,["Guide"]=true,
+    ["คอนฟิก"]=true,["Config"]=true,
 }
 local SIDEBAR_TOP = Color3.fromRGB(206,117,255)
 local SIDEBAR_BOTTOM = Color3.fromRGB(144,46,218)
@@ -6481,7 +6566,9 @@ local function SidebarShape(obj)
         return obj.AbsoluteSize.X,obj.AbsoluteSize.Y
     end)
     if not ok then return false end
-    return w>=75 and w<=530 and h>=26 and h<=145 and w>=h*1.45
+    -- 75 px / 26 px excluded scaled mobile nav tabs in V1.9.1.
+    -- Use compact minimums, while still excluding extremely small glyphs.
+    return w>=30 and w<=720 and h>=15 and h<=175 and w>=h*1.12
 end
 
 local function StyleSidebarGradient(gradient)
@@ -6582,8 +6669,8 @@ local function StyleSidebarForText(object)
     end)
     -- Whitelist only edge-mounted sidebar menus; never color central
     -- settings, egg/pet dropdowns, or full-width UI overlays.
-    if okPos and screenW>0 and centerX>screenW*0.36
-        and centerX<screenW*0.64 then return end
+    -- Small-device Chilli layout can place nav tabs inside the center
+    -- 36%-64% of the viewport. Never reject known nav labels on X alone.
     local current=object
     for depth=1,6 do
         if not current or current:IsA("ScreenGui") then break end
@@ -6613,11 +6700,10 @@ local function WatchSidebarLabel(object)
         return object.AbsolutePosition.X+object.AbsoluteSize.X*0.5,
             object.AbsoluteSize.X
     end)
-    if not ok or w<55 then return end
-    local camera=workspace.CurrentCamera
-    local viewport=camera and camera.ViewportSize.X or 0
-    if viewport>0 and centerX>viewport*0.36
-        and centerX<viewport*0.64 then return end
+    if not ok or w<24 then return end
+    -- Do not reject center labels at registration: small mobile windows may
+    -- move the sidebars across the center when scaling/orienting. The actual
+    -- callback still checks known menu titles and rectangle ancestry.
     SIDEBAR_LABEL_WATCHED[object]=true
     Bind(object:GetPropertyChangedSignal("Text"):Connect(function()
         if object.Parent then StyleSidebarForText(object) end
@@ -6769,7 +6855,7 @@ local function CheckExistingSidebarButtons()
         end
     end
 end
--- V1.9.1: one delayed sidebar discovery instead of three full GUI scans.
+-- V1.9.2: one delayed sidebar discovery instead of three full GUI scans.
 for _,delaySeconds in ipairs({1.6}) do
     task.delay(delaySeconds,CheckExistingSidebarButtons)
 end
@@ -7754,7 +7840,7 @@ for english,thai in pairs(ZIGZAG_V188_VENYX_LABELS) do
 end
 
 --========================================================
--- ZIGZAG V1.9.1 • VENYX v1.4.3 MOVEMENT / DELIVERY POP-UP
+-- ZIGZAG V1.9.2 • VENYX v1.4.3 MOVEMENT / DELIVERY POP-UP
 -- Mirror labels from Chilli, including standalone modal windows.
 --========================================================
 local ZIGZAG_V191_VENYX_LABELS = {
@@ -7785,7 +7871,7 @@ end
 
 -- Translate count/status labels while preserving user values and item names.
 local DYNAMIC = {
-    -- V1.9.1 • Live ghost quest counter (e.g. Vacuuming ghosts 3/50).
+    -- V1.9.2 • Live ghost quest counter (e.g. Vacuuming ghosts 3/50).
     {"^[Vv]acuuming ghosts%s+(%d+)%s*/%s*(%d+)$", function(now, goal)
         return "กำลังดูดจับผี " .. now .. "/" .. goal
     end},
@@ -8151,6 +8237,77 @@ local function AddVenyxCredit(root)
     -- Only cosmetic. Never modifies Venyx's control values or callbacks.
 end
 
+-- V1.9.2 | ZIGZAG responsive purple accents for Venyx & its popups.
+-- Runs only in confirmed Venyx root(s), not the game's own UI.
+-- Recolors red/orange paint, preserves dark backgrounds and green toggles.
+local ZIGZAG_VENYX_PURPLE_WATCHED=setmetatable({}, {__mode="k"})
+local ZIGZAG_VENYX_PURPLE_BUSY=setmetatable({}, {__mode="k"})
+local function ZIGZAG_VENYX_IsWarm(c)
+    if typeof(c)~="Color3" then return false end
+    return c.R>=0.36 and c.R>c.G*1.30 and c.R>c.B*1.24
+        and c.R-math.max(c.G,c.B)>0.14
+end
+local function ZIGZAG_VENYX_Repaint(obj,prop)
+    if not STATE.Running or not obj.Parent or ZIGZAG_VENYX_PURPLE_BUSY[obj] then return end
+    local ok,value=pcall(function()return obj[prop] end)
+    if not ok then return end
+    if prop=="Color" and obj:IsA("UIGradient") then
+        local points,changed={},false
+        for _,point in ipairs(value.Keypoints) do
+            local c=point.Value
+            if ZIGZAG_VENYX_IsWarm(c) then
+                local _,sat,bright=Color3.toHSV(c)
+                c=Color3.fromHSV(0.765,math.clamp(sat*0.93,0.48,0.94),math.clamp(bright*0.96,0.30,1))
+                changed=true
+            end
+            points[#points+1]=ColorSequenceKeypoint.new(point.Time,c)
+        end
+        if not changed then return end
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=true
+        pcall(function()obj.Color=ColorSequence.new(points) end)
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=nil
+    elseif ZIGZAG_VENYX_IsWarm(value) then
+        local _,sat,bright=Color3.toHSV(value)
+        local purple=Color3.fromHSV(0.765,math.clamp(sat*0.93,0.48,0.94),math.clamp(bright*0.96,0.30,1))
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=true
+        pcall(function()obj[prop]=purple end)
+        ZIGZAG_VENYX_PURPLE_BUSY[obj]=nil
+    end
+end
+local function ZIGZAG_VENYX_ThemeOne(obj)
+    if not STATE.Running or not obj or not obj.Parent then return end
+    local props=nil
+    if obj:IsA("UIGradient") or obj:IsA("UIStroke") then
+        if not (obj.Parent and obj.Parent:IsA("GuiObject")) then return end
+        props={"Color"}
+    elseif obj:IsA("Frame") or obj:IsA("CanvasGroup") or obj:IsA("ScrollingFrame")
+        or obj:IsA("TextButton") or obj:IsA("TextLabel") or obj:IsA("TextBox")
+        or obj:IsA("ImageButton") or obj:IsA("ImageLabel") then
+        props={"BackgroundColor3","BorderColor3"}
+        if (obj:IsA("ImageButton") or obj:IsA("ImageLabel"))
+            and obj.AbsoluteSize.X>=34 and obj.AbsoluteSize.Y>=18 then
+            props[#props+1]="ImageColor3"
+        end
+    end
+    if not props then return end
+    local seen=ZIGZAG_VENYX_PURPLE_WATCHED[obj]
+    if not seen then seen={}; ZIGZAG_VENYX_PURPLE_WATCHED[obj]=seen end
+    for _,prop in ipairs(props) do
+        ZIGZAG_VENYX_Repaint(obj,prop)
+        if not seen[prop] then
+            seen[prop]=true
+            local ok,conn=pcall(function()
+                return obj:GetPropertyChangedSignal(prop):Connect(function()
+                    if ZIGZAG_VENYX_PURPLE_BUSY[obj] or not STATE.Running then return end
+                    -- Event-driven; no full-screen recolor scans or frame loops.
+                    ZIGZAG_VENYX_Repaint(obj,prop)
+                end)
+            end)
+            if ok and conn then bind(conn) else seen[prop]=nil end
+        end
+    end
+end
+
 local function observeRoot(root)
     if not STATE.Running or STATE.Roots[root] then return end
     STATE.Roots[root] = true
@@ -8161,13 +8318,20 @@ local function observeRoot(root)
         STATE.MainSeen=true
         pcall(AddVenyxCredit,root)
     end
-    for _,obj in ipairs(root:GetDescendants()) do watchText(obj) end
+    for _,obj in ipairs(root:GetDescendants()) do
+        watchText(obj)
+        ZIGZAG_VENYX_ThemeOne(obj)
+    end
     bind(root.DescendantAdded:Connect(function(obj)
-        -- Postpone one frame: Venyx may set new text just after parenting.
+        -- Postpone one frame: Venyx may set new text and colors after parenting.
         task.defer(function()
             if not STATE.Running then return end
             watchText(obj)
-            for _,nested in ipairs(obj:GetDescendants()) do watchText(nested) end
+            ZIGZAG_VENYX_ThemeOne(obj)
+            for _,nested in ipairs(obj:GetDescendants()) do
+                watchText(nested)
+                ZIGZAG_VENYX_ThemeOne(nested)
+            end
         end)
     end))
     print("[ZIGZAG VENYX THAI] พบ UI Venyx และเปิดตัวแปลไทยแล้ว")
@@ -8403,7 +8567,7 @@ armVenyxHosts()
 -- After Venyx has appeared, a click can open a separate pop-up/dropdown
 -- not attached under its ScreenGui. Recheck once on touch (debounced),
 -- no endless timer and no scanning each frame.
--- V1.9.1 • THROTTLED popup fallback (DescendantAdded is the main path).
+-- V1.9.2 • THROTTLED popup fallback (DescendantAdded is the main path).
 -- No full-root scan on every screen tap; worst case one scan / 3 seconds.
 local POPUP_TOUCH_PENDING=false
 local POPUP_TOUCH_LAST=-1000
@@ -8425,7 +8589,7 @@ if okInput and UIS then
 end
 -- Only a handful of discovery checks during startup. This catches a GUI
 -- that was already open before the translator ran, including gethui roots.
--- V1.9.1: fewer startup full-root scans, on-demand popup discovery remains.
+-- V1.9.2: fewer startup full-root scans, on-demand popup discovery remains.
 for _,s in ipairs({0.6,2.4}) do
     task.delay(s,function()
         if not STATE.Running then return end
@@ -8797,14 +8961,14 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.1 | Low-lag UI + Thai movement/popups",
+            Text="V1.9.2 | Responsive Purple + Thai UI",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW-LAG TRANSLATION FULL MERGED")
-print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE FULL MERGED")
+print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
 print("✅ ALL V1.4 TRANSLATIONS PRESERVED + BUTTERFLY BLOOM / WISP")
@@ -8841,10 +9005,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V191_LOW_LAG_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -8983,14 +9147,14 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.1 | Low-lag UI + Thai movement/popups",
+            Text="V1.9.2 | Responsive",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.1 LOW-LAG TRANSLATION FULL MERGED")
-print("✅ FORCE-PURPLE SIDEBARS: FRAME/TEXTLABEL + DYNAMIC GRADIENT")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE FULL MERGED")
+print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
 print("✅ ALL V1.4 TRANSLATIONS PRESERVED + BUTTERFLY BLOOM / WISP")
