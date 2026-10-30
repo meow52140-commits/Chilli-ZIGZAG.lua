@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE RESPONSIVE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.3 EVENT STATUS THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.2_RESPONSIVE_PURPLE"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.3_EVENT_STATUS_PURPLE"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1154,6 +1154,40 @@ for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
 end
 
 --========================================================
+-- ZIGZAG V1.9.3 • HALLOWEEN STATUS + KEEP EGGS UI UPDATE
+-- Visible labels for both Chilli and post-teleport continuation.
+-- Do not alter button callbacks, numeric inputs, or original loader.
+--========================================================
+local ZIGZAG_V193_CHILLI_LABELS = {
+    ["Quest: Done"] = "เควสต์: เสร็จแล้ว",
+    ["Quest: Waiting"] = "เควสต์: กำลังรอ",
+    ["Done"] = "เสร็จแล้ว",
+    ["Fish caught"] = "ปลาที่จับได้",
+    ["No three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["Portal opens"] = "ประตูมิติจะเปิด",
+    ["Egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["Eggs placed"] = "วางไข่แล้ว",
+    ["Pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["Keep Eggs"] = "เก็บไข่ไว้",
+    ["Keep Matching Eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["Keep Rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["Keep Min Value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["Kept eggs are never placed, hatched or sold, in your bag or your pen."] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["Kept eggs are never placed, hatched or sold, in your bag or your pen"] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["Max Hatch Value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["Only hatch eggs worth less than this, keep the better ones (far right = no limit)"] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["Only hatch eggs worth less than this, keep the better ones (far right = no limit)."] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["Sell bag eggs matching the rules below"] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["Sell bag eggs matching the rules below."] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["Halloween wins"] = "ชัยชนะกิจกรรมฮาโลวีน",
+    ["In bag"] = "อยู่ในกระเป๋า",
+    ["Auto Hatch and Equip"] = "ออโต้ฟักไข่และสวมใส่",
+}
+for en,th in pairs(ZIGZAG_V193_CHILLI_LABELS) do
+    TRANSLATIONS[en]=th
+end
+
+--========================================================
 -- 4. LOOKUP / CACHE  (V1.1 engine preserved)
 --========================================================
 
@@ -1213,6 +1247,40 @@ local function ProtectPetCardText(object,raw)
     return true
 end
 
+-- V1.9.3 • Live status translation for Chilli & Venyx UI.
+-- Countdowns and inventory totals change while farming: translate by pattern,
+-- preserving all numbers and only recognizing full source-language messages.
+local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
+    if type(raw)~="string" or raw=="" then return nil end
+    local t=raw:match("^%s*(.-)%s*$") or raw
+    local l=string.lower(t)
+    local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
+    if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
+    fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+    if fish then
+        local state,count=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+        local states={done="สำเร็จ",waiting="กำลังรอ",off="ปิด",on="เปิด"}
+        if states[state] then return "เควสต์: "..states[state].." | จับปลาได้: "..count.." ตัว" end
+    end
+    local done,wins,total=l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)%s*/%s*(%d+)$")
+    if done then return "เสร็จแล้ว "..done.." ชัยชนะ | ชัยชนะ: "..wins.."/"..total end
+    local portalMin,portalSec=l:match("^portal opens in%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if portalMin then return "ประตูมิติจะเปิดในอีก "..portalMin.." นาที "..portalSec.." วินาที" end
+    local portalSeconds=l:match("^portal opens in%s*(%d+)%s*s$")
+    if portalSeconds then return "ประตูมิติจะเปิดในอีก "..portalSeconds.." วินาที" end
+    local portalMinutes=l:match("^portal opens in%s*(%d+)%s*m$")
+    if portalMinutes then return "ประตูมิติจะเปิดในอีก "..portalMinutes.." นาที" end
+    local eggs,halloween,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง (ฮาโลวีน "..halloween.." ฟอง) มูลค่า $"..value end
+    eggs,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง มูลค่า $"..value end
+    local placed,maxPlaced,equipped,maxEquipped,bag=l:match("^eggs placed%s+(%d+)%s*/%s*(%d+)%s*%-%s*(%d+)%s*/%s*(%d+)%s+pets equipped,%s*(%d+)%s+in bag$")
+    if placed then
+        return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
+    end
+    return nil
+end
+
 local function TranslateText(text)
     if type(text) ~= "string" or text == "" then return text end
     -- Never translate the original HTML-like pet information payload.
@@ -1234,6 +1302,13 @@ local function TranslateText(text)
     if exact then
         STRING_CACHE[text] = exact
         return exact
+    end
+
+    -- V1.9.3: mutable event/fishing/egg status (no extra event watchers).
+    local v193status = ZIGZAG_V193_STATUS_TRANSLATOR(clean)
+    if v193status then
+        -- Countdowns differ each second; do not retain every old value in cache.
+        return v193status
     end
 
     -- V1.9.2 • Venyx/Chilli ghost quest counter changes live.
@@ -3425,6 +3500,36 @@ for en,th in pairs(ZIGZAG_V191_VENYX_LABELS) do
     TH[en] = th
 end
 
+--========================================================
+-- ZIGZAG V1.9.3 • Venyx + native pop-up text from the same event update.
+-- Lowercase full labels; do not change option IDs or original Venyx source.
+--========================================================
+local ZIGZAG_V193_VENYX_LABELS = {
+    ["quest: done"] = "เควสต์: เสร็จแล้ว",
+    ["quest: waiting"] = "เควสต์: กำลังรอ",
+    ["no three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["portal opens"] = "ประตูมิติจะเปิด",
+    ["egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["eggs placed"] = "วางไข่แล้ว",
+    ["pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["keep eggs"] = "เก็บไข่ไว้",
+    ["keep matching eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["keep rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["keep min value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["kept eggs are never placed, hatched or sold, in your bag or your pen."] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["kept eggs are never placed, hatched or sold, in your bag or your pen"] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["max hatch value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["only hatch eggs worth less than this, keep the better ones (far right = no limit)"] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["only hatch eggs worth less than this, keep the better ones (far right = no limit)."] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["sell bag eggs matching the rules below"] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["sell bag eggs matching the rules below."] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["halloween wins"] = "ชัยชนะกิจกรรมฮาโลวีน",
+    ["auto hatch and equip"] = "ออโต้ฟักไข่และสวมใส่",
+}
+for en,th in pairs(ZIGZAG_V193_VENYX_LABELS) do
+    TH[en]=th
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -3555,6 +3660,40 @@ local function pinnedLabelTranslation(text)
     return nil
 end
 
+-- V1.9.3 • Live status translation for Chilli & Venyx UI.
+-- Countdowns and inventory totals change while farming: translate by pattern,
+-- preserving all numbers and only recognizing full source-language messages.
+local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
+    if type(raw)~="string" or raw=="" then return nil end
+    local t=raw:match("^%s*(.-)%s*$") or raw
+    local l=string.lower(t)
+    local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
+    if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
+    fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+    if fish then
+        local state,count=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+        local states={done="สำเร็จ",waiting="กำลังรอ",off="ปิด",on="เปิด"}
+        if states[state] then return "เควสต์: "..states[state].." | จับปลาได้: "..count.." ตัว" end
+    end
+    local done,wins,total=l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)%s*/%s*(%d+)$")
+    if done then return "เสร็จแล้ว "..done.." ชัยชนะ | ชัยชนะ: "..wins.."/"..total end
+    local portalMin,portalSec=l:match("^portal opens in%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if portalMin then return "ประตูมิติจะเปิดในอีก "..portalMin.." นาที "..portalSec.." วินาที" end
+    local portalSeconds=l:match("^portal opens in%s*(%d+)%s*s$")
+    if portalSeconds then return "ประตูมิติจะเปิดในอีก "..portalSeconds.." วินาที" end
+    local portalMinutes=l:match("^portal opens in%s*(%d+)%s*m$")
+    if portalMinutes then return "ประตูมิติจะเปิดในอีก "..portalMinutes.." นาที" end
+    local eggs,halloween,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง (ฮาโลวีน "..halloween.." ฟอง) มูลค่า $"..value end
+    eggs,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง มูลค่า $"..value end
+    local placed,maxPlaced,equipped,maxEquipped,bag=l:match("^eggs placed%s+(%d+)%s*/%s*(%d+)%s*%-%s*(%d+)%s*/%s*(%d+)%s+pets equipped,%s*(%d+)%s+in bag$")
+    if placed then
+        return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
+    end
+    return nil
+end
+
 local function translate(raw)
     if type(raw) ~= "string" or raw == "" then return raw end
     local normalized = tidy(raw)
@@ -3572,6 +3711,10 @@ local function translate(raw)
         end
         visible = tidy((visible:gsub("%s+", " ")))
         translated = pinnedLabelTranslation(visible)
+    end
+    if not translated then
+        -- V1.9.3 status translation works for Venyx pages and pop-up windows.
+        translated = ZIGZAG_V193_STATUS_TRANSLATOR(normalized)
     end
     if not translated then
         -- Preserve everything that is not a known UI label, e.g. egg names,
@@ -4423,7 +4566,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.2_RESPONSIVE_PURPLE"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.3_EVENT_STATUS_PURPLE"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -4485,7 +4628,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE RESPONSIVE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.3 EVENT STATUS THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -4493,7 +4636,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.2_RESPONSIVE_PURPLE"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.3_EVENT_STATUS_PURPLE"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -5591,6 +5734,40 @@ for english,thai in pairs(ZIGZAG_V184_CHILLI_LABELS) do
 end
 
 --========================================================
+-- ZIGZAG V1.9.3 • HALLOWEEN STATUS + KEEP EGGS UI UPDATE
+-- Visible labels for both Chilli and post-teleport continuation.
+-- Do not alter button callbacks, numeric inputs, or original loader.
+--========================================================
+local ZIGZAG_V193_CHILLI_LABELS = {
+    ["Quest: Done"] = "เควสต์: เสร็จแล้ว",
+    ["Quest: Waiting"] = "เควสต์: กำลังรอ",
+    ["Done"] = "เสร็จแล้ว",
+    ["Fish caught"] = "ปลาที่จับได้",
+    ["No three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["Portal opens"] = "ประตูมิติจะเปิด",
+    ["Egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["Eggs placed"] = "วางไข่แล้ว",
+    ["Pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["Keep Eggs"] = "เก็บไข่ไว้",
+    ["Keep Matching Eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["Keep Rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["Keep Min Value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["Kept eggs are never placed, hatched or sold, in your bag or your pen."] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["Kept eggs are never placed, hatched or sold, in your bag or your pen"] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["Max Hatch Value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["Only hatch eggs worth less than this, keep the better ones (far right = no limit)"] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["Only hatch eggs worth less than this, keep the better ones (far right = no limit)."] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["Sell bag eggs matching the rules below"] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["Sell bag eggs matching the rules below."] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["Halloween wins"] = "ชัยชนะกิจกรรมฮาโลวีน",
+    ["In bag"] = "อยู่ในกระเป๋า",
+    ["Auto Hatch and Equip"] = "ออโต้ฟักไข่และสวมใส่",
+}
+for en,th in pairs(ZIGZAG_V193_CHILLI_LABELS) do
+    TRANSLATIONS[en]=th
+end
+
+--========================================================
 -- 4. LOOKUP / CACHE  (V1.1 engine preserved)
 --========================================================
 
@@ -5650,6 +5827,40 @@ local function ProtectPetCardText(object,raw)
     return true
 end
 
+-- V1.9.3 • Live status translation for Chilli & Venyx UI.
+-- Countdowns and inventory totals change while farming: translate by pattern,
+-- preserving all numbers and only recognizing full source-language messages.
+local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
+    if type(raw)~="string" or raw=="" then return nil end
+    local t=raw:match("^%s*(.-)%s*$") or raw
+    local l=string.lower(t)
+    local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
+    if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
+    fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+    if fish then
+        local state,count=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+        local states={done="สำเร็จ",waiting="กำลังรอ",off="ปิด",on="เปิด"}
+        if states[state] then return "เควสต์: "..states[state].." | จับปลาได้: "..count.." ตัว" end
+    end
+    local done,wins,total=l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)%s*/%s*(%d+)$")
+    if done then return "เสร็จแล้ว "..done.." ชัยชนะ | ชัยชนะ: "..wins.."/"..total end
+    local portalMin,portalSec=l:match("^portal opens in%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if portalMin then return "ประตูมิติจะเปิดในอีก "..portalMin.." นาที "..portalSec.." วินาที" end
+    local portalSeconds=l:match("^portal opens in%s*(%d+)%s*s$")
+    if portalSeconds then return "ประตูมิติจะเปิดในอีก "..portalSeconds.." วินาที" end
+    local portalMinutes=l:match("^portal opens in%s*(%d+)%s*m$")
+    if portalMinutes then return "ประตูมิติจะเปิดในอีก "..portalMinutes.." นาที" end
+    local eggs,halloween,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง (ฮาโลวีน "..halloween.." ฟอง) มูลค่า $"..value end
+    eggs,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง มูลค่า $"..value end
+    local placed,maxPlaced,equipped,maxEquipped,bag=l:match("^eggs placed%s+(%d+)%s*/%s*(%d+)%s*%-%s*(%d+)%s*/%s*(%d+)%s+pets equipped,%s*(%d+)%s+in bag$")
+    if placed then
+        return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
+    end
+    return nil
+end
+
 local function TranslateText(text)
     if type(text) ~= "string" or text == "" then return text end
     -- Never translate the original HTML-like pet information payload.
@@ -5671,6 +5882,13 @@ local function TranslateText(text)
     if exact then
         STRING_CACHE[text] = exact
         return exact
+    end
+
+    -- V1.9.3: mutable event/fishing/egg status (no extra event watchers).
+    local v193status = ZIGZAG_V193_STATUS_TRANSLATOR(clean)
+    if v193status then
+        -- Countdowns differ each second; do not retain every old value in cache.
+        return v193status
     end
 
     -- V1.9.2 • Venyx/Chilli ghost quest counter changes live.
@@ -7862,6 +8080,36 @@ for en,th in pairs(ZIGZAG_V191_VENYX_LABELS) do
     TH[en] = th
 end
 
+--========================================================
+-- ZIGZAG V1.9.3 • Venyx + native pop-up text from the same event update.
+-- Lowercase full labels; do not change option IDs or original Venyx source.
+--========================================================
+local ZIGZAG_V193_VENYX_LABELS = {
+    ["quest: done"] = "เควสต์: เสร็จแล้ว",
+    ["quest: waiting"] = "เควสต์: กำลังรอ",
+    ["no three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["portal opens"] = "ประตูมิติจะเปิด",
+    ["egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["eggs placed"] = "วางไข่แล้ว",
+    ["pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["keep eggs"] = "เก็บไข่ไว้",
+    ["keep matching eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["keep rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["keep min value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["kept eggs are never placed, hatched or sold, in your bag or your pen."] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["kept eggs are never placed, hatched or sold, in your bag or your pen"] = "ไข่ที่เก็บไว้จะไม่ถูกวาง ฟัก หรือขาย ไม่ว่าจะอยู่ในกระเป๋าหรือคอก",
+    ["max hatch value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["only hatch eggs worth less than this, keep the better ones (far right = no limit)"] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["only hatch eggs worth less than this, keep the better ones (far right = no limit)."] = "ฟักเฉพาะไข่ที่มูลค่าต่ำกว่านี้ เก็บไข่ที่ดีกว่าไว้ (ขวาสุด = ไม่จำกัด)",
+    ["sell bag eggs matching the rules below"] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["sell bag eggs matching the rules below."] = "ขายไข่ในกระเป๋าที่ตรงตามเงื่อนไขด้านล่าง",
+    ["halloween wins"] = "ชัยชนะกิจกรรมฮาโลวีน",
+    ["auto hatch and equip"] = "ออโต้ฟักไข่และสวมใส่",
+}
+for en,th in pairs(ZIGZAG_V193_VENYX_LABELS) do
+    TH[en]=th
+end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -7992,6 +8240,40 @@ local function pinnedLabelTranslation(text)
     return nil
 end
 
+-- V1.9.3 • Live status translation for Chilli & Venyx UI.
+-- Countdowns and inventory totals change while farming: translate by pattern,
+-- preserving all numbers and only recognizing full source-language messages.
+local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
+    if type(raw)~="string" or raw=="" then return nil end
+    local t=raw:match("^%s*(.-)%s*$") or raw
+    local l=string.lower(t)
+    local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
+    if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
+    fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+    if fish then
+        local state,count=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
+        local states={done="สำเร็จ",waiting="กำลังรอ",off="ปิด",on="เปิด"}
+        if states[state] then return "เควสต์: "..states[state].." | จับปลาได้: "..count.." ตัว" end
+    end
+    local done,wins,total=l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)%s*/%s*(%d+)$")
+    if done then return "เสร็จแล้ว "..done.." ชัยชนะ | ชัยชนะ: "..wins.."/"..total end
+    local portalMin,portalSec=l:match("^portal opens in%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if portalMin then return "ประตูมิติจะเปิดในอีก "..portalMin.." นาที "..portalSec.." วินาที" end
+    local portalSeconds=l:match("^portal opens in%s*(%d+)%s*s$")
+    if portalSeconds then return "ประตูมิติจะเปิดในอีก "..portalSeconds.." วินาที" end
+    local portalMinutes=l:match("^portal opens in%s*(%d+)%s*m$")
+    if portalMinutes then return "ประตูมิติจะเปิดในอีก "..portalMinutes.." นาที" end
+    local eggs,halloween,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง (ฮาโลวีน "..halloween.." ฟอง) มูลค่า $"..value end
+    eggs,value=l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s+for%s+%$(.+)$")
+    if eggs then return "ไข่ที่ตรงเงื่อนไข "..eggs.." ฟอง มูลค่า $"..value end
+    local placed,maxPlaced,equipped,maxEquipped,bag=l:match("^eggs placed%s+(%d+)%s*/%s*(%d+)%s*%-%s*(%d+)%s*/%s*(%d+)%s+pets equipped,%s*(%d+)%s+in bag$")
+    if placed then
+        return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
+    end
+    return nil
+end
+
 local function translate(raw)
     if type(raw) ~= "string" or raw == "" then return raw end
     local normalized = tidy(raw)
@@ -8009,6 +8291,10 @@ local function translate(raw)
         end
         visible = tidy((visible:gsub("%s+", " ")))
         translated = pinnedLabelTranslation(visible)
+    end
+    if not translated then
+        -- V1.9.3 status translation works for Venyx pages and pop-up windows.
+        translated = ZIGZAG_V193_STATUS_TRANSLATOR(normalized)
     end
     if not translated then
         -- Preserve everything that is not a known UI label, e.g. egg names,
@@ -8961,13 +9247,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.2 | Responsive Purple + Thai UI",
+            Text="V1.9.3 | Event Status Thai + Purple UI",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.3 STATUS THAI ALL-DEVICE PURPLE FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -9147,13 +9433,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.2 | Responsive",
+            Text="V1.9.3 | Event",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.2 ALL-DEVICE PURPLE FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.3 STATUS THAI ALL-DEVICE PURPLE FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
