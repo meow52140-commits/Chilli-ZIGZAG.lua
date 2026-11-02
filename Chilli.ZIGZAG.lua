@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.3 EVENT STATUS THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER POPUP / UFO STATUS / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.3_EVENT_STATUS_PURPLE"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.7_FINDER_SCOPED_STATUS"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1187,6 +1187,322 @@ for en,th in pairs(ZIGZAG_V193_CHILLI_LABELS) do
     TRANSLATIONS[en]=th
 end
 
+
+-- ZIGZAG V1.9.4 ADD-ONLY: Chilli + popup + steal labels
+local ZIGZAG_V194_CHILLI_LABELS = {
+    ["Steal Panel"] = "แผงขโมยไข่",
+    ["Steal Egg"] = "ขโมยไข่",
+    ["Steal Eggs"] = "ขโมยไข่",
+    ["Steal Target"] = "เป้าหมายขโมย",
+    ["Steal Targets"] = "เป้าหมายขโมย",
+    ["Steal Status"] = "สถานะการขโมย",
+    ["Steal Progress"] = "ความคืบหน้าการขโมย",
+    ["Steal Method"] = "วิธีขโมยไข่",
+    ["Steal Mode"] = "โหมดขโมยไข่",
+    ["Steal Speed"] = "ความเร็วขโมยไข่",
+    ["Steal Distance"] = "ระยะขโมยไข่",
+    ["Delivery Status"] = "สถานะส่งไข่กลับฐาน",
+    ["Delivery Method"] = "วิธีส่งไข่กลับฐาน",
+    ["Delivery Speed"] = "ความเร็วส่งไข่กลับฐาน",
+    ["Move To Egg"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["Move To Egg Speed"] = "ความเร็วการไปหาไข่",
+    ["Walk"] = "เดิน",
+    ["Sprint"] = "วิ่งเร็ว",
+    ["Quick Steps"] = "ก้าวเร็วเป็นขั้น",
+    ["Teleport"] = "วาร์ป",
+    ["Tween"] = "เคลื่อนที่แบบ Tween",
+    ["Fast Tween"] = "Tween ความเร็วสูง",
+    ["Teleport To Egg"] = "วาร์ปไปหาไข่",
+    ["Teleport To Base"] = "วาร์ปกลับฐาน",
+    ["Return to Base"] = "กลับฐาน",
+    ["Auto Return"] = "กลับฐานอัตโนมัติ",
+    ["Instant Steal"] = "ขโมยทันที",
+    ["Auto Steal"] = "ขโมยอัตโนมัติ",
+    ["Auto Steal Eggs"] = "ขโมยไข่อัตโนมัติ",
+    ["Auto Steal Status"] = "สถานะขโมยไข่อัตโนมัติ",
+    ["Steal From Players"] = "ขโมยไข่จากผู้เล่น",
+    ["Steal From Holder"] = "ขโมยไข่จากผู้ถือ",
+    ["Steal Egg Holders"] = "ขโมยไข่จากผู้ถือไข่",
+    ["Steal Priority"] = "ลำดับความสำคัญในการขโมย",
+    ["Steal Filters"] = "ตัวกรองการขโมย",
+    ["Target Eggs"] = "ไข่เป้าหมาย",
+    ["Target Rarity"] = "ระดับไข่เป้าหมาย",
+    ["Target Rarities"] = "ระดับไข่เป้าหมาย",
+    ["Min Steal Value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["Minimum Steal Value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["Eggs Found"] = "พบไข่แล้ว",
+    ["Egg Found"] = "พบไข่แล้ว",
+    ["Eggs Matched"] = "ไข่ที่ตรงเงื่อนไข",
+    ["Matching Eggs"] = "ไข่ที่ตรงเงื่อนไข",
+    ["No Matching Eggs"] = "ไม่มีไข่ที่ตรงเงื่อนไข",
+    ["No Eggs Found"] = "ไม่พบไข่",
+    ["Waiting For Eggs"] = "กำลังรอไข่",
+    ["Waiting for a target"] = "กำลังรอเป้าหมาย",
+    ["Waiting For Target"] = "กำลังรอเป้าหมาย",
+    ["Stealing Egg"] = "กำลังขโมยไข่",
+    ["Delivering Egg"] = "กำลังส่งไข่กลับฐาน",
+    ["Returning To Base"] = "กำลังกลับฐาน",
+    ["Holding Egg"] = "กำลังถือไข่",
+    ["Carrying Egg"] = "กำลังถือไข่",
+    ["Steal Complete"] = "ขโมยสำเร็จ",
+    ["Steal Failed"] = "ขโมยไม่สำเร็จ",
+    ["Last Steal"] = "การขโมยครั้งล่าสุด",
+    ["Last Issue"] = "ปัญหาล่าสุด",
+    ["Egg Owner"] = "เจ้าของไข่",
+    ["Egg Name"] = "ชื่อไข่",
+    ["Egg Rarity"] = "ระดับความหายากของไข่",
+    ["Egg Value"] = "มูลค่าไข่",
+    ["Egg Size"] = "ขนาดไข่",
+    ["Egg Weight"] = "น้ำหนักไข่",
+    ["Player"] = "ผู้เล่น",
+    ["Holder"] = "ผู้ถือไข่",
+    ["Steal History"] = "ประวัติการขโมย",
+    ["Stolen Eggs"] = "ไข่ที่ขโมยได้",
+    ["Eggs Stolen"] = "ไข่ที่ขโมยได้",
+    ["Total Stolen"] = "จำนวนที่ขโมยได้ทั้งหมด",
+    ["Current Target"] = "เป้าหมายปัจจุบัน",
+    ["Target Player"] = "ผู้เล่นเป้าหมาย",
+    ["Selected Eggs"] = "ไข่ที่เลือก",
+    ["Selected Rarities"] = "ระดับที่เลือก",
+    ["Selected Zones"] = "โซนที่เลือก",
+    ["Select Eggs"] = "เลือกไข่",
+    ["Select Rarities"] = "เลือกระดับความหายาก",
+    ["Select Zones"] = "เลือกโซน",
+    ["Search Eggs"] = "ค้นหาไข่",
+    ["Search Players"] = "ค้นหาผู้เล่น",
+    ["Refresh"] = "รีเฟรช",
+    ["Confirm"] = "ยืนยัน",
+    ["Cancel"] = "ยกเลิก",
+    ["Close"] = "ปิด",
+    ["Apply"] = "นำไปใช้",
+    ["Retry"] = "ลองอีกครั้ง",
+    ["Continue"] = "ดำเนินการต่อ",
+    ["Success"] = "สำเร็จ",
+    ["Failed"] = "ไม่สำเร็จ",
+    ["Error"] = "ข้อผิดพลาด",
+    ["Warning"] = "คำเตือน",
+    ["Information"] = "ข้อมูล",
+    ["Status"] = "สถานะ",
+    ["Ready"] = "พร้อม",
+    ["Waiting"] = "กำลังรอ",
+    ["Disabled"] = "ปิดใช้งาน",
+    ["Enabled"] = "เปิดใช้งาน",
+    ["ON"] = "เปิด",
+    ["OFF"] = "ปิด",
+    ["On"] = "เปิด",
+    ["Off"] = "ปิด",
+    ["All"] = "ทั้งหมด",
+    ["None"] = "ไม่มี",
+    ["Done"] = "เสร็จแล้ว",
+    ["Total"] = "รวม",
+    ["Current"] = "ปัจจุบัน",
+    ["Time Left"] = "เวลาที่เหลือ",
+    ["Seconds"] = "วินาที",
+    ["Minutes"] = "นาที",
+    ["Server Hop"] = "ย้ายเซิร์ฟเวอร์",
+    ["Auto Server Hop"] = "ย้ายเซิร์ฟเวอร์อัตโนมัติ",
+    ["Run Again After Teleport"] = "รันต่อหลังย้ายเซิร์ฟเวอร์",
+    ["Auto Rejoin"] = "เข้าเกมใหม่อัตโนมัติ",
+    ["Reconnect"] = "เชื่อมต่อใหม่",
+    ["Quest: Done"] = "เควสต์: สำเร็จ",
+    ["Fish caught"] = "ปลาที่จับได้",
+    ["No three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["Keep Eggs"] = "เก็บไข่ไว้",
+    ["Keep Matching Eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["Keep Rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["Keep Min Value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["Max Hatch Value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["Egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["Eggs placed"] = "วางไข่แล้ว",
+    ["Pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["Portal opens"] = "ประตูมิติจะเปิด",
+    ["Keep These Eggs"] = "เก็บไข่เหล่านี้ไว้",
+    ["Always Keep"] = "เก็บไว้เสมอ",
+    ["Keep Selected Eggs"] = "เก็บไข่ที่เลือกไว้",
+    ["Auto Place Egg"] = "วางไข่อัตโนมัติ",
+    ["Auto Hatch"] = "ฟักไข่อัตโนมัติ",
+    ["Auto Sell Eggs"] = "ขายไข่อัตโนมัติ",
+    ["Sell Eggs Now"] = "ขายไข่ตอนนี้",
+    ["Egg Bag"] = "กระเป๋าไข่",
+    ["In Bag"] = "ในกระเป๋า",
+    ["In Pen"] = "ในคอก",
+    ["Equipped Pets"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["Place Eggs"] = "วางไข่",
+    ["Hatch Eggs"] = "ฟักไข่",
+    ["Sell Eggs"] = "ขายไข่",
+    ["Steal an egg"] = "ขโมยไข่",
+    ["Auto Steal Egg"] = "ขโมยไข่อัตโนมัติ",
+    ["Auto Steal Missing Index"] = "ขโมยไข่ที่ยังไม่มีในสมุดอัตโนมัติ",
+    ["Only Steal Matching Eggs"] = "ขโมยเฉพาะไข่ที่ตรงเงื่อนไข",
+    ["Steal Eggs Matching Filters"] = "ขโมยไข่ที่ตรงตัวกรอง",
+    ["Find Best Egg"] = "ค้นหาไข่ที่ดีที่สุด",
+    ["Best Egg"] = "ไข่ที่ดีที่สุด",
+    ["Eggs In Bag"] = "ไข่ในกระเป๋า",
+    ["Eggs In Pen"] = "ไข่ในคอก",
+    ["Eggs Equipped"] = "ไข่ที่สวมใส่",
+    ["No matching targets"] = "ไม่พบเป้าหมายที่ตรงเงื่อนไข",
+    ["No target found"] = "ไม่พบเป้าหมาย",
+    ["Searching for eggs"] = "กำลังค้นหาไข่",
+    ["Searching for target"] = "กำลังค้นหาเป้าหมาย",
+    ["Waiting for server"] = "กำลังรอเซิร์ฟเวอร์",
+    ["Rejoining server"] = "กำลังเข้าเซิร์ฟเวอร์ใหม่",
+    ["Teleporting"] = "กำลังย้ายเซิร์ฟเวอร์",
+    ["Teleport failed"] = "ย้ายเซิร์ฟเวอร์ไม่สำเร็จ",
+    ["Deliver egg first"] = "ส่งไข่กลับฐานก่อน",
+    ["Delivering to safe zone"] = "กำลังนำไข่ไปเขตปลอดภัย",
+    ["Returning to safe zone"] = "กำลังกลับไปยังเขตปลอดภัย",
+    ["Egg stolen successfully"] = "ขโมยไข่สำเร็จ",
+    ["Unable to steal egg"] = "ไม่สามารถขโมยไข่ได้",
+    ["You are holding an egg"] = "คุณกำลังถือไข่",
+    ["No egg selected"] = "ยังไม่ได้เลือกไข่",
+    ["No player selected"] = "ยังไม่ได้เลือกผู้เล่น",
+    ["No eggs matching filters"] = "ไม่มีไข่ตรงตามตัวกรอง",
+    ["No eligible eggs"] = "ไม่มีไข่ที่เข้าเงื่อนไข",
+    ["Steal Panel Settings"] = "ตั้งค่าแผงขโมยไข่",
+    ["Show Steal Panel"] = "แสดงแผงขโมยไข่",
+    ["Hide Steal Panel"] = "ซ่อนแผงขโมยไข่",
+    ["Auto Steal: OFF"] = "ออโต้ขโมย: ปิด",
+    ["Auto Steal: ON"] = "ออโต้ขโมย: เปิด",
+    ["Instant Steal: OFF"] = "ขโมยทันที: ปิด",
+    ["Instant Steal: ON"] = "ขโมยทันที: เปิด",
+    ["Delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["Keep Mutated Eggs"] = "เก็บไข่กลายพันธุ์ไว้",
+    ["Keep Favorite Eggs"] = "เก็บไข่รายการโปรดไว้",
+    ["Skip Owned Eggs"] = "ข้ามไข่ที่มีอยู่แล้ว",
+    ["Skip Mutated Eggs"] = "ข้ามไข่กลายพันธุ์",
+    ["Skip Halloween Eggs"] = "ข้ามไข่ฮาโลวีน",
+    ["Only Halloween Eggs"] = "เฉพาะไข่ฮาโลวีน",
+    ["Halloween Eggs"] = "ไข่ฮาโลวีน",
+    ["Missing Index Eggs"] = "ไข่ที่ยังไม่มีในสมุดสะสม",
+    ["Target Areas"] = "พื้นที่เป้าหมาย",
+    ["Target Zones"] = "โซนเป้าหมาย",
+    ["Steal Range"] = "ระยะขโมย",
+    ["Teleport Zones"] = "โซนที่วาร์ปได้",
+    ["Steal From Base"] = "ขโมยไข่จากฐาน",
+    ["Teleport To Player"] = "วาร์ปไปหาผู้เล่น",
+    ["Return After Steal"] = "กลับฐานหลังขโมย",
+    ["Stop Stealing"] = "หยุดขโมย",
+    ["Stop Auto Steal"] = "หยุดขโมยอัตโนมัติ",
+    ["Resume Auto Steal"] = "ทำงานขโมยอัตโนมัติต่อ",
+    ["Show Steal History"] = "แสดงประวัติการขโมย",
+}
+for en,th in pairs(ZIGZAG_V194_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.5 • UFO update, Admin features and Chilli Finder standalone popup.
+-- Display-only additions; keep numeric game values, callbacks and account data intact.
+local ZIGZAG_V195_CHILLI_LABELS = {
+    ["UFO Sightings"] = "กิจกรรมพบเห็น UFO",
+    ["UFO Sighting"] = "การพบเห็น UFO",
+    ["Auto UFO"] = "ออโต้กิจกรรม UFO",
+    ["Collect UFO Debris"] = "เก็บเศษซาก UFO",
+    ["Enter Rare UFO"] = "เข้า UFO หายาก",
+    ["Auto Trade Debris"] = "ออโต้แลกเศษซาก UFO",
+    ["Teleport If Far From Egg"] = "วาร์ปเมื่ออยู่ไกลจากไข่",
+    ["UFO Debris"] = "เศษซาก UFO",
+    ["UFO"] = "UFO",
+    ["UFO Event"] = "กิจกรรม UFO",
+    ["UFO Rarity"] = "ระดับความหายากของ UFO",
+    ["UFO Rewards"] = "รางวัล UFO",
+    ["Trade Debris"] = "แลกเศษซาก UFO",
+    ["Rare UFO"] = "UFO หายาก",
+    ["Use Admin Treadmill"] = "ใช้ลู่วิ่งแอดมิน",
+    ["Use Instant Steal V3"] = "ใช้ระบบขโมยทันที V3",
+    ["Needs Admin Treadmill"] = "ต้องมีลู่วิ่งแอดมิน",
+    ["Chilli Finder HUD"] = "แสดงปุ่ม Chilli Finder บนหน้าจอ",
+    ["Show the Chilli Finder button on the game HUD"] = "แสดงปุ่ม Chilli Finder บนหน้าจอเกม",
+    ["Show Chilli Finder"] = "แสดง Chilli Finder",
+    ["Open Chilli Finder"] = "เปิด Chilli Finder",
+    ["Chilli Finder"] = "Chilli Finder", -- retain branded header so popup detection is stable
+    ["Finder"] = "ค้นหาไข่",
+    ["Force Join"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["FORCE JOIN"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["Min Value"] = "มูลค่าขั้นต่ำ",
+    ["MIN VALUE"] = "มูลค่าขั้นต่ำ",
+    ["Rarity"] = "ระดับความหายาก",
+    ["RARITY"] = "ระดับความหายาก",
+    ["Account"] = "บัญชี",
+    ["ACCOUNT"] = "บัญชี",
+    ["AUTO OFF"] = "ออโต้ ปิด",
+    ["AUTO ON"] = "ออโต้ เปิด",
+    ["AUTO"] = "ออโต้",
+    ["Sign In"] = "เข้าสู่ระบบ",
+    ["Sign Up"] = "สมัครสมาชิก",
+    ["Sign in"] = "เข้าสู่ระบบ",
+    ["Sign up"] = "สมัครสมาชิก",
+    ["Sign Out"] = "ออกจากระบบ",
+    ["Password"] = "รหัสผ่าน",
+    ["Show"] = "แสดง",
+    ["Hide"] = "ซ่อน",
+    ["Copy Link"] = "คัดลอกลิงก์",
+    ["Book"] = "จอง",
+    ["Join"] = "เข้าร่วม",
+    ["Any"] = "ทุกระดับ",
+    ["Top 5 recent eggs | Book at chillihub.pro"] = "ไข่ล่าสุด 5 รายการ | จองที่ chillihub.pro",
+    ["Top 5 recent eggs  |  Book at chillihub.pro"] = "ไข่ล่าสุด 5 รายการ | จองที่ chillihub.pro",
+    ["Create your account and get Chilli Finder"] = "สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["Sign in with your chillihub.pro account"] = "เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+    ["Create an account"] = "สร้างบัญชี",
+    ["Create Account"] = "สร้างบัญชี",
+    ["Recent Eggs"] = "ไข่ล่าสุด",
+    ["Recent eggs"] = "ไข่ล่าสุด",
+    ["Golden"] = "ทอง",
+    ["Off"] = "ปิด",
+    ["On"] = "เปิด",
+}
+for en,th in pairs(ZIGZAG_V195_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.6 • Optimizer dropdown / latest Chilli Finder labels.
+-- Same dictionary in the normal loader and queued teleport translation copy.
+local ZIGZAG_V196_CHILLI_LABELS = {
+    ["Optimizer mode"] = "โหมดปรับประสิทธิภาพ",
+    ["Optimizer Mode"] = "โหมดปรับประสิทธิภาพ",
+    ["Balanced"] = "สมดุล",
+    ["Strong"] = "เร่งประสิทธิภาพ",
+    ["Strong mode"] = "โหมดเร่งประสิทธิภาพ",
+    ["Select an option"] = "เลือกตัวเลือก",
+    ["Select option"] = "เลือกตัวเลือก",
+    ["Choose an option"] = "เลือกตัวเลือก",
+    ["Force Join"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["MIN VALUE"] = "มูลค่าขั้นต่ำ",
+    ["Min Value"] = "มูลค่าขั้นต่ำ",
+    ["Recent eggs"] = "ไข่ล่าสุด",
+    ["Top recent eggs"] = "ไข่ล่าสุด",
+    ["Sign In"] = "เข้าสู่ระบบ",
+    ["Sign Up"] = "สมัครสมาชิก",
+    ["Sign in with your chillihub.pro account"] = "เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+    ["Create your account and get Chilli Finder"] = "สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["Show Password"] = "แสดงรหัสผ่าน",
+    ["Hide Password"] = "ซ่อนรหัสผ่าน",
+    ["Auto Off"] = "ออโต้ ปิด",
+    ["Auto On"] = "ออโต้ เปิด",
+    ["Join Server"] = "เข้าเซิร์ฟเวอร์",
+    ["Book at chillihub.pro"] = "จองที่ chillihub.pro",
+}
+for en,th in pairs(ZIGZAG_V196_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.7 • November update: UFO live countdown, delivery and mutation.
+-- Added to normal Chilli and translator-only teleport copy.
+local ZIGZAG_V197_CHILLI_LABELS = {
+    ["UFO Delivery"] = "วิธีส่งไข่จาก UFO",
+    ["UFO delivery"] = "วิธีส่งไข่จาก UFO",
+    ["UFO live"] = "กิจกรรม UFO กำลังดำเนินอยู่",
+    ["No egg to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["Waiting | No egg to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["Waiting | No eggs to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["No eggs to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["Force Join"] = "บังคับเข้า",
+    ["MIN VALUE"] = "ขั้นต่ำ",
+    ["RARITY"] = "ความแรร์",
+    ["ACCOUNT"] = "บัญชี",
+    ["Join"] = "เข้าเซิร์ฟ",
+    ["AUTO OFF"] = "ออโต้ ปิด",
+    ["AUTO ON"] = "ออโต้ เปิด",
+    ["Book at chillihub.pro"] = "จองที่ chillihub.pro",
+}
+for en,th in pairs(ZIGZAG_V197_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+
+
 --========================================================
 -- 4. LOOKUP / CACHE  (V1.1 engine preserved)
 --========================================================
@@ -1278,6 +1594,56 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if placed then
         return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
     end
+    -- ZIGZAG V1.9.4 • Dynamic large steal popup / status; numbers remain live.
+    local a,b,c = l:match("^eggs? stolen:%s*(%d+)%s*/%s*(%d+)%s*|%s*failed:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้ "..a.."/"..b.." | ไม่สำเร็จ "..c.." ครั้ง" end
+    local a,b = l:match("^steal progress:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ความคืบหน้าการขโมย: "..a.."/"..b end
+    local a = l:match("^eggs? stolen:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้: "..a.." ฟอง" end
+    local a = l:match("^total stolen:%s*(%d+)$")
+    if a then return "ขโมยได้ทั้งหมด: "..a.." ฟอง" end
+    local a = l:match("^eggs? found:%s*(%d+)$")
+    if a then return "พบไข่: "..a.." ฟอง" end
+    local a = l:match("^matching eggs:%s*(%d+)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง" end
+    local a,b = l:match("^eggs? in bag:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ไข่ในกระเป๋า: "..a.."/"..b end
+    local a,b = l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง (ฮาโลวีน "..b.." ฟอง)" end
+    local a,b = l:match("^eggs placed%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "วางไข่แล้ว "..a.."/"..b end
+    local a,b = l:match("^pets equipped%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "สวมใส่สัตว์เลี้ยง "..a.."/"..b end
+    local a = l:match("^waiting for%s+(%d+)%s+seconds?$")
+    if a then return "กำลังรออีก "..a.." วินาที" end
+    local a,b = l:match("^portal opens in%s*(%d+)%s*min%s*(%d+)%s*sec$")
+    if a then return "ประตูมิติจะเปิดในอีก "..a.." นาที "..b.." วินาที" end
+    local a = l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)%s*fish$")
+    if a then return "เควสต์: สำเร็จ | จับปลาได้: "..a.." ตัว" end
+    local a,b = l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)$")
+    if a then return "สำเร็จ "..a.." ชัยชนะ | ชัยชนะ: "..b end
+    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
+    if ufoClock then
+        local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
+        local readable
+        if h then readable=h.." ชั่วโมง "..m.." นาที "..sec.." วินาที"
+        else
+            local mins,secs=ufoClock:match("^(%d+)m%s*(%d+)s$")
+            if mins then readable=mins.." นาที "..secs.." วินาที"
+            else
+                local seconds=ufoClock:match("^(%d+)s$")
+                local minutes=ufoClock:match("^(%d+)m$")
+                readable=(seconds and seconds.." วินาที") or (minutes and minutes.." นาที") or ufoClock
+            end
+        end
+        return "กิจกรรม UFO กำลังดำเนินอยู่ เหลือ "..readable.." | ไข่ "..ufoEggs.."/"..ufoGoal
+    end
+    if l:match("^waiting%s*|%s*no eggs? to mutate$") then
+        return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
 end
 
@@ -1316,6 +1682,27 @@ local function TranslateText(text)
     if ghostsNow then
         local result = "กำลังดูดจับผี " .. ghostsNow .. "/" .. ghostsGoal
         STRING_CACHE[text] = result
+        return result
+    end
+
+    -- V1.9.5 • Chilli Finder live status; leave pet names and prices untouched.
+    local top,domain = clean:match("^[Tt]op%s+(%d+)%s+recent%s+eggs?%s*|%s*[Bb]ook%s+at%s+([%w%.%-]+)$")
+    if top then
+        local result="ไข่ล่าสุด "..top.." รายการ | จองที่ "..domain
+        STRING_CACHE[text]=result
+        return result
+    end
+    local timeAmount,timeUnit = clean:match("^(%d+)%s*([smhd])%s+ago$")
+    if timeAmount then
+        local unitTH={s="วินาที",m="นาที",h="ชั่วโมง",d="วัน"}
+        local result=timeAmount.." "..(unitTH[timeUnit] or timeUnit).."ที่แล้ว"
+        STRING_CACHE[text]=result
+        return result
+    end
+    local topCount = clean:match("^[Tt]op%s+(%d+)%s+recent%s+eggs?$")
+    if topCount then
+        local result="ไข่ล่าสุด "..topCount.." รายการ"
+        STRING_CACHE[text]=result
         return result
     end
 
@@ -2411,6 +2798,189 @@ local function IsLooseTarget(object)
 end
 
 --========================================================
+-- ZIGZAG V1.9.6: CHILLI FINDER standalone window (NOT game UI).
+-- Detect by branded header, scope translation to Finder's own panel,
+-- never touch player/account input, callback IDs, passwords or game HUD.
+-- A single DescendantAdded listener per Finder window; no scan loop.
+--========================================================
+local ZIGZAG_FINDER_TRACKED = setmetatable({}, {__mode="k"})
+local ZIGZAG_FINDER_OBSERVED = setmetatable({}, {__mode="k"})
+local ZIGZAG_FINDER_BUSY = setmetatable({}, {__mode="k"})
+
+-- These are visible UI labels, not backend option IDs. Short Thai labels fit
+-- Finder's compact mobile buttons. Player names, prices and passwords stay raw.
+local ZIGZAG_FINDER_SHORT = {
+    ["chilli finder"]="Chilli Finder", ["finder"]="ค้นหาไข่",
+    ["force join"]="บังคับเข้า", ["min value"]="ขั้นต่ำ",
+    ["rarity"]="ความแรร์", ["account"]="บัญชี",
+    ["auto off"]="ออโต้ ปิด", ["auto on"]="ออโต้ เปิด",
+    ["off"]="ปิด", ["on"]="เปิด", ["any"]="ทุกระดับ",
+    ["join"]="เข้า", ["hide"]="ซ่อน", ["show"]="แสดง",
+    ["sign in"]="เข้าสู่ระบบ", ["sign up"]="สมัครสมาชิก",
+    ["password"]="รหัสผ่าน", ["copy link"]="คัดลอกลิงก์",
+    ["copy"]="คัดลอก", ["recent eggs"]="ไข่ล่าสุด",
+    ["create your account and get chilli finder"]="สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["sign in with your chillihub.pro account"]="เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+}
+
+local function ZIGZAG_FinderNorm(text)
+    if type(text)~="string" then return "" end
+    local t=CleanText(text)
+    t=t:gsub("&amp;","&"):gsub("&nbsp;"," ")
+    return t:match("^%s*(.-)%s*$") or t
+end
+
+local function ZIGZAG_FinderLine(raw)
+    local text=ZIGZAG_FinderNorm(raw)
+    local lower=string.lower(text)
+    local short=ZIGZAG_FINDER_SHORT[lower]
+    if short then return short end
+
+    -- Finder may put setting and value into a single TextLabel.
+    local joined=lower:match("^force%s+join%s+(%a+)$")
+    if joined=="on" or joined=="off" then
+        return "บังคับเข้า: "..(joined=="on" and "เปิด" or "ปิด")
+    end
+    local val=text:match("^[Mm][Ii][Nn]%s+[Vv][Aa][Ll][Uu][Ee]%s+(.+)$")
+    if val then return "ขั้นต่ำ "..val end
+    val=lower:match("^rarity%s+(.+)$")
+    if val then return "ความแรร์: "..(ZIGZAG_FINDER_SHORT[val] or val) end
+    val=lower:match("^account%s+(.+)$")
+    if val then return "บัญชี: "..(ZIGZAG_FINDER_SHORT[val] or val) end
+
+    local num,website=lower:match("^top%s+(%d+)%s+recent%s+eggs?%s*|%s*book%s+at%s+([%w%.%-]+)$")
+    if num then return "ไข่ล่าสุด "..num.." ฟอง | "..website end
+    num=lower:match("^top%s+(%d+)%s+recent%s+eggs?$")
+    if num then return "ไข่ล่าสุด "..num.." ฟอง" end
+    local amount,unit=lower:match("^(%d+)%s*([smhd])%s+ago$")
+    if amount then
+        local suffix={s=" วินาที",m=" นาที",h=" ชั่วโมง",d=" วัน"}
+        return amount..(suffix[unit] or " "..unit).."ที่แล้ว"
+    end
+    return TranslateText(raw)
+end
+
+local function ZIGZAG_FinderTranslate(raw)
+    if type(raw)~="string" or raw=="" or IsDynamicPetCardMarkup(raw) then return raw end
+    if not raw:find("\n",1,true) then return ZIGZAG_FinderLine(raw) end
+    local changed=false
+    local translated={}
+    for line in (raw.."\n"):gmatch("(.-)\n") do
+        local candidate=ZIGZAG_FinderLine(line)
+        if candidate~=line then changed=true end
+        translated[#translated+1]=candidate
+    end
+    return changed and table.concat(translated,"\n") or raw
+end
+
+local function ZIGZAG_FinderApply(obj,property)
+    if not STATE.Live or not obj.Parent or ZIGZAG_FINDER_BUSY[obj] then return end
+    if property=="Text" and obj:IsA("TextBox") then return end -- user input
+    local ok,old=pcall(function() return obj[property] end)
+    if not ok or type(old)~="string" then return end
+    if property=="Text" and ProtectPetCardText(obj,old) then return end
+    local new=ZIGZAG_FinderTranslate(old)
+    if new==old then return end
+    ZIGZAG_FINDER_BUSY[obj]=true
+    pcall(function() obj[property]=new end)
+    ZIGZAG_FINDER_BUSY[obj]=nil
+end
+
+local function ZIGZAG_FinderWatch(obj)
+    if not IsTextObject(obj) or ZIGZAG_FINDER_OBSERVED[obj] then return end
+    ZIGZAG_FINDER_OBSERVED[obj]=true
+    ZIGZAG_FinderApply(obj,"Text")
+    Bind(obj:GetPropertyChangedSignal("Text"):Connect(function()
+        ZIGZAG_FinderApply(obj,"Text")
+    end))
+    if obj:IsA("TextBox") then
+        ZIGZAG_FinderApply(obj,"PlaceholderText")
+        Bind(obj:GetPropertyChangedSignal("PlaceholderText"):Connect(function()
+            ZIGZAG_FinderApply(obj,"PlaceholderText")
+        end))
+    end
+end
+
+local function ZIGZAG_FinderSeed(obj)
+    if not IsTextObject(obj) then return false end
+    local ok,raw=pcall(function() return obj.Text end)
+    if not ok or type(raw)~="string" then return false end
+    local t=string.lower(ZIGZAG_FinderNorm(raw))
+    -- Several distinct anchors work even when the title is an ImageLabel,
+    -- or when a subset of the Finder labels have already been translated.
+    return t=="chilli finder" or t:find("chillihub.pro",1,true)~=nil
+        or t:match("^top%s+%d+%s+recent%s+eggs?")~=nil
+        or t:match("^ไข่ล่าสุด%s+%d+")~=nil
+        or t:find("สร้างบัญชีเพื่อใช้งาน Chilli Finder",1,true)~=nil
+end
+
+local function ZIGZAG_FinderEvidence(candidate)
+    local brand,domain,recents,menu=false,false,false,false
+    for _,obj in ipairs(candidate:GetDescendants()) do
+        if IsTextObject(obj) then
+            local ok,t=pcall(function() return string.lower(ZIGZAG_FinderNorm(obj.Text)) end)
+            if ok then
+                if t=="chilli finder" then brand=true end
+                if t:find("chillihub.pro",1,true) then domain=true end
+                if t:match("^top%s+%d+%s+recent%s+eggs?") or t:match("^ไข่ล่าสุด%s+%d+") then recents=true end
+                if t=="force join" or t=="บังคับเข้า" or t=="min value" or t=="ขั้นต่ำ"
+                    or t=="account" or t=="บัญชี" or t=="auto off" or t=="ออโต้ ปิด" then
+                    menu=true
+                end
+            end
+        end
+    end
+    return (brand and (domain or recents or menu))
+        or (domain and (recents or menu))
+end
+
+local function ZIGZAG_FinderWindowFromSeed(seed)
+    if not seed or not seed.Parent then return nil end
+    local current=seed.Parent
+    -- Start at the smallest common panel containing Finder's header/footer
+    -- AND its controls; old V1.9.6 could attach to only the footer, so the
+    -- top buttons remained English. Do not select the full game ScreenGui.
+    local fallback=nil
+    while current and not IsKnownRoot(current) do
+        if current:IsA("Frame") or current:IsA("CanvasGroup")
+            or current:IsA("ScrollingFrame") or current:IsA("ImageLabel") then
+            local size=current.AbsoluteSize
+            if size.X>=180 and size.Y>=150 then
+                if not fallback then fallback=current end
+                if ZIGZAG_FinderEvidence(current) then return current end
+            end
+        end
+        if current:IsA("ScreenGui") then
+            -- Only Finder-exclusive ScreenGuis are safe to track completely.
+            if string.lower(current.Name):find("finder",1,true) then return current end
+            break
+        end
+        current=current.Parent
+    end
+    -- Don't guess a footer-only rectangle; retry when more Finder elements load.
+    return nil
+end
+
+local function ZIGZAG_DetectFinder(seed)
+    if not ZIGZAG_FinderSeed(seed) then return end
+    local panel=ZIGZAG_FinderWindowFromSeed(seed)
+    if not panel or ZIGZAG_FINDER_TRACKED[panel] then return end
+    ZIGZAG_FINDER_TRACKED[panel]=true
+    for _,obj in ipairs(panel:GetDescendants()) do ZIGZAG_FinderWatch(obj) end
+    Bind(panel.DescendantAdded:Connect(function(obj)
+        task.defer(function()
+            if STATE.Live and obj.Parent and obj:IsDescendantOf(panel) then
+                ZIGZAG_FinderWatch(obj)
+                for _,child in ipairs(obj:GetDescendants()) do
+                    ZIGZAG_FinderWatch(child)
+                end
+            end
+        end)
+    end))
+    print("[ZIGZAG V1.9.7] Chilli Finder FULL PANEL Thai translation enabled")
+end
+
+--========================================================
 -- 16-17. DISCOVERY / ROOT EVENT WATCHER (NO SCAN LOOP)
 --========================================================
 
@@ -2444,6 +3014,7 @@ local function WatchRoot(root)
             if object.Parent then
                 WatchSidebarLabel(object)
                 DetectFloatingPanel(object)
+                ZIGZAG_DetectFinder(object)
             end
         end)
         -- Three short initializations only for newly created candidate text.
@@ -2452,6 +3023,17 @@ local function WatchRoot(root)
             if object.Parent then
                 WatchSidebarLabel(object)
                 DetectFloatingPanel(object)
+                ZIGZAG_DetectFinder(object)
+            end
+        end)
+        -- Finder widgets may receive their actual .Text a little after parenting.
+        -- One extra delayed check, no background frame scanner.
+        task.delay(1.25,function()
+            if STATE.Live and object.Parent then ZIGZAG_DetectFinder(object) end
+        end)
+        task.delay(3.0,function()
+            if STATE.Live and object.Parent and ZIGZAG_FinderSeed(object) then
+                ZIGZAG_DetectFinder(object)
             end
         end)
         if IsChilliTitle(object) then
@@ -2478,6 +3060,7 @@ for _,root in ipairs(UI_ROOTS) do
         if IsTextObject(object) then
             WatchSidebarLabel(object)
             DetectFloatingPanel(object)
+            ZIGZAG_DetectFinder(object)
         end
     end
 end
@@ -2488,7 +3071,10 @@ local function CheckExistingSidebarButtons()
     for _,root in ipairs(UI_ROOTS) do
         if root and root.Parent then
             for _,object in ipairs(root:GetDescendants()) do
-                if IsTextObject(object) then WatchSidebarLabel(object) end
+                if IsTextObject(object) then
+                    WatchSidebarLabel(object)
+                    ZIGZAG_DetectFinder(object)
+                end
             end
         end
     end
@@ -3530,6 +4116,207 @@ for en,th in pairs(ZIGZAG_V193_VENYX_LABELS) do
     TH[en]=th
 end
 
+
+-- ZIGZAG V1.9.4 ADD-ONLY: Venyx GUI and popup, same feature names as Chilli
+local ZIGZAG_V194_VENYX_LABELS = {
+    ["steal panel"] = "แผงขโมยไข่",
+    ["steal egg"] = "ขโมยไข่",
+    ["steal eggs"] = "ขโมยไข่",
+    ["steal target"] = "เป้าหมายขโมย",
+    ["steal targets"] = "เป้าหมายขโมย",
+    ["steal status"] = "สถานะการขโมย",
+    ["steal progress"] = "ความคืบหน้าการขโมย",
+    ["steal method"] = "วิธีขโมยไข่",
+    ["steal mode"] = "โหมดขโมยไข่",
+    ["steal speed"] = "ความเร็วขโมยไข่",
+    ["steal distance"] = "ระยะขโมยไข่",
+    ["delivery status"] = "สถานะส่งไข่กลับฐาน",
+    ["delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["delivery speed"] = "ความเร็วส่งไข่กลับฐาน",
+    ["move to egg"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["move to egg speed"] = "ความเร็วการไปหาไข่",
+    ["walk"] = "เดิน",
+    ["sprint"] = "วิ่งเร็ว",
+    ["quick steps"] = "ก้าวเร็วเป็นขั้น",
+    ["teleport"] = "วาร์ป",
+    ["tween"] = "เคลื่อนที่แบบ Tween",
+    ["fast tween"] = "Tween ความเร็วสูง",
+    ["teleport to egg"] = "วาร์ปไปหาไข่",
+    ["teleport to base"] = "วาร์ปกลับฐาน",
+    ["return to base"] = "กลับฐาน",
+    ["auto return"] = "กลับฐานอัตโนมัติ",
+    ["instant steal"] = "ขโมยทันที",
+    ["auto steal"] = "ขโมยอัตโนมัติ",
+    ["auto steal eggs"] = "ขโมยไข่อัตโนมัติ",
+    ["auto steal status"] = "สถานะขโมยไข่อัตโนมัติ",
+    ["steal from players"] = "ขโมยไข่จากผู้เล่น",
+    ["steal from holder"] = "ขโมยไข่จากผู้ถือ",
+    ["steal egg holders"] = "ขโมยไข่จากผู้ถือไข่",
+    ["steal priority"] = "ลำดับความสำคัญในการขโมย",
+    ["steal filters"] = "ตัวกรองการขโมย",
+    ["target eggs"] = "ไข่เป้าหมาย",
+    ["target rarity"] = "ระดับไข่เป้าหมาย",
+    ["target rarities"] = "ระดับไข่เป้าหมาย",
+    ["min steal value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["minimum steal value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["eggs found"] = "พบไข่แล้ว",
+    ["egg found"] = "พบไข่แล้ว",
+    ["eggs matched"] = "ไข่ที่ตรงเงื่อนไข",
+    ["matching eggs"] = "ไข่ที่ตรงเงื่อนไข",
+    ["no matching eggs"] = "ไม่มีไข่ที่ตรงเงื่อนไข",
+    ["no eggs found"] = "ไม่พบไข่",
+    ["waiting for eggs"] = "กำลังรอไข่",
+    ["waiting for a target"] = "กำลังรอเป้าหมาย",
+    ["waiting for target"] = "กำลังรอเป้าหมาย",
+    ["stealing egg"] = "กำลังขโมยไข่",
+    ["delivering egg"] = "กำลังส่งไข่กลับฐาน",
+    ["returning to base"] = "กำลังกลับฐาน",
+    ["holding egg"] = "กำลังถือไข่",
+    ["carrying egg"] = "กำลังถือไข่",
+    ["steal complete"] = "ขโมยสำเร็จ",
+    ["steal failed"] = "ขโมยไม่สำเร็จ",
+    ["last steal"] = "การขโมยครั้งล่าสุด",
+    ["last issue"] = "ปัญหาล่าสุด",
+    ["egg owner"] = "เจ้าของไข่",
+    ["egg name"] = "ชื่อไข่",
+    ["egg rarity"] = "ระดับความหายากของไข่",
+    ["egg value"] = "มูลค่าไข่",
+    ["egg size"] = "ขนาดไข่",
+    ["egg weight"] = "น้ำหนักไข่",
+    ["player"] = "ผู้เล่น",
+    ["holder"] = "ผู้ถือไข่",
+    ["steal history"] = "ประวัติการขโมย",
+    ["stolen eggs"] = "ไข่ที่ขโมยได้",
+    ["eggs stolen"] = "ไข่ที่ขโมยได้",
+    ["total stolen"] = "จำนวนที่ขโมยได้ทั้งหมด",
+    ["current target"] = "เป้าหมายปัจจุบัน",
+    ["target player"] = "ผู้เล่นเป้าหมาย",
+    ["selected eggs"] = "ไข่ที่เลือก",
+    ["selected rarities"] = "ระดับที่เลือก",
+    ["selected zones"] = "โซนที่เลือก",
+    ["select eggs"] = "เลือกไข่",
+    ["select rarities"] = "เลือกระดับความหายาก",
+    ["select zones"] = "เลือกโซน",
+    ["search eggs"] = "ค้นหาไข่",
+    ["search players"] = "ค้นหาผู้เล่น",
+    ["refresh"] = "รีเฟรช",
+    ["confirm"] = "ยืนยัน",
+    ["cancel"] = "ยกเลิก",
+    ["close"] = "ปิด",
+    ["apply"] = "นำไปใช้",
+    ["retry"] = "ลองอีกครั้ง",
+    ["continue"] = "ดำเนินการต่อ",
+    ["success"] = "สำเร็จ",
+    ["failed"] = "ไม่สำเร็จ",
+    ["error"] = "ข้อผิดพลาด",
+    ["warning"] = "คำเตือน",
+    ["information"] = "ข้อมูล",
+    ["status"] = "สถานะ",
+    ["ready"] = "พร้อม",
+    ["waiting"] = "กำลังรอ",
+    ["disabled"] = "ปิดใช้งาน",
+    ["enabled"] = "เปิดใช้งาน",
+    ["on"] = "เปิด",
+    ["off"] = "ปิด",
+    ["on"] = "เปิด",
+    ["off"] = "ปิด",
+    ["all"] = "ทั้งหมด",
+    ["none"] = "ไม่มี",
+    ["done"] = "เสร็จแล้ว",
+    ["total"] = "รวม",
+    ["current"] = "ปัจจุบัน",
+    ["time left"] = "เวลาที่เหลือ",
+    ["seconds"] = "วินาที",
+    ["minutes"] = "นาที",
+    ["server hop"] = "ย้ายเซิร์ฟเวอร์",
+    ["auto server hop"] = "ย้ายเซิร์ฟเวอร์อัตโนมัติ",
+    ["run again after teleport"] = "รันต่อหลังย้ายเซิร์ฟเวอร์",
+    ["auto rejoin"] = "เข้าเกมใหม่อัตโนมัติ",
+    ["reconnect"] = "เชื่อมต่อใหม่",
+    ["quest: done"] = "เควสต์: สำเร็จ",
+    ["fish caught"] = "ปลาที่จับได้",
+    ["no three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["keep eggs"] = "เก็บไข่ไว้",
+    ["keep matching eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["keep rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["keep min value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["max hatch value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["eggs placed"] = "วางไข่แล้ว",
+    ["pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["portal opens"] = "ประตูมิติจะเปิด",
+    ["keep these eggs"] = "เก็บไข่เหล่านี้ไว้",
+    ["always keep"] = "เก็บไว้เสมอ",
+    ["keep selected eggs"] = "เก็บไข่ที่เลือกไว้",
+    ["auto place egg"] = "วางไข่อัตโนมัติ",
+    ["auto hatch"] = "ฟักไข่อัตโนมัติ",
+    ["auto sell eggs"] = "ขายไข่อัตโนมัติ",
+    ["sell eggs now"] = "ขายไข่ตอนนี้",
+    ["egg bag"] = "กระเป๋าไข่",
+    ["in bag"] = "ในกระเป๋า",
+    ["in pen"] = "ในคอก",
+    ["equipped pets"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["place eggs"] = "วางไข่",
+    ["hatch eggs"] = "ฟักไข่",
+    ["sell eggs"] = "ขายไข่",
+    ["steal an egg"] = "ขโมยไข่",
+    ["auto steal egg"] = "ขโมยไข่อัตโนมัติ",
+    ["auto steal missing index"] = "ขโมยไข่ที่ยังไม่มีในสมุดอัตโนมัติ",
+    ["only steal matching eggs"] = "ขโมยเฉพาะไข่ที่ตรงเงื่อนไข",
+    ["steal eggs matching filters"] = "ขโมยไข่ที่ตรงตัวกรอง",
+    ["find best egg"] = "ค้นหาไข่ที่ดีที่สุด",
+    ["best egg"] = "ไข่ที่ดีที่สุด",
+    ["eggs in bag"] = "ไข่ในกระเป๋า",
+    ["eggs in pen"] = "ไข่ในคอก",
+    ["eggs equipped"] = "ไข่ที่สวมใส่",
+    ["no matching targets"] = "ไม่พบเป้าหมายที่ตรงเงื่อนไข",
+    ["no target found"] = "ไม่พบเป้าหมาย",
+    ["searching for eggs"] = "กำลังค้นหาไข่",
+    ["searching for target"] = "กำลังค้นหาเป้าหมาย",
+    ["waiting for server"] = "กำลังรอเซิร์ฟเวอร์",
+    ["rejoining server"] = "กำลังเข้าเซิร์ฟเวอร์ใหม่",
+    ["teleporting"] = "กำลังย้ายเซิร์ฟเวอร์",
+    ["teleport failed"] = "ย้ายเซิร์ฟเวอร์ไม่สำเร็จ",
+    ["deliver egg first"] = "ส่งไข่กลับฐานก่อน",
+    ["delivering to safe zone"] = "กำลังนำไข่ไปเขตปลอดภัย",
+    ["returning to safe zone"] = "กำลังกลับไปยังเขตปลอดภัย",
+    ["egg stolen successfully"] = "ขโมยไข่สำเร็จ",
+    ["unable to steal egg"] = "ไม่สามารถขโมยไข่ได้",
+    ["you are holding an egg"] = "คุณกำลังถือไข่",
+    ["no egg selected"] = "ยังไม่ได้เลือกไข่",
+    ["no player selected"] = "ยังไม่ได้เลือกผู้เล่น",
+    ["no eggs matching filters"] = "ไม่มีไข่ตรงตามตัวกรอง",
+    ["no eligible eggs"] = "ไม่มีไข่ที่เข้าเงื่อนไข",
+    ["steal panel settings"] = "ตั้งค่าแผงขโมยไข่",
+    ["show steal panel"] = "แสดงแผงขโมยไข่",
+    ["hide steal panel"] = "ซ่อนแผงขโมยไข่",
+    ["auto steal: off"] = "ออโต้ขโมย: ปิด",
+    ["auto steal: on"] = "ออโต้ขโมย: เปิด",
+    ["instant steal: off"] = "ขโมยทันที: ปิด",
+    ["instant steal: on"] = "ขโมยทันที: เปิด",
+    ["delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["keep mutated eggs"] = "เก็บไข่กลายพันธุ์ไว้",
+    ["keep favorite eggs"] = "เก็บไข่รายการโปรดไว้",
+    ["skip owned eggs"] = "ข้ามไข่ที่มีอยู่แล้ว",
+    ["skip mutated eggs"] = "ข้ามไข่กลายพันธุ์",
+    ["skip halloween eggs"] = "ข้ามไข่ฮาโลวีน",
+    ["only halloween eggs"] = "เฉพาะไข่ฮาโลวีน",
+    ["halloween eggs"] = "ไข่ฮาโลวีน",
+    ["missing index eggs"] = "ไข่ที่ยังไม่มีในสมุดสะสม",
+    ["target areas"] = "พื้นที่เป้าหมาย",
+    ["target zones"] = "โซนเป้าหมาย",
+    ["steal range"] = "ระยะขโมย",
+    ["teleport zones"] = "โซนที่วาร์ปได้",
+    ["steal from base"] = "ขโมยไข่จากฐาน",
+    ["teleport to player"] = "วาร์ปไปหาผู้เล่น",
+    ["return after steal"] = "กลับฐานหลังขโมย",
+    ["stop stealing"] = "หยุดขโมย",
+    ["stop auto steal"] = "หยุดขโมยอัตโนมัติ",
+    ["resume auto steal"] = "ทำงานขโมยอัตโนมัติต่อ",
+    ["show steal history"] = "แสดงประวัติการขโมย",
+}
+for en,th in pairs(ZIGZAG_V194_VENYX_LABELS) do TH[en] = th end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -3632,6 +4419,92 @@ local DYNAMIC = {
     end},
 }
 
+-- ZIGZAG V1.9.5 • UFO, Admin and Chilli Finder UI labels shared with Venyx.
+local ZIGZAG_V195_VENYX_LABELS = {
+    ["ufo sightings"] = "กิจกรรมพบเห็น UFO",
+    ["ufo sighting"] = "การพบเห็น UFO",
+    ["auto ufo"] = "ออโต้กิจกรรม UFO",
+    ["collect ufo debris"] = "เก็บเศษซาก UFO",
+    ["enter rare ufo"] = "เข้า UFO หายาก",
+    ["auto trade debris"] = "ออโต้แลกเศษซาก UFO",
+    ["teleport if far from egg"] = "วาร์ปเมื่ออยู่ไกลจากไข่",
+    ["ufo debris"] = "เศษซาก UFO",
+    ["ufo rewards"] = "รางวัล UFO",
+    ["ufo event"] = "กิจกรรม UFO",
+    ["rare ufo"] = "UFO หายาก",
+    ["trade debris"] = "แลกเศษซาก UFO",
+    ["use admin treadmill"] = "ใช้ลู่วิ่งแอดมิน",
+    ["use instant steal v3"] = "ใช้ระบบขโมยทันที V3",
+    ["chilli finder hud"] = "แสดงปุ่ม Chilli Finder บนหน้าจอ",
+    ["show the chilli finder button on the game hud"] = "แสดงปุ่ม Chilli Finder บนหน้าจอเกม",
+    ["show chilli finder"] = "แสดง Chilli Finder",
+    ["open chilli finder"] = "เปิด Chilli Finder",
+    ["chilli finder"] = "Chilli Finder",
+    ["force join"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["min value"] = "มูลค่าขั้นต่ำ",
+    ["rarity"] = "ระดับความหายาก",
+    ["account"] = "บัญชี",
+    ["auto off"] = "ออโต้ ปิด",
+    ["auto on"] = "ออโต้ เปิด",
+    ["sign in"] = "เข้าสู่ระบบ",
+    ["sign up"] = "สมัครสมาชิก",
+    ["sign out"] = "ออกจากระบบ",
+    ["password"] = "รหัสผ่าน",
+    ["show"] = "แสดง",
+    ["hide"] = "ซ่อน",
+    ["copy link"] = "คัดลอกลิงก์",
+    ["book"] = "จอง",
+    ["join"] = "เข้าร่วม",
+    ["any"] = "ทุกระดับ",
+    ["top 5 recent eggs | book at chillihub.pro"] = "ไข่ล่าสุด 5 รายการ | จองที่ chillihub.pro",
+    ["create your account and get chilli finder"] = "สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["sign in with your chillihub.pro account"] = "เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+    ["create account"] = "สร้างบัญชี",
+    ["recent eggs"] = "ไข่ล่าสุด",
+}
+for en,th in pairs(ZIGZAG_V195_VENYX_LABELS) do TH[key(en)] = th end
+
+-- ZIGZAG V1.9.6 • Venyx 1.5.0 popup optimizer + Finder updates.
+-- Visual labels only; never change menu options/callbacks or field data.
+local ZIGZAG_V196_VENYX_LABELS = {
+    ["optimizer mode"] = "โหมดปรับประสิทธิภาพ",
+    ["balanced"] = "สมดุล",
+    ["strong"] = "เร่งประสิทธิภาพ",
+    ["strong mode"] = "โหมดเร่งประสิทธิภาพ",
+    ["select an option"] = "เลือกตัวเลือก",
+    ["select option"] = "เลือกตัวเลือก",
+    ["choose an option"] = "เลือกตัวเลือก",
+    ["recent eggs"] = "ไข่ล่าสุด",
+    ["top recent eggs"] = "ไข่ล่าสุด",
+    ["show password"] = "แสดงรหัสผ่าน",
+    ["hide password"] = "ซ่อนรหัสผ่าน",
+    ["auto off"] = "ออโต้ ปิด",
+    ["auto on"] = "ออโต้ เปิด",
+    ["join server"] = "เข้าเซิร์ฟเวอร์",
+    ["book at chillihub.pro"] = "จองที่ chillihub.pro",
+}
+for en,th in pairs(ZIGZAG_V196_VENYX_LABELS) do TH[key(en)] = th end
+
+-- ZIGZAG V1.9.7 • same November update in Venyx and queued Venyx.
+local ZIGZAG_V197_VENYX_LABELS = {
+    ["ufo delivery"] = "วิธีส่งไข่จาก UFO",
+    ["ufo live"] = "กิจกรรม UFO กำลังดำเนินอยู่",
+    ["no egg to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["no eggs to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["waiting | no egg to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["waiting | no eggs to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["force join"] = "บังคับเข้า",
+    ["min value"] = "ขั้นต่ำ",
+    ["rarity"] = "ความแรร์",
+    ["account"] = "บัญชี",
+    ["join"] = "เข้าเซิร์ฟ",
+    ["auto off"] = "ออโต้ ปิด",
+    ["auto on"] = "ออโต้ เปิด",
+}
+for en,th in pairs(ZIGZAG_V197_VENYX_LABELS) do TH[key(en)] = th end
+
+
+
 -- In the pin picker, Venyx can use RichText to render the option name
 -- in white and the control type ("slider" / "button") in gray.
 -- A raw string like `Min value /s <font ...>slider</font>` did not match
@@ -3691,6 +4564,64 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if placed then
         return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
     end
+    -- ZIGZAG V1.9.4 • Dynamic large steal popup / status; numbers remain live.
+    local a,b,c = l:match("^eggs? stolen:%s*(%d+)%s*/%s*(%d+)%s*|%s*failed:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้ "..a.."/"..b.." | ไม่สำเร็จ "..c.." ครั้ง" end
+    local a,b = l:match("^steal progress:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ความคืบหน้าการขโมย: "..a.."/"..b end
+    local a = l:match("^eggs? stolen:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้: "..a.." ฟอง" end
+    local a = l:match("^total stolen:%s*(%d+)$")
+    if a then return "ขโมยได้ทั้งหมด: "..a.." ฟอง" end
+    local a = l:match("^eggs? found:%s*(%d+)$")
+    if a then return "พบไข่: "..a.." ฟอง" end
+    local a = l:match("^matching eggs:%s*(%d+)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง" end
+    local a,b = l:match("^eggs? in bag:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ไข่ในกระเป๋า: "..a.."/"..b end
+    local a,b = l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง (ฮาโลวีน "..b.." ฟอง)" end
+    local a,b = l:match("^eggs placed%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "วางไข่แล้ว "..a.."/"..b end
+    local a,b = l:match("^pets equipped%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "สวมใส่สัตว์เลี้ยง "..a.."/"..b end
+    local a = l:match("^waiting for%s+(%d+)%s+seconds?$")
+    if a then return "กำลังรออีก "..a.." วินาที" end
+    local a,b = l:match("^portal opens in%s*(%d+)%s*min%s*(%d+)%s*sec$")
+    if a then return "ประตูมิติจะเปิดในอีก "..a.." นาที "..b.." วินาที" end
+    local a = l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)%s*fish$")
+    if a then return "เควสต์: สำเร็จ | จับปลาได้: "..a.." ตัว" end
+    local a,b = l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)$")
+    if a then return "สำเร็จ "..a.." ชัยชนะ | ชัยชนะ: "..b end
+    -- ZIGZAG V1.9.5 • Chilli Finder changing times and book count.
+    local num,domain=l:match("^top%s+(%d+)%s+recent%s+eggs?%s*|%s*book%s+at%s+([%w%.%-]+)$")
+    if num then return "ไข่ล่าสุด "..num.." รายการ | จองที่ "..domain end
+    local amount,unit=l:match("^(%d+)%s*([smhd])%s+ago$")
+    if amount then
+        local unitTH={s="วินาที",m="นาที",h="ชั่วโมง",d="วัน"}
+        return amount.." "..(unitTH[unit] or unit).."ที่แล้ว"
+    end
+    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
+    if ufoClock then
+        local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
+        local readable
+        if h then readable=h.." ชั่วโมง "..m.." นาที "..sec.." วินาที"
+        else
+            local mins,secs=ufoClock:match("^(%d+)m%s*(%d+)s$")
+            if mins then readable=mins.." นาที "..secs.." วินาที"
+            else
+                local seconds=ufoClock:match("^(%d+)s$")
+                local minutes=ufoClock:match("^(%d+)m$")
+                readable=(seconds and seconds.." วินาที") or (minutes and minutes.." นาที") or ufoClock
+            end
+        end
+        return "กิจกรรม UFO กำลังดำเนินอยู่ เหลือ "..readable.." | ไข่ "..ufoEggs.."/"..ufoGoal
+    end
+    if l:match("^waiting%s*|%s*no eggs? to mutate$") then
+        return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
 end
 
@@ -4566,7 +5497,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.3_EVENT_STATUS_PURPLE"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.7_FINDER_SCOPED_STATUS"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -4592,10 +5523,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -4628,7 +5559,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.3 EVENT STATUS THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER POPUP / UFO STATUS / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -4636,7 +5567,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.3_EVENT_STATUS_PURPLE"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.7_FINDER_SCOPED_STATUS"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -5767,6 +6698,322 @@ for en,th in pairs(ZIGZAG_V193_CHILLI_LABELS) do
     TRANSLATIONS[en]=th
 end
 
+
+-- ZIGZAG V1.9.4 ADD-ONLY: Chilli + popup + steal labels
+local ZIGZAG_V194_CHILLI_LABELS = {
+    ["Steal Panel"] = "แผงขโมยไข่",
+    ["Steal Egg"] = "ขโมยไข่",
+    ["Steal Eggs"] = "ขโมยไข่",
+    ["Steal Target"] = "เป้าหมายขโมย",
+    ["Steal Targets"] = "เป้าหมายขโมย",
+    ["Steal Status"] = "สถานะการขโมย",
+    ["Steal Progress"] = "ความคืบหน้าการขโมย",
+    ["Steal Method"] = "วิธีขโมยไข่",
+    ["Steal Mode"] = "โหมดขโมยไข่",
+    ["Steal Speed"] = "ความเร็วขโมยไข่",
+    ["Steal Distance"] = "ระยะขโมยไข่",
+    ["Delivery Status"] = "สถานะส่งไข่กลับฐาน",
+    ["Delivery Method"] = "วิธีส่งไข่กลับฐาน",
+    ["Delivery Speed"] = "ความเร็วส่งไข่กลับฐาน",
+    ["Move To Egg"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["Move To Egg Speed"] = "ความเร็วการไปหาไข่",
+    ["Walk"] = "เดิน",
+    ["Sprint"] = "วิ่งเร็ว",
+    ["Quick Steps"] = "ก้าวเร็วเป็นขั้น",
+    ["Teleport"] = "วาร์ป",
+    ["Tween"] = "เคลื่อนที่แบบ Tween",
+    ["Fast Tween"] = "Tween ความเร็วสูง",
+    ["Teleport To Egg"] = "วาร์ปไปหาไข่",
+    ["Teleport To Base"] = "วาร์ปกลับฐาน",
+    ["Return to Base"] = "กลับฐาน",
+    ["Auto Return"] = "กลับฐานอัตโนมัติ",
+    ["Instant Steal"] = "ขโมยทันที",
+    ["Auto Steal"] = "ขโมยอัตโนมัติ",
+    ["Auto Steal Eggs"] = "ขโมยไข่อัตโนมัติ",
+    ["Auto Steal Status"] = "สถานะขโมยไข่อัตโนมัติ",
+    ["Steal From Players"] = "ขโมยไข่จากผู้เล่น",
+    ["Steal From Holder"] = "ขโมยไข่จากผู้ถือ",
+    ["Steal Egg Holders"] = "ขโมยไข่จากผู้ถือไข่",
+    ["Steal Priority"] = "ลำดับความสำคัญในการขโมย",
+    ["Steal Filters"] = "ตัวกรองการขโมย",
+    ["Target Eggs"] = "ไข่เป้าหมาย",
+    ["Target Rarity"] = "ระดับไข่เป้าหมาย",
+    ["Target Rarities"] = "ระดับไข่เป้าหมาย",
+    ["Min Steal Value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["Minimum Steal Value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["Eggs Found"] = "พบไข่แล้ว",
+    ["Egg Found"] = "พบไข่แล้ว",
+    ["Eggs Matched"] = "ไข่ที่ตรงเงื่อนไข",
+    ["Matching Eggs"] = "ไข่ที่ตรงเงื่อนไข",
+    ["No Matching Eggs"] = "ไม่มีไข่ที่ตรงเงื่อนไข",
+    ["No Eggs Found"] = "ไม่พบไข่",
+    ["Waiting For Eggs"] = "กำลังรอไข่",
+    ["Waiting for a target"] = "กำลังรอเป้าหมาย",
+    ["Waiting For Target"] = "กำลังรอเป้าหมาย",
+    ["Stealing Egg"] = "กำลังขโมยไข่",
+    ["Delivering Egg"] = "กำลังส่งไข่กลับฐาน",
+    ["Returning To Base"] = "กำลังกลับฐาน",
+    ["Holding Egg"] = "กำลังถือไข่",
+    ["Carrying Egg"] = "กำลังถือไข่",
+    ["Steal Complete"] = "ขโมยสำเร็จ",
+    ["Steal Failed"] = "ขโมยไม่สำเร็จ",
+    ["Last Steal"] = "การขโมยครั้งล่าสุด",
+    ["Last Issue"] = "ปัญหาล่าสุด",
+    ["Egg Owner"] = "เจ้าของไข่",
+    ["Egg Name"] = "ชื่อไข่",
+    ["Egg Rarity"] = "ระดับความหายากของไข่",
+    ["Egg Value"] = "มูลค่าไข่",
+    ["Egg Size"] = "ขนาดไข่",
+    ["Egg Weight"] = "น้ำหนักไข่",
+    ["Player"] = "ผู้เล่น",
+    ["Holder"] = "ผู้ถือไข่",
+    ["Steal History"] = "ประวัติการขโมย",
+    ["Stolen Eggs"] = "ไข่ที่ขโมยได้",
+    ["Eggs Stolen"] = "ไข่ที่ขโมยได้",
+    ["Total Stolen"] = "จำนวนที่ขโมยได้ทั้งหมด",
+    ["Current Target"] = "เป้าหมายปัจจุบัน",
+    ["Target Player"] = "ผู้เล่นเป้าหมาย",
+    ["Selected Eggs"] = "ไข่ที่เลือก",
+    ["Selected Rarities"] = "ระดับที่เลือก",
+    ["Selected Zones"] = "โซนที่เลือก",
+    ["Select Eggs"] = "เลือกไข่",
+    ["Select Rarities"] = "เลือกระดับความหายาก",
+    ["Select Zones"] = "เลือกโซน",
+    ["Search Eggs"] = "ค้นหาไข่",
+    ["Search Players"] = "ค้นหาผู้เล่น",
+    ["Refresh"] = "รีเฟรช",
+    ["Confirm"] = "ยืนยัน",
+    ["Cancel"] = "ยกเลิก",
+    ["Close"] = "ปิด",
+    ["Apply"] = "นำไปใช้",
+    ["Retry"] = "ลองอีกครั้ง",
+    ["Continue"] = "ดำเนินการต่อ",
+    ["Success"] = "สำเร็จ",
+    ["Failed"] = "ไม่สำเร็จ",
+    ["Error"] = "ข้อผิดพลาด",
+    ["Warning"] = "คำเตือน",
+    ["Information"] = "ข้อมูล",
+    ["Status"] = "สถานะ",
+    ["Ready"] = "พร้อม",
+    ["Waiting"] = "กำลังรอ",
+    ["Disabled"] = "ปิดใช้งาน",
+    ["Enabled"] = "เปิดใช้งาน",
+    ["ON"] = "เปิด",
+    ["OFF"] = "ปิด",
+    ["On"] = "เปิด",
+    ["Off"] = "ปิด",
+    ["All"] = "ทั้งหมด",
+    ["None"] = "ไม่มี",
+    ["Done"] = "เสร็จแล้ว",
+    ["Total"] = "รวม",
+    ["Current"] = "ปัจจุบัน",
+    ["Time Left"] = "เวลาที่เหลือ",
+    ["Seconds"] = "วินาที",
+    ["Minutes"] = "นาที",
+    ["Server Hop"] = "ย้ายเซิร์ฟเวอร์",
+    ["Auto Server Hop"] = "ย้ายเซิร์ฟเวอร์อัตโนมัติ",
+    ["Run Again After Teleport"] = "รันต่อหลังย้ายเซิร์ฟเวอร์",
+    ["Auto Rejoin"] = "เข้าเกมใหม่อัตโนมัติ",
+    ["Reconnect"] = "เชื่อมต่อใหม่",
+    ["Quest: Done"] = "เควสต์: สำเร็จ",
+    ["Fish caught"] = "ปลาที่จับได้",
+    ["No three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["Keep Eggs"] = "เก็บไข่ไว้",
+    ["Keep Matching Eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["Keep Rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["Keep Min Value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["Max Hatch Value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["Egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["Eggs placed"] = "วางไข่แล้ว",
+    ["Pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["Portal opens"] = "ประตูมิติจะเปิด",
+    ["Keep These Eggs"] = "เก็บไข่เหล่านี้ไว้",
+    ["Always Keep"] = "เก็บไว้เสมอ",
+    ["Keep Selected Eggs"] = "เก็บไข่ที่เลือกไว้",
+    ["Auto Place Egg"] = "วางไข่อัตโนมัติ",
+    ["Auto Hatch"] = "ฟักไข่อัตโนมัติ",
+    ["Auto Sell Eggs"] = "ขายไข่อัตโนมัติ",
+    ["Sell Eggs Now"] = "ขายไข่ตอนนี้",
+    ["Egg Bag"] = "กระเป๋าไข่",
+    ["In Bag"] = "ในกระเป๋า",
+    ["In Pen"] = "ในคอก",
+    ["Equipped Pets"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["Place Eggs"] = "วางไข่",
+    ["Hatch Eggs"] = "ฟักไข่",
+    ["Sell Eggs"] = "ขายไข่",
+    ["Steal an egg"] = "ขโมยไข่",
+    ["Auto Steal Egg"] = "ขโมยไข่อัตโนมัติ",
+    ["Auto Steal Missing Index"] = "ขโมยไข่ที่ยังไม่มีในสมุดอัตโนมัติ",
+    ["Only Steal Matching Eggs"] = "ขโมยเฉพาะไข่ที่ตรงเงื่อนไข",
+    ["Steal Eggs Matching Filters"] = "ขโมยไข่ที่ตรงตัวกรอง",
+    ["Find Best Egg"] = "ค้นหาไข่ที่ดีที่สุด",
+    ["Best Egg"] = "ไข่ที่ดีที่สุด",
+    ["Eggs In Bag"] = "ไข่ในกระเป๋า",
+    ["Eggs In Pen"] = "ไข่ในคอก",
+    ["Eggs Equipped"] = "ไข่ที่สวมใส่",
+    ["No matching targets"] = "ไม่พบเป้าหมายที่ตรงเงื่อนไข",
+    ["No target found"] = "ไม่พบเป้าหมาย",
+    ["Searching for eggs"] = "กำลังค้นหาไข่",
+    ["Searching for target"] = "กำลังค้นหาเป้าหมาย",
+    ["Waiting for server"] = "กำลังรอเซิร์ฟเวอร์",
+    ["Rejoining server"] = "กำลังเข้าเซิร์ฟเวอร์ใหม่",
+    ["Teleporting"] = "กำลังย้ายเซิร์ฟเวอร์",
+    ["Teleport failed"] = "ย้ายเซิร์ฟเวอร์ไม่สำเร็จ",
+    ["Deliver egg first"] = "ส่งไข่กลับฐานก่อน",
+    ["Delivering to safe zone"] = "กำลังนำไข่ไปเขตปลอดภัย",
+    ["Returning to safe zone"] = "กำลังกลับไปยังเขตปลอดภัย",
+    ["Egg stolen successfully"] = "ขโมยไข่สำเร็จ",
+    ["Unable to steal egg"] = "ไม่สามารถขโมยไข่ได้",
+    ["You are holding an egg"] = "คุณกำลังถือไข่",
+    ["No egg selected"] = "ยังไม่ได้เลือกไข่",
+    ["No player selected"] = "ยังไม่ได้เลือกผู้เล่น",
+    ["No eggs matching filters"] = "ไม่มีไข่ตรงตามตัวกรอง",
+    ["No eligible eggs"] = "ไม่มีไข่ที่เข้าเงื่อนไข",
+    ["Steal Panel Settings"] = "ตั้งค่าแผงขโมยไข่",
+    ["Show Steal Panel"] = "แสดงแผงขโมยไข่",
+    ["Hide Steal Panel"] = "ซ่อนแผงขโมยไข่",
+    ["Auto Steal: OFF"] = "ออโต้ขโมย: ปิด",
+    ["Auto Steal: ON"] = "ออโต้ขโมย: เปิด",
+    ["Instant Steal: OFF"] = "ขโมยทันที: ปิด",
+    ["Instant Steal: ON"] = "ขโมยทันที: เปิด",
+    ["Delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["Keep Mutated Eggs"] = "เก็บไข่กลายพันธุ์ไว้",
+    ["Keep Favorite Eggs"] = "เก็บไข่รายการโปรดไว้",
+    ["Skip Owned Eggs"] = "ข้ามไข่ที่มีอยู่แล้ว",
+    ["Skip Mutated Eggs"] = "ข้ามไข่กลายพันธุ์",
+    ["Skip Halloween Eggs"] = "ข้ามไข่ฮาโลวีน",
+    ["Only Halloween Eggs"] = "เฉพาะไข่ฮาโลวีน",
+    ["Halloween Eggs"] = "ไข่ฮาโลวีน",
+    ["Missing Index Eggs"] = "ไข่ที่ยังไม่มีในสมุดสะสม",
+    ["Target Areas"] = "พื้นที่เป้าหมาย",
+    ["Target Zones"] = "โซนเป้าหมาย",
+    ["Steal Range"] = "ระยะขโมย",
+    ["Teleport Zones"] = "โซนที่วาร์ปได้",
+    ["Steal From Base"] = "ขโมยไข่จากฐาน",
+    ["Teleport To Player"] = "วาร์ปไปหาผู้เล่น",
+    ["Return After Steal"] = "กลับฐานหลังขโมย",
+    ["Stop Stealing"] = "หยุดขโมย",
+    ["Stop Auto Steal"] = "หยุดขโมยอัตโนมัติ",
+    ["Resume Auto Steal"] = "ทำงานขโมยอัตโนมัติต่อ",
+    ["Show Steal History"] = "แสดงประวัติการขโมย",
+}
+for en,th in pairs(ZIGZAG_V194_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.5 • UFO update, Admin features and Chilli Finder standalone popup.
+-- Display-only additions; keep numeric game values, callbacks and account data intact.
+local ZIGZAG_V195_CHILLI_LABELS = {
+    ["UFO Sightings"] = "กิจกรรมพบเห็น UFO",
+    ["UFO Sighting"] = "การพบเห็น UFO",
+    ["Auto UFO"] = "ออโต้กิจกรรม UFO",
+    ["Collect UFO Debris"] = "เก็บเศษซาก UFO",
+    ["Enter Rare UFO"] = "เข้า UFO หายาก",
+    ["Auto Trade Debris"] = "ออโต้แลกเศษซาก UFO",
+    ["Teleport If Far From Egg"] = "วาร์ปเมื่ออยู่ไกลจากไข่",
+    ["UFO Debris"] = "เศษซาก UFO",
+    ["UFO"] = "UFO",
+    ["UFO Event"] = "กิจกรรม UFO",
+    ["UFO Rarity"] = "ระดับความหายากของ UFO",
+    ["UFO Rewards"] = "รางวัล UFO",
+    ["Trade Debris"] = "แลกเศษซาก UFO",
+    ["Rare UFO"] = "UFO หายาก",
+    ["Use Admin Treadmill"] = "ใช้ลู่วิ่งแอดมิน",
+    ["Use Instant Steal V3"] = "ใช้ระบบขโมยทันที V3",
+    ["Needs Admin Treadmill"] = "ต้องมีลู่วิ่งแอดมิน",
+    ["Chilli Finder HUD"] = "แสดงปุ่ม Chilli Finder บนหน้าจอ",
+    ["Show the Chilli Finder button on the game HUD"] = "แสดงปุ่ม Chilli Finder บนหน้าจอเกม",
+    ["Show Chilli Finder"] = "แสดง Chilli Finder",
+    ["Open Chilli Finder"] = "เปิด Chilli Finder",
+    ["Chilli Finder"] = "Chilli Finder", -- retain branded header so popup detection is stable
+    ["Finder"] = "ค้นหาไข่",
+    ["Force Join"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["FORCE JOIN"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["Min Value"] = "มูลค่าขั้นต่ำ",
+    ["MIN VALUE"] = "มูลค่าขั้นต่ำ",
+    ["Rarity"] = "ระดับความหายาก",
+    ["RARITY"] = "ระดับความหายาก",
+    ["Account"] = "บัญชี",
+    ["ACCOUNT"] = "บัญชี",
+    ["AUTO OFF"] = "ออโต้ ปิด",
+    ["AUTO ON"] = "ออโต้ เปิด",
+    ["AUTO"] = "ออโต้",
+    ["Sign In"] = "เข้าสู่ระบบ",
+    ["Sign Up"] = "สมัครสมาชิก",
+    ["Sign in"] = "เข้าสู่ระบบ",
+    ["Sign up"] = "สมัครสมาชิก",
+    ["Sign Out"] = "ออกจากระบบ",
+    ["Password"] = "รหัสผ่าน",
+    ["Show"] = "แสดง",
+    ["Hide"] = "ซ่อน",
+    ["Copy Link"] = "คัดลอกลิงก์",
+    ["Book"] = "จอง",
+    ["Join"] = "เข้าร่วม",
+    ["Any"] = "ทุกระดับ",
+    ["Top 5 recent eggs | Book at chillihub.pro"] = "ไข่ล่าสุด 5 รายการ | จองที่ chillihub.pro",
+    ["Top 5 recent eggs  |  Book at chillihub.pro"] = "ไข่ล่าสุด 5 รายการ | จองที่ chillihub.pro",
+    ["Create your account and get Chilli Finder"] = "สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["Sign in with your chillihub.pro account"] = "เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+    ["Create an account"] = "สร้างบัญชี",
+    ["Create Account"] = "สร้างบัญชี",
+    ["Recent Eggs"] = "ไข่ล่าสุด",
+    ["Recent eggs"] = "ไข่ล่าสุด",
+    ["Golden"] = "ทอง",
+    ["Off"] = "ปิด",
+    ["On"] = "เปิด",
+}
+for en,th in pairs(ZIGZAG_V195_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.6 • Optimizer dropdown / latest Chilli Finder labels.
+-- Same dictionary in the normal loader and queued teleport translation copy.
+local ZIGZAG_V196_CHILLI_LABELS = {
+    ["Optimizer mode"] = "โหมดปรับประสิทธิภาพ",
+    ["Optimizer Mode"] = "โหมดปรับประสิทธิภาพ",
+    ["Balanced"] = "สมดุล",
+    ["Strong"] = "เร่งประสิทธิภาพ",
+    ["Strong mode"] = "โหมดเร่งประสิทธิภาพ",
+    ["Select an option"] = "เลือกตัวเลือก",
+    ["Select option"] = "เลือกตัวเลือก",
+    ["Choose an option"] = "เลือกตัวเลือก",
+    ["Force Join"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["MIN VALUE"] = "มูลค่าขั้นต่ำ",
+    ["Min Value"] = "มูลค่าขั้นต่ำ",
+    ["Recent eggs"] = "ไข่ล่าสุด",
+    ["Top recent eggs"] = "ไข่ล่าสุด",
+    ["Sign In"] = "เข้าสู่ระบบ",
+    ["Sign Up"] = "สมัครสมาชิก",
+    ["Sign in with your chillihub.pro account"] = "เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+    ["Create your account and get Chilli Finder"] = "สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["Show Password"] = "แสดงรหัสผ่าน",
+    ["Hide Password"] = "ซ่อนรหัสผ่าน",
+    ["Auto Off"] = "ออโต้ ปิด",
+    ["Auto On"] = "ออโต้ เปิด",
+    ["Join Server"] = "เข้าเซิร์ฟเวอร์",
+    ["Book at chillihub.pro"] = "จองที่ chillihub.pro",
+}
+for en,th in pairs(ZIGZAG_V196_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.7 • November update: UFO live countdown, delivery and mutation.
+-- Added to normal Chilli and translator-only teleport copy.
+local ZIGZAG_V197_CHILLI_LABELS = {
+    ["UFO Delivery"] = "วิธีส่งไข่จาก UFO",
+    ["UFO delivery"] = "วิธีส่งไข่จาก UFO",
+    ["UFO live"] = "กิจกรรม UFO กำลังดำเนินอยู่",
+    ["No egg to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["Waiting | No egg to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["Waiting | No eggs to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["No eggs to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["Force Join"] = "บังคับเข้า",
+    ["MIN VALUE"] = "ขั้นต่ำ",
+    ["RARITY"] = "ความแรร์",
+    ["ACCOUNT"] = "บัญชี",
+    ["Join"] = "เข้าเซิร์ฟ",
+    ["AUTO OFF"] = "ออโต้ ปิด",
+    ["AUTO ON"] = "ออโต้ เปิด",
+    ["Book at chillihub.pro"] = "จองที่ chillihub.pro",
+}
+for en,th in pairs(ZIGZAG_V197_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+
+
 --========================================================
 -- 4. LOOKUP / CACHE  (V1.1 engine preserved)
 --========================================================
@@ -5858,6 +7105,56 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if placed then
         return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
     end
+    -- ZIGZAG V1.9.4 • Dynamic large steal popup / status; numbers remain live.
+    local a,b,c = l:match("^eggs? stolen:%s*(%d+)%s*/%s*(%d+)%s*|%s*failed:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้ "..a.."/"..b.." | ไม่สำเร็จ "..c.." ครั้ง" end
+    local a,b = l:match("^steal progress:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ความคืบหน้าการขโมย: "..a.."/"..b end
+    local a = l:match("^eggs? stolen:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้: "..a.." ฟอง" end
+    local a = l:match("^total stolen:%s*(%d+)$")
+    if a then return "ขโมยได้ทั้งหมด: "..a.." ฟอง" end
+    local a = l:match("^eggs? found:%s*(%d+)$")
+    if a then return "พบไข่: "..a.." ฟอง" end
+    local a = l:match("^matching eggs:%s*(%d+)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง" end
+    local a,b = l:match("^eggs? in bag:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ไข่ในกระเป๋า: "..a.."/"..b end
+    local a,b = l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง (ฮาโลวีน "..b.." ฟอง)" end
+    local a,b = l:match("^eggs placed%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "วางไข่แล้ว "..a.."/"..b end
+    local a,b = l:match("^pets equipped%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "สวมใส่สัตว์เลี้ยง "..a.."/"..b end
+    local a = l:match("^waiting for%s+(%d+)%s+seconds?$")
+    if a then return "กำลังรออีก "..a.." วินาที" end
+    local a,b = l:match("^portal opens in%s*(%d+)%s*min%s*(%d+)%s*sec$")
+    if a then return "ประตูมิติจะเปิดในอีก "..a.." นาที "..b.." วินาที" end
+    local a = l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)%s*fish$")
+    if a then return "เควสต์: สำเร็จ | จับปลาได้: "..a.." ตัว" end
+    local a,b = l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)$")
+    if a then return "สำเร็จ "..a.." ชัยชนะ | ชัยชนะ: "..b end
+    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
+    if ufoClock then
+        local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
+        local readable
+        if h then readable=h.." ชั่วโมง "..m.." นาที "..sec.." วินาที"
+        else
+            local mins,secs=ufoClock:match("^(%d+)m%s*(%d+)s$")
+            if mins then readable=mins.." นาที "..secs.." วินาที"
+            else
+                local seconds=ufoClock:match("^(%d+)s$")
+                local minutes=ufoClock:match("^(%d+)m$")
+                readable=(seconds and seconds.." วินาที") or (minutes and minutes.." นาที") or ufoClock
+            end
+        end
+        return "กิจกรรม UFO กำลังดำเนินอยู่ เหลือ "..readable.." | ไข่ "..ufoEggs.."/"..ufoGoal
+    end
+    if l:match("^waiting%s*|%s*no eggs? to mutate$") then
+        return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
 end
 
@@ -5896,6 +7193,27 @@ local function TranslateText(text)
     if ghostsNow then
         local result = "กำลังดูดจับผี " .. ghostsNow .. "/" .. ghostsGoal
         STRING_CACHE[text] = result
+        return result
+    end
+
+    -- V1.9.5 • Chilli Finder live status; leave pet names and prices untouched.
+    local top,domain = clean:match("^[Tt]op%s+(%d+)%s+recent%s+eggs?%s*|%s*[Bb]ook%s+at%s+([%w%.%-]+)$")
+    if top then
+        local result="ไข่ล่าสุด "..top.." รายการ | จองที่ "..domain
+        STRING_CACHE[text]=result
+        return result
+    end
+    local timeAmount,timeUnit = clean:match("^(%d+)%s*([smhd])%s+ago$")
+    if timeAmount then
+        local unitTH={s="วินาที",m="นาที",h="ชั่วโมง",d="วัน"}
+        local result=timeAmount.." "..(unitTH[timeUnit] or timeUnit).."ที่แล้ว"
+        STRING_CACHE[text]=result
+        return result
+    end
+    local topCount = clean:match("^[Tt]op%s+(%d+)%s+recent%s+eggs?$")
+    if topCount then
+        local result="ไข่ล่าสุด "..topCount.." รายการ"
+        STRING_CACHE[text]=result
         return result
     end
 
@@ -6991,6 +8309,189 @@ local function IsLooseTarget(object)
 end
 
 --========================================================
+-- ZIGZAG V1.9.6: CHILLI FINDER standalone window (NOT game UI).
+-- Detect by branded header, scope translation to Finder's own panel,
+-- never touch player/account input, callback IDs, passwords or game HUD.
+-- A single DescendantAdded listener per Finder window; no scan loop.
+--========================================================
+local ZIGZAG_FINDER_TRACKED = setmetatable({}, {__mode="k"})
+local ZIGZAG_FINDER_OBSERVED = setmetatable({}, {__mode="k"})
+local ZIGZAG_FINDER_BUSY = setmetatable({}, {__mode="k"})
+
+-- These are visible UI labels, not backend option IDs. Short Thai labels fit
+-- Finder's compact mobile buttons. Player names, prices and passwords stay raw.
+local ZIGZAG_FINDER_SHORT = {
+    ["chilli finder"]="Chilli Finder", ["finder"]="ค้นหาไข่",
+    ["force join"]="บังคับเข้า", ["min value"]="ขั้นต่ำ",
+    ["rarity"]="ความแรร์", ["account"]="บัญชี",
+    ["auto off"]="ออโต้ ปิด", ["auto on"]="ออโต้ เปิด",
+    ["off"]="ปิด", ["on"]="เปิด", ["any"]="ทุกระดับ",
+    ["join"]="เข้า", ["hide"]="ซ่อน", ["show"]="แสดง",
+    ["sign in"]="เข้าสู่ระบบ", ["sign up"]="สมัครสมาชิก",
+    ["password"]="รหัสผ่าน", ["copy link"]="คัดลอกลิงก์",
+    ["copy"]="คัดลอก", ["recent eggs"]="ไข่ล่าสุด",
+    ["create your account and get chilli finder"]="สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["sign in with your chillihub.pro account"]="เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+}
+
+local function ZIGZAG_FinderNorm(text)
+    if type(text)~="string" then return "" end
+    local t=CleanText(text)
+    t=t:gsub("&amp;","&"):gsub("&nbsp;"," ")
+    return t:match("^%s*(.-)%s*$") or t
+end
+
+local function ZIGZAG_FinderLine(raw)
+    local text=ZIGZAG_FinderNorm(raw)
+    local lower=string.lower(text)
+    local short=ZIGZAG_FINDER_SHORT[lower]
+    if short then return short end
+
+    -- Finder may put setting and value into a single TextLabel.
+    local joined=lower:match("^force%s+join%s+(%a+)$")
+    if joined=="on" or joined=="off" then
+        return "บังคับเข้า: "..(joined=="on" and "เปิด" or "ปิด")
+    end
+    local val=text:match("^[Mm][Ii][Nn]%s+[Vv][Aa][Ll][Uu][Ee]%s+(.+)$")
+    if val then return "ขั้นต่ำ "..val end
+    val=lower:match("^rarity%s+(.+)$")
+    if val then return "ความแรร์: "..(ZIGZAG_FINDER_SHORT[val] or val) end
+    val=lower:match("^account%s+(.+)$")
+    if val then return "บัญชี: "..(ZIGZAG_FINDER_SHORT[val] or val) end
+
+    local num,website=lower:match("^top%s+(%d+)%s+recent%s+eggs?%s*|%s*book%s+at%s+([%w%.%-]+)$")
+    if num then return "ไข่ล่าสุด "..num.." ฟอง | "..website end
+    num=lower:match("^top%s+(%d+)%s+recent%s+eggs?$")
+    if num then return "ไข่ล่าสุด "..num.." ฟอง" end
+    local amount,unit=lower:match("^(%d+)%s*([smhd])%s+ago$")
+    if amount then
+        local suffix={s=" วินาที",m=" นาที",h=" ชั่วโมง",d=" วัน"}
+        return amount..(suffix[unit] or " "..unit).."ที่แล้ว"
+    end
+    return TranslateText(raw)
+end
+
+local function ZIGZAG_FinderTranslate(raw)
+    if type(raw)~="string" or raw=="" or IsDynamicPetCardMarkup(raw) then return raw end
+    if not raw:find("\n",1,true) then return ZIGZAG_FinderLine(raw) end
+    local changed=false
+    local translated={}
+    for line in (raw.."\n"):gmatch("(.-)\n") do
+        local candidate=ZIGZAG_FinderLine(line)
+        if candidate~=line then changed=true end
+        translated[#translated+1]=candidate
+    end
+    return changed and table.concat(translated,"\n") or raw
+end
+
+local function ZIGZAG_FinderApply(obj,property)
+    if not STATE.Live or not obj.Parent or ZIGZAG_FINDER_BUSY[obj] then return end
+    if property=="Text" and obj:IsA("TextBox") then return end -- user input
+    local ok,old=pcall(function() return obj[property] end)
+    if not ok or type(old)~="string" then return end
+    if property=="Text" and ProtectPetCardText(obj,old) then return end
+    local new=ZIGZAG_FinderTranslate(old)
+    if new==old then return end
+    ZIGZAG_FINDER_BUSY[obj]=true
+    pcall(function() obj[property]=new end)
+    ZIGZAG_FINDER_BUSY[obj]=nil
+end
+
+local function ZIGZAG_FinderWatch(obj)
+    if not IsTextObject(obj) or ZIGZAG_FINDER_OBSERVED[obj] then return end
+    ZIGZAG_FINDER_OBSERVED[obj]=true
+    ZIGZAG_FinderApply(obj,"Text")
+    Bind(obj:GetPropertyChangedSignal("Text"):Connect(function()
+        ZIGZAG_FinderApply(obj,"Text")
+    end))
+    if obj:IsA("TextBox") then
+        ZIGZAG_FinderApply(obj,"PlaceholderText")
+        Bind(obj:GetPropertyChangedSignal("PlaceholderText"):Connect(function()
+            ZIGZAG_FinderApply(obj,"PlaceholderText")
+        end))
+    end
+end
+
+local function ZIGZAG_FinderSeed(obj)
+    if not IsTextObject(obj) then return false end
+    local ok,raw=pcall(function() return obj.Text end)
+    if not ok or type(raw)~="string" then return false end
+    local t=string.lower(ZIGZAG_FinderNorm(raw))
+    -- Several distinct anchors work even when the title is an ImageLabel,
+    -- or when a subset of the Finder labels have already been translated.
+    return t=="chilli finder" or t:find("chillihub.pro",1,true)~=nil
+        or t:match("^top%s+%d+%s+recent%s+eggs?")~=nil
+        or t:match("^ไข่ล่าสุด%s+%d+")~=nil
+        or t:find("สร้างบัญชีเพื่อใช้งาน Chilli Finder",1,true)~=nil
+end
+
+local function ZIGZAG_FinderEvidence(candidate)
+    local brand,domain,recents,menu=false,false,false,false
+    for _,obj in ipairs(candidate:GetDescendants()) do
+        if IsTextObject(obj) then
+            local ok,t=pcall(function() return string.lower(ZIGZAG_FinderNorm(obj.Text)) end)
+            if ok then
+                if t=="chilli finder" then brand=true end
+                if t:find("chillihub.pro",1,true) then domain=true end
+                if t:match("^top%s+%d+%s+recent%s+eggs?") or t:match("^ไข่ล่าสุด%s+%d+") then recents=true end
+                if t=="force join" or t=="บังคับเข้า" or t=="min value" or t=="ขั้นต่ำ"
+                    or t=="account" or t=="บัญชี" or t=="auto off" or t=="ออโต้ ปิด" then
+                    menu=true
+                end
+            end
+        end
+    end
+    return (brand and (domain or recents or menu))
+        or (domain and (recents or menu))
+end
+
+local function ZIGZAG_FinderWindowFromSeed(seed)
+    if not seed or not seed.Parent then return nil end
+    local current=seed.Parent
+    -- Start at the smallest common panel containing Finder's header/footer
+    -- AND its controls; old V1.9.6 could attach to only the footer, so the
+    -- top buttons remained English. Do not select the full game ScreenGui.
+    local fallback=nil
+    while current and not IsKnownRoot(current) do
+        if current:IsA("Frame") or current:IsA("CanvasGroup")
+            or current:IsA("ScrollingFrame") or current:IsA("ImageLabel") then
+            local size=current.AbsoluteSize
+            if size.X>=180 and size.Y>=150 then
+                if not fallback then fallback=current end
+                if ZIGZAG_FinderEvidence(current) then return current end
+            end
+        end
+        if current:IsA("ScreenGui") then
+            -- Only Finder-exclusive ScreenGuis are safe to track completely.
+            if string.lower(current.Name):find("finder",1,true) then return current end
+            break
+        end
+        current=current.Parent
+    end
+    -- Don't guess a footer-only rectangle; retry when more Finder elements load.
+    return nil
+end
+
+local function ZIGZAG_DetectFinder(seed)
+    if not ZIGZAG_FinderSeed(seed) then return end
+    local panel=ZIGZAG_FinderWindowFromSeed(seed)
+    if not panel or ZIGZAG_FINDER_TRACKED[panel] then return end
+    ZIGZAG_FINDER_TRACKED[panel]=true
+    for _,obj in ipairs(panel:GetDescendants()) do ZIGZAG_FinderWatch(obj) end
+    Bind(panel.DescendantAdded:Connect(function(obj)
+        task.defer(function()
+            if STATE.Live and obj.Parent and obj:IsDescendantOf(panel) then
+                ZIGZAG_FinderWatch(obj)
+                for _,child in ipairs(obj:GetDescendants()) do
+                    ZIGZAG_FinderWatch(child)
+                end
+            end
+        end)
+    end))
+    print("[ZIGZAG V1.9.7] Chilli Finder FULL PANEL Thai translation enabled")
+end
+
+--========================================================
 -- 16-17. DISCOVERY / ROOT EVENT WATCHER (NO SCAN LOOP)
 --========================================================
 
@@ -7024,6 +8525,7 @@ local function WatchRoot(root)
             if object.Parent then
                 WatchSidebarLabel(object)
                 DetectFloatingPanel(object)
+                ZIGZAG_DetectFinder(object)
             end
         end)
         -- Three short initializations only for newly created candidate text.
@@ -7032,6 +8534,17 @@ local function WatchRoot(root)
             if object.Parent then
                 WatchSidebarLabel(object)
                 DetectFloatingPanel(object)
+                ZIGZAG_DetectFinder(object)
+            end
+        end)
+        -- Finder widgets may receive their actual .Text a little after parenting.
+        -- One extra delayed check, no background frame scanner.
+        task.delay(1.25,function()
+            if STATE.Live and object.Parent then ZIGZAG_DetectFinder(object) end
+        end)
+        task.delay(3.0,function()
+            if STATE.Live and object.Parent and ZIGZAG_FinderSeed(object) then
+                ZIGZAG_DetectFinder(object)
             end
         end)
         if IsChilliTitle(object) then
@@ -7058,6 +8571,7 @@ for _,root in ipairs(UI_ROOTS) do
         if IsTextObject(object) then
             WatchSidebarLabel(object)
             DetectFloatingPanel(object)
+            ZIGZAG_DetectFinder(object)
         end
     end
 end
@@ -7068,7 +8582,10 @@ local function CheckExistingSidebarButtons()
     for _,root in ipairs(UI_ROOTS) do
         if root and root.Parent then
             for _,object in ipairs(root:GetDescendants()) do
-                if IsTextObject(object) then WatchSidebarLabel(object) end
+                if IsTextObject(object) then
+                    WatchSidebarLabel(object)
+                    ZIGZAG_DetectFinder(object)
+                end
             end
         end
     end
@@ -8110,6 +9627,207 @@ for en,th in pairs(ZIGZAG_V193_VENYX_LABELS) do
     TH[en]=th
 end
 
+
+-- ZIGZAG V1.9.4 ADD-ONLY: Venyx GUI and popup, same feature names as Chilli
+local ZIGZAG_V194_VENYX_LABELS = {
+    ["steal panel"] = "แผงขโมยไข่",
+    ["steal egg"] = "ขโมยไข่",
+    ["steal eggs"] = "ขโมยไข่",
+    ["steal target"] = "เป้าหมายขโมย",
+    ["steal targets"] = "เป้าหมายขโมย",
+    ["steal status"] = "สถานะการขโมย",
+    ["steal progress"] = "ความคืบหน้าการขโมย",
+    ["steal method"] = "วิธีขโมยไข่",
+    ["steal mode"] = "โหมดขโมยไข่",
+    ["steal speed"] = "ความเร็วขโมยไข่",
+    ["steal distance"] = "ระยะขโมยไข่",
+    ["delivery status"] = "สถานะส่งไข่กลับฐาน",
+    ["delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["delivery speed"] = "ความเร็วส่งไข่กลับฐาน",
+    ["move to egg"] = "วิธีเคลื่อนที่ไปหาไข่",
+    ["move to egg speed"] = "ความเร็วการไปหาไข่",
+    ["walk"] = "เดิน",
+    ["sprint"] = "วิ่งเร็ว",
+    ["quick steps"] = "ก้าวเร็วเป็นขั้น",
+    ["teleport"] = "วาร์ป",
+    ["tween"] = "เคลื่อนที่แบบ Tween",
+    ["fast tween"] = "Tween ความเร็วสูง",
+    ["teleport to egg"] = "วาร์ปไปหาไข่",
+    ["teleport to base"] = "วาร์ปกลับฐาน",
+    ["return to base"] = "กลับฐาน",
+    ["auto return"] = "กลับฐานอัตโนมัติ",
+    ["instant steal"] = "ขโมยทันที",
+    ["auto steal"] = "ขโมยอัตโนมัติ",
+    ["auto steal eggs"] = "ขโมยไข่อัตโนมัติ",
+    ["auto steal status"] = "สถานะขโมยไข่อัตโนมัติ",
+    ["steal from players"] = "ขโมยไข่จากผู้เล่น",
+    ["steal from holder"] = "ขโมยไข่จากผู้ถือ",
+    ["steal egg holders"] = "ขโมยไข่จากผู้ถือไข่",
+    ["steal priority"] = "ลำดับความสำคัญในการขโมย",
+    ["steal filters"] = "ตัวกรองการขโมย",
+    ["target eggs"] = "ไข่เป้าหมาย",
+    ["target rarity"] = "ระดับไข่เป้าหมาย",
+    ["target rarities"] = "ระดับไข่เป้าหมาย",
+    ["min steal value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["minimum steal value"] = "มูลค่าขั้นต่ำที่จะขโมย",
+    ["eggs found"] = "พบไข่แล้ว",
+    ["egg found"] = "พบไข่แล้ว",
+    ["eggs matched"] = "ไข่ที่ตรงเงื่อนไข",
+    ["matching eggs"] = "ไข่ที่ตรงเงื่อนไข",
+    ["no matching eggs"] = "ไม่มีไข่ที่ตรงเงื่อนไข",
+    ["no eggs found"] = "ไม่พบไข่",
+    ["waiting for eggs"] = "กำลังรอไข่",
+    ["waiting for a target"] = "กำลังรอเป้าหมาย",
+    ["waiting for target"] = "กำลังรอเป้าหมาย",
+    ["stealing egg"] = "กำลังขโมยไข่",
+    ["delivering egg"] = "กำลังส่งไข่กลับฐาน",
+    ["returning to base"] = "กำลังกลับฐาน",
+    ["holding egg"] = "กำลังถือไข่",
+    ["carrying egg"] = "กำลังถือไข่",
+    ["steal complete"] = "ขโมยสำเร็จ",
+    ["steal failed"] = "ขโมยไม่สำเร็จ",
+    ["last steal"] = "การขโมยครั้งล่าสุด",
+    ["last issue"] = "ปัญหาล่าสุด",
+    ["egg owner"] = "เจ้าของไข่",
+    ["egg name"] = "ชื่อไข่",
+    ["egg rarity"] = "ระดับความหายากของไข่",
+    ["egg value"] = "มูลค่าไข่",
+    ["egg size"] = "ขนาดไข่",
+    ["egg weight"] = "น้ำหนักไข่",
+    ["player"] = "ผู้เล่น",
+    ["holder"] = "ผู้ถือไข่",
+    ["steal history"] = "ประวัติการขโมย",
+    ["stolen eggs"] = "ไข่ที่ขโมยได้",
+    ["eggs stolen"] = "ไข่ที่ขโมยได้",
+    ["total stolen"] = "จำนวนที่ขโมยได้ทั้งหมด",
+    ["current target"] = "เป้าหมายปัจจุบัน",
+    ["target player"] = "ผู้เล่นเป้าหมาย",
+    ["selected eggs"] = "ไข่ที่เลือก",
+    ["selected rarities"] = "ระดับที่เลือก",
+    ["selected zones"] = "โซนที่เลือก",
+    ["select eggs"] = "เลือกไข่",
+    ["select rarities"] = "เลือกระดับความหายาก",
+    ["select zones"] = "เลือกโซน",
+    ["search eggs"] = "ค้นหาไข่",
+    ["search players"] = "ค้นหาผู้เล่น",
+    ["refresh"] = "รีเฟรช",
+    ["confirm"] = "ยืนยัน",
+    ["cancel"] = "ยกเลิก",
+    ["close"] = "ปิด",
+    ["apply"] = "นำไปใช้",
+    ["retry"] = "ลองอีกครั้ง",
+    ["continue"] = "ดำเนินการต่อ",
+    ["success"] = "สำเร็จ",
+    ["failed"] = "ไม่สำเร็จ",
+    ["error"] = "ข้อผิดพลาด",
+    ["warning"] = "คำเตือน",
+    ["information"] = "ข้อมูล",
+    ["status"] = "สถานะ",
+    ["ready"] = "พร้อม",
+    ["waiting"] = "กำลังรอ",
+    ["disabled"] = "ปิดใช้งาน",
+    ["enabled"] = "เปิดใช้งาน",
+    ["on"] = "เปิด",
+    ["off"] = "ปิด",
+    ["on"] = "เปิด",
+    ["off"] = "ปิด",
+    ["all"] = "ทั้งหมด",
+    ["none"] = "ไม่มี",
+    ["done"] = "เสร็จแล้ว",
+    ["total"] = "รวม",
+    ["current"] = "ปัจจุบัน",
+    ["time left"] = "เวลาที่เหลือ",
+    ["seconds"] = "วินาที",
+    ["minutes"] = "นาที",
+    ["server hop"] = "ย้ายเซิร์ฟเวอร์",
+    ["auto server hop"] = "ย้ายเซิร์ฟเวอร์อัตโนมัติ",
+    ["run again after teleport"] = "รันต่อหลังย้ายเซิร์ฟเวอร์",
+    ["auto rejoin"] = "เข้าเกมใหม่อัตโนมัติ",
+    ["reconnect"] = "เชื่อมต่อใหม่",
+    ["quest: done"] = "เควสต์: สำเร็จ",
+    ["fish caught"] = "ปลาที่จับได้",
+    ["no three matching pets"] = "ไม่มีสัตว์เลี้ยงชนิดเดียวกันครบ 3 ตัว",
+    ["keep eggs"] = "เก็บไข่ไว้",
+    ["keep matching eggs"] = "เก็บไข่ที่ตรงเงื่อนไขไว้",
+    ["keep rarities"] = "เก็บไข่ตามระดับความหายาก",
+    ["keep min value"] = "มูลค่าขั้นต่ำของไข่ที่จะเก็บ",
+    ["max hatch value"] = "มูลค่าสูงสุดของไข่ที่จะฟัก",
+    ["egg matches"] = "ไข่ที่ตรงเงื่อนไข",
+    ["eggs placed"] = "วางไข่แล้ว",
+    ["pets equipped"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["portal opens"] = "ประตูมิติจะเปิด",
+    ["keep these eggs"] = "เก็บไข่เหล่านี้ไว้",
+    ["always keep"] = "เก็บไว้เสมอ",
+    ["keep selected eggs"] = "เก็บไข่ที่เลือกไว้",
+    ["auto place egg"] = "วางไข่อัตโนมัติ",
+    ["auto hatch"] = "ฟักไข่อัตโนมัติ",
+    ["auto sell eggs"] = "ขายไข่อัตโนมัติ",
+    ["sell eggs now"] = "ขายไข่ตอนนี้",
+    ["egg bag"] = "กระเป๋าไข่",
+    ["in bag"] = "ในกระเป๋า",
+    ["in pen"] = "ในคอก",
+    ["equipped pets"] = "สัตว์เลี้ยงที่สวมใส่",
+    ["place eggs"] = "วางไข่",
+    ["hatch eggs"] = "ฟักไข่",
+    ["sell eggs"] = "ขายไข่",
+    ["steal an egg"] = "ขโมยไข่",
+    ["auto steal egg"] = "ขโมยไข่อัตโนมัติ",
+    ["auto steal missing index"] = "ขโมยไข่ที่ยังไม่มีในสมุดอัตโนมัติ",
+    ["only steal matching eggs"] = "ขโมยเฉพาะไข่ที่ตรงเงื่อนไข",
+    ["steal eggs matching filters"] = "ขโมยไข่ที่ตรงตัวกรอง",
+    ["find best egg"] = "ค้นหาไข่ที่ดีที่สุด",
+    ["best egg"] = "ไข่ที่ดีที่สุด",
+    ["eggs in bag"] = "ไข่ในกระเป๋า",
+    ["eggs in pen"] = "ไข่ในคอก",
+    ["eggs equipped"] = "ไข่ที่สวมใส่",
+    ["no matching targets"] = "ไม่พบเป้าหมายที่ตรงเงื่อนไข",
+    ["no target found"] = "ไม่พบเป้าหมาย",
+    ["searching for eggs"] = "กำลังค้นหาไข่",
+    ["searching for target"] = "กำลังค้นหาเป้าหมาย",
+    ["waiting for server"] = "กำลังรอเซิร์ฟเวอร์",
+    ["rejoining server"] = "กำลังเข้าเซิร์ฟเวอร์ใหม่",
+    ["teleporting"] = "กำลังย้ายเซิร์ฟเวอร์",
+    ["teleport failed"] = "ย้ายเซิร์ฟเวอร์ไม่สำเร็จ",
+    ["deliver egg first"] = "ส่งไข่กลับฐานก่อน",
+    ["delivering to safe zone"] = "กำลังนำไข่ไปเขตปลอดภัย",
+    ["returning to safe zone"] = "กำลังกลับไปยังเขตปลอดภัย",
+    ["egg stolen successfully"] = "ขโมยไข่สำเร็จ",
+    ["unable to steal egg"] = "ไม่สามารถขโมยไข่ได้",
+    ["you are holding an egg"] = "คุณกำลังถือไข่",
+    ["no egg selected"] = "ยังไม่ได้เลือกไข่",
+    ["no player selected"] = "ยังไม่ได้เลือกผู้เล่น",
+    ["no eggs matching filters"] = "ไม่มีไข่ตรงตามตัวกรอง",
+    ["no eligible eggs"] = "ไม่มีไข่ที่เข้าเงื่อนไข",
+    ["steal panel settings"] = "ตั้งค่าแผงขโมยไข่",
+    ["show steal panel"] = "แสดงแผงขโมยไข่",
+    ["hide steal panel"] = "ซ่อนแผงขโมยไข่",
+    ["auto steal: off"] = "ออโต้ขโมย: ปิด",
+    ["auto steal: on"] = "ออโต้ขโมย: เปิด",
+    ["instant steal: off"] = "ขโมยทันที: ปิด",
+    ["instant steal: on"] = "ขโมยทันที: เปิด",
+    ["delivery method"] = "วิธีส่งไข่กลับฐาน",
+    ["keep mutated eggs"] = "เก็บไข่กลายพันธุ์ไว้",
+    ["keep favorite eggs"] = "เก็บไข่รายการโปรดไว้",
+    ["skip owned eggs"] = "ข้ามไข่ที่มีอยู่แล้ว",
+    ["skip mutated eggs"] = "ข้ามไข่กลายพันธุ์",
+    ["skip halloween eggs"] = "ข้ามไข่ฮาโลวีน",
+    ["only halloween eggs"] = "เฉพาะไข่ฮาโลวีน",
+    ["halloween eggs"] = "ไข่ฮาโลวีน",
+    ["missing index eggs"] = "ไข่ที่ยังไม่มีในสมุดสะสม",
+    ["target areas"] = "พื้นที่เป้าหมาย",
+    ["target zones"] = "โซนเป้าหมาย",
+    ["steal range"] = "ระยะขโมย",
+    ["teleport zones"] = "โซนที่วาร์ปได้",
+    ["steal from base"] = "ขโมยไข่จากฐาน",
+    ["teleport to player"] = "วาร์ปไปหาผู้เล่น",
+    ["return after steal"] = "กลับฐานหลังขโมย",
+    ["stop stealing"] = "หยุดขโมย",
+    ["stop auto steal"] = "หยุดขโมยอัตโนมัติ",
+    ["resume auto steal"] = "ทำงานขโมยอัตโนมัติต่อ",
+    ["show steal history"] = "แสดงประวัติการขโมย",
+}
+for en,th in pairs(ZIGZAG_V194_VENYX_LABELS) do TH[en] = th end
+
 local function tidy(text)
     return (text:gsub("^%s+", ""):gsub("%s+$", ""))
 end
@@ -8212,6 +9930,92 @@ local DYNAMIC = {
     end},
 }
 
+-- ZIGZAG V1.9.5 • UFO, Admin and Chilli Finder UI labels shared with Venyx.
+local ZIGZAG_V195_VENYX_LABELS = {
+    ["ufo sightings"] = "กิจกรรมพบเห็น UFO",
+    ["ufo sighting"] = "การพบเห็น UFO",
+    ["auto ufo"] = "ออโต้กิจกรรม UFO",
+    ["collect ufo debris"] = "เก็บเศษซาก UFO",
+    ["enter rare ufo"] = "เข้า UFO หายาก",
+    ["auto trade debris"] = "ออโต้แลกเศษซาก UFO",
+    ["teleport if far from egg"] = "วาร์ปเมื่ออยู่ไกลจากไข่",
+    ["ufo debris"] = "เศษซาก UFO",
+    ["ufo rewards"] = "รางวัล UFO",
+    ["ufo event"] = "กิจกรรม UFO",
+    ["rare ufo"] = "UFO หายาก",
+    ["trade debris"] = "แลกเศษซาก UFO",
+    ["use admin treadmill"] = "ใช้ลู่วิ่งแอดมิน",
+    ["use instant steal v3"] = "ใช้ระบบขโมยทันที V3",
+    ["chilli finder hud"] = "แสดงปุ่ม Chilli Finder บนหน้าจอ",
+    ["show the chilli finder button on the game hud"] = "แสดงปุ่ม Chilli Finder บนหน้าจอเกม",
+    ["show chilli finder"] = "แสดง Chilli Finder",
+    ["open chilli finder"] = "เปิด Chilli Finder",
+    ["chilli finder"] = "Chilli Finder",
+    ["force join"] = "บังคับเข้าเซิร์ฟเวอร์",
+    ["min value"] = "มูลค่าขั้นต่ำ",
+    ["rarity"] = "ระดับความหายาก",
+    ["account"] = "บัญชี",
+    ["auto off"] = "ออโต้ ปิด",
+    ["auto on"] = "ออโต้ เปิด",
+    ["sign in"] = "เข้าสู่ระบบ",
+    ["sign up"] = "สมัครสมาชิก",
+    ["sign out"] = "ออกจากระบบ",
+    ["password"] = "รหัสผ่าน",
+    ["show"] = "แสดง",
+    ["hide"] = "ซ่อน",
+    ["copy link"] = "คัดลอกลิงก์",
+    ["book"] = "จอง",
+    ["join"] = "เข้าร่วม",
+    ["any"] = "ทุกระดับ",
+    ["top 5 recent eggs | book at chillihub.pro"] = "ไข่ล่าสุด 5 รายการ | จองที่ chillihub.pro",
+    ["create your account and get chilli finder"] = "สร้างบัญชีเพื่อใช้งาน Chilli Finder",
+    ["sign in with your chillihub.pro account"] = "เข้าสู่ระบบด้วยบัญชี chillihub.pro ของคุณ",
+    ["create account"] = "สร้างบัญชี",
+    ["recent eggs"] = "ไข่ล่าสุด",
+}
+for en,th in pairs(ZIGZAG_V195_VENYX_LABELS) do TH[key(en)] = th end
+
+-- ZIGZAG V1.9.6 • Venyx 1.5.0 popup optimizer + Finder updates.
+-- Visual labels only; never change menu options/callbacks or field data.
+local ZIGZAG_V196_VENYX_LABELS = {
+    ["optimizer mode"] = "โหมดปรับประสิทธิภาพ",
+    ["balanced"] = "สมดุล",
+    ["strong"] = "เร่งประสิทธิภาพ",
+    ["strong mode"] = "โหมดเร่งประสิทธิภาพ",
+    ["select an option"] = "เลือกตัวเลือก",
+    ["select option"] = "เลือกตัวเลือก",
+    ["choose an option"] = "เลือกตัวเลือก",
+    ["recent eggs"] = "ไข่ล่าสุด",
+    ["top recent eggs"] = "ไข่ล่าสุด",
+    ["show password"] = "แสดงรหัสผ่าน",
+    ["hide password"] = "ซ่อนรหัสผ่าน",
+    ["auto off"] = "ออโต้ ปิด",
+    ["auto on"] = "ออโต้ เปิด",
+    ["join server"] = "เข้าเซิร์ฟเวอร์",
+    ["book at chillihub.pro"] = "จองที่ chillihub.pro",
+}
+for en,th in pairs(ZIGZAG_V196_VENYX_LABELS) do TH[key(en)] = th end
+
+-- ZIGZAG V1.9.7 • same November update in Venyx and queued Venyx.
+local ZIGZAG_V197_VENYX_LABELS = {
+    ["ufo delivery"] = "วิธีส่งไข่จาก UFO",
+    ["ufo live"] = "กิจกรรม UFO กำลังดำเนินอยู่",
+    ["no egg to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["no eggs to mutate"] = "ไม่มีไข่ให้กลายพันธุ์",
+    ["waiting | no egg to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["waiting | no eggs to mutate"] = "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์",
+    ["force join"] = "บังคับเข้า",
+    ["min value"] = "ขั้นต่ำ",
+    ["rarity"] = "ความแรร์",
+    ["account"] = "บัญชี",
+    ["join"] = "เข้าเซิร์ฟ",
+    ["auto off"] = "ออโต้ ปิด",
+    ["auto on"] = "ออโต้ เปิด",
+}
+for en,th in pairs(ZIGZAG_V197_VENYX_LABELS) do TH[key(en)] = th end
+
+
+
 -- In the pin picker, Venyx can use RichText to render the option name
 -- in white and the control type ("slider" / "button") in gray.
 -- A raw string like `Min value /s <font ...>slider</font>` did not match
@@ -8271,6 +10075,64 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if placed then
         return "วางไข่แล้ว "..placed.."/"..maxPlaced.." | ใส่สัตว์เลี้ยง "..equipped.."/"..maxEquipped.." | ในกระเป๋า "..bag
     end
+    -- ZIGZAG V1.9.4 • Dynamic large steal popup / status; numbers remain live.
+    local a,b,c = l:match("^eggs? stolen:%s*(%d+)%s*/%s*(%d+)%s*|%s*failed:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้ "..a.."/"..b.." | ไม่สำเร็จ "..c.." ครั้ง" end
+    local a,b = l:match("^steal progress:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ความคืบหน้าการขโมย: "..a.."/"..b end
+    local a = l:match("^eggs? stolen:%s*(%d+)$")
+    if a then return "ขโมยไข่ได้: "..a.." ฟอง" end
+    local a = l:match("^total stolen:%s*(%d+)$")
+    if a then return "ขโมยได้ทั้งหมด: "..a.." ฟอง" end
+    local a = l:match("^eggs? found:%s*(%d+)$")
+    if a then return "พบไข่: "..a.." ฟอง" end
+    local a = l:match("^matching eggs:%s*(%d+)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง" end
+    local a,b = l:match("^eggs? in bag:%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "ไข่ในกระเป๋า: "..a.."/"..b end
+    local a,b = l:match("^egg matches%s*%-%s*(%d+)%s+eggs?%s*%((%d+)%s+halloween%)$")
+    if a then return "ไข่ที่ตรงเงื่อนไข: "..a.." ฟอง (ฮาโลวีน "..b.." ฟอง)" end
+    local a,b = l:match("^eggs placed%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "วางไข่แล้ว "..a.."/"..b end
+    local a,b = l:match("^pets equipped%s*(%d+)%s*/%s*(%d+)$")
+    if a then return "สวมใส่สัตว์เลี้ยง "..a.."/"..b end
+    local a = l:match("^waiting for%s+(%d+)%s+seconds?$")
+    if a then return "กำลังรออีก "..a.." วินาที" end
+    local a,b = l:match("^portal opens in%s*(%d+)%s*min%s*(%d+)%s*sec$")
+    if a then return "ประตูมิติจะเปิดในอีก "..a.." นาที "..b.." วินาที" end
+    local a = l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)%s*fish$")
+    if a then return "เควสต์: สำเร็จ | จับปลาได้: "..a.." ตัว" end
+    local a,b = l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)$")
+    if a then return "สำเร็จ "..a.." ชัยชนะ | ชัยชนะ: "..b end
+    -- ZIGZAG V1.9.5 • Chilli Finder changing times and book count.
+    local num,domain=l:match("^top%s+(%d+)%s+recent%s+eggs?%s*|%s*book%s+at%s+([%w%.%-]+)$")
+    if num then return "ไข่ล่าสุด "..num.." รายการ | จองที่ "..domain end
+    local amount,unit=l:match("^(%d+)%s*([smhd])%s+ago$")
+    if amount then
+        local unitTH={s="วินาที",m="นาที",h="ชั่วโมง",d="วัน"}
+        return amount.." "..(unitTH[unit] or unit).."ที่แล้ว"
+    end
+    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
+    if ufoClock then
+        local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
+        local readable
+        if h then readable=h.." ชั่วโมง "..m.." นาที "..sec.." วินาที"
+        else
+            local mins,secs=ufoClock:match("^(%d+)m%s*(%d+)s$")
+            if mins then readable=mins.." นาที "..secs.." วินาที"
+            else
+                local seconds=ufoClock:match("^(%d+)s$")
+                local minutes=ufoClock:match("^(%d+)m$")
+                readable=(seconds and seconds.." วินาที") or (minutes and minutes.." นาที") or ufoClock
+            end
+        end
+        return "กิจกรรม UFO กำลังดำเนินอยู่ เหลือ "..readable.." | ไข่ "..ufoEggs.."/"..ufoGoal
+    end
+    if l:match("^waiting%s*|%s*no eggs? to mutate$") then
+        return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
 end
 
@@ -9247,13 +11109,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.3 | Event Status Thai + Purple UI",
+            Text="V1.9.7 | Finder Popup + UFO Status Thai",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.3 STATUS THAI ALL-DEVICE PURPLE FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER UFO STATUS FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -9291,10 +11153,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V192_PURPLE_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -9304,7 +11166,7 @@ print("==============================================")
             print("✅ [ZIGZAG TP] Multi-hop Thai & purple theme queued (gameplay loader excluded)")
         end
     else
-        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.8.9 on your executor.")
+        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.9.7 on your executor.")
     end
 end
 
@@ -9433,13 +11295,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.3 | Event",
+            Text="V1.9.7 | Finder",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.3 STATUS THAI ALL-DEVICE PURPLE FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER UFO STATUS FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
