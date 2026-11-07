@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER POPUP / UFO STATUS / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.7_FINDER_SCOPED_STATUS"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.8_FINDER_SCOPED_STATUS"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1480,7 +1480,7 @@ local ZIGZAG_V196_CHILLI_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V196_CHILLI_LABELS) do TRANSLATIONS[en] = th end
 
--- ZIGZAG V1.9.7 • November update: UFO live countdown, delivery and mutation.
+-- ZIGZAG V1.9.8 • November update: UFO live countdown, delivery and mutation.
 -- Added to normal Chilli and translator-only teleport copy.
 local ZIGZAG_V197_CHILLI_LABELS = {
     ["UFO Delivery"] = "วิธีส่งไข่จาก UFO",
@@ -1500,6 +1500,30 @@ local ZIGZAG_V197_CHILLI_LABELS = {
     ["Book at chillihub.pro"] = "จองที่ chillihub.pro",
 }
 for en,th in pairs(ZIGZAG_V197_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.8 • November UI update, Chilli and embedded teleport copy.
+-- Only text labels. Never change callbacks, gameplay rules or option values.
+local ZIGZAG_V198_CHILLI_LABELS = {
+    ["Next UFO"] = "UFO ครั้งถัดไป",
+    ["Farm Rare UFO"] = "ฟาร์ม UFO หายาก",
+    ["UFO Delivery"] = "วิธีส่งไข่จาก UFO",
+    ["Step Count"] = "จำนวนก้าว",
+    ["Max Place Value"] = "มูลค่าสูงสุดของไข่ที่จะวาง",
+    ["Treadmill"] = "ลู่วิ่ง",
+    ["Auto Treadmill"] = "ใช้ลู่วิ่งอัตโนมัติ",
+    ["Auto Place Egg"] = "วางไข่อัตโนมัติ",
+    ["Auto Hatch & Equip"] = "ฟักไข่และสวมใส่อัตโนมัติ",
+    ["Doing now"] = "กำลังทำ",
+    ["Nothing"] = "ไม่มี",
+    ["Farm Tab > Auto Place Egg"] = "แท็บฟาร์ม > วางไข่อัตโนมัติ",
+    ["Farm Tab > Auto Treadmill"] = "แท็บฟาร์ม > ใช้ลู่วิ่งอัตโนมัติ",
+    ["Farm Tab > Auto Hatch & Equip"] = "แท็บฟาร์ม > ฟักไข่และสวมใส่อัตโนมัติ",
+    ["Farm Tab > Auto Mutation"] = "แท็บฟาร์ม > กลายพันธุ์อัตโนมัติ",
+    ["Farm Tab > Auto Steal"] = "แท็บฟาร์ม > ขโมยไข่อัตโนมัติ",
+    ["Farm Tab"] = "แท็บฟาร์ม",
+}
+for en,th in pairs(ZIGZAG_V198_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
 
 
 
@@ -1623,7 +1647,7 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if a then return "เควสต์: สำเร็จ | จับปลาได้: "..a.." ตัว" end
     local a,b = l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)$")
     if a then return "สำเร็จ "..a.." ชัยชนะ | ชัยชนะ: "..b end
-    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    -- V1.9.8 • Live UFO status and mutation status. Preserve live numbers.
     local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
     if ufoClock then
         local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
@@ -1642,6 +1666,46 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     end
     if l:match("^waiting%s*|%s*no eggs? to mutate$") then
         return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- ZIGZAG V1.9.8 • Active and countdown status (dynamic numbers are never cached).
+    local nextUfoMin,nextUfoSec=l:match("^next%s+ufo%s+in%s+(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoMin then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMin.." นาที "..nextUfoSec.." วินาที"
+    end
+    local nextUfoHour,mins,secs=l:match("^next%s+ufo%s+in%s+(%d+)%s*h%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoHour then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoHour.." ชม. "..mins.." นาที "..secs.." วินาที"
+    end
+    local nextUfoSecOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*s$")
+    if nextUfoSecOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoSecOnly.." วินาที"
+    end
+    local nextUfoMinOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*m$")
+    if nextUfoMinOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMinOnly.." นาที"
+    end
+    local taskNow,taskNext1,taskNext2,taskNext3 =
+        l:match("^doing%s+now:%s*(.-)%s*|%s*next%s+1:%s*(.-)%s*|%s*next%s+2:%s*(.-)%s*|%s*next%s+3:%s*(.-)%s*$")
+    if taskNow then
+        local taskTH={
+            idle="ว่าง",nothing="ไม่มี",none="ไม่มี",waiting="กำลังรอ",
+            off="ปิด",on="เปิด",["--"]="--",["-"]="-",
+            ["auto place egg"]="วางไข่อัตโนมัติ",
+            ["auto treadmill"]="ใช้ลู่วิ่งอัตโนมัติ",
+            ["treadmill"]="ลู่วิ่ง",
+            ["auto hatch"]="ฟักไข่อัตโนมัติ",
+            ["auto hatch & equip"]="ฟักไข่และสวมใส่อัตโนมัติ",
+            ["auto mutation"]="กลายพันธุ์อัตโนมัติ",
+            ["auto steal"]="ขโมยไข่อัตโนมัติ",
+            ["auto fuse"]="ผสมสัตว์เลี้ยงอัตโนมัติ",
+            ["farm rare ufo"]="ฟาร์ม UFO หายาก",
+        }
+        local function taskValue(v)
+            v=(v or ""):match("^%s*(.-)%s*$")
+            return taskTH[v] or v
+        end
+        return "ขณะนี้: "..taskValue(taskNow).." | ถัดไป 1: "..taskValue(taskNext1)
+            .." | 2: "..taskValue(taskNext2).." | 3: "..taskValue(taskNext3)
     end
     -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
@@ -2977,7 +3041,7 @@ local function ZIGZAG_DetectFinder(seed)
             end
         end)
     end))
-    print("[ZIGZAG V1.9.7] Chilli Finder FULL PANEL Thai translation enabled")
+    print("[ZIGZAG V1.9.8] Chilli Finder FULL PANEL Thai translation enabled")
 end
 
 --========================================================
@@ -4485,7 +4549,7 @@ local ZIGZAG_V196_VENYX_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V196_VENYX_LABELS) do TH[key(en)] = th end
 
--- ZIGZAG V1.9.7 • same November update in Venyx and queued Venyx.
+-- ZIGZAG V1.9.8 • same November update in Venyx and queued Venyx.
 local ZIGZAG_V197_VENYX_LABELS = {
     ["ufo delivery"] = "วิธีส่งไข่จาก UFO",
     ["ufo live"] = "กิจกรรม UFO กำลังดำเนินอยู่",
@@ -4502,6 +4566,29 @@ local ZIGZAG_V197_VENYX_LABELS = {
     ["auto on"] = "ออโต้ เปิด",
 }
 for en,th in pairs(ZIGZAG_V197_VENYX_LABELS) do TH[key(en)] = th end
+
+-- ZIGZAG V1.9.8 • Same November updates for Venyx and its teleport copy.
+local ZIGZAG_V198_VENYX_LABELS = {
+    ["next ufo"] = "UFO ครั้งถัดไป",
+    ["farm rare ufo"] = "ฟาร์ม UFO หายาก",
+    ["ufo delivery"] = "วิธีส่งไข่จาก UFO",
+    ["step count"] = "จำนวนก้าว",
+    ["max place value"] = "มูลค่าสูงสุดของไข่ที่จะวาง",
+    ["treadmill"] = "ลู่วิ่ง",
+    ["auto treadmill"] = "ใช้ลู่วิ่งอัตโนมัติ",
+    ["auto place egg"] = "วางไข่อัตโนมัติ",
+    ["auto hatch & equip"] = "ฟักไข่และสวมใส่อัตโนมัติ",
+    ["doing now"] = "กำลังทำ",
+    ["nothing"] = "ไม่มี",
+    ["farm tab > auto place egg"] = "แท็บฟาร์ม > วางไข่อัตโนมัติ",
+    ["farm tab > auto treadmill"] = "แท็บฟาร์ม > ใช้ลู่วิ่งอัตโนมัติ",
+    ["farm tab > auto hatch & equip"] = "แท็บฟาร์ม > ฟักไข่และสวมใส่อัตโนมัติ",
+    ["farm tab > auto mutation"] = "แท็บฟาร์ม > กลายพันธุ์อัตโนมัติ",
+    ["farm tab > auto steal"] = "แท็บฟาร์ม > ขโมยไข่อัตโนมัติ",
+    ["farm tab"] = "แท็บฟาร์ม",
+}
+for en,th in pairs(ZIGZAG_V198_VENYX_LABELS) do TH[key(en)] = th end
+
 
 
 
@@ -4601,7 +4688,7 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
         local unitTH={s="วินาที",m="นาที",h="ชั่วโมง",d="วัน"}
         return amount.." "..(unitTH[unit] or unit).."ที่แล้ว"
     end
-    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    -- V1.9.8 • Live UFO status and mutation status. Preserve live numbers.
     local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
     if ufoClock then
         local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
@@ -4620,6 +4707,46 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     end
     if l:match("^waiting%s*|%s*no eggs? to mutate$") then
         return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- ZIGZAG V1.9.8 • Active and countdown status (dynamic numbers are never cached).
+    local nextUfoMin,nextUfoSec=l:match("^next%s+ufo%s+in%s+(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoMin then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMin.." นาที "..nextUfoSec.." วินาที"
+    end
+    local nextUfoHour,mins,secs=l:match("^next%s+ufo%s+in%s+(%d+)%s*h%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoHour then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoHour.." ชม. "..mins.." นาที "..secs.." วินาที"
+    end
+    local nextUfoSecOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*s$")
+    if nextUfoSecOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoSecOnly.." วินาที"
+    end
+    local nextUfoMinOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*m$")
+    if nextUfoMinOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMinOnly.." นาที"
+    end
+    local taskNow,taskNext1,taskNext2,taskNext3 =
+        l:match("^doing%s+now:%s*(.-)%s*|%s*next%s+1:%s*(.-)%s*|%s*next%s+2:%s*(.-)%s*|%s*next%s+3:%s*(.-)%s*$")
+    if taskNow then
+        local taskTH={
+            idle="ว่าง",nothing="ไม่มี",none="ไม่มี",waiting="กำลังรอ",
+            off="ปิด",on="เปิด",["--"]="--",["-"]="-",
+            ["auto place egg"]="วางไข่อัตโนมัติ",
+            ["auto treadmill"]="ใช้ลู่วิ่งอัตโนมัติ",
+            ["treadmill"]="ลู่วิ่ง",
+            ["auto hatch"]="ฟักไข่อัตโนมัติ",
+            ["auto hatch & equip"]="ฟักไข่และสวมใส่อัตโนมัติ",
+            ["auto mutation"]="กลายพันธุ์อัตโนมัติ",
+            ["auto steal"]="ขโมยไข่อัตโนมัติ",
+            ["auto fuse"]="ผสมสัตว์เลี้ยงอัตโนมัติ",
+            ["farm rare ufo"]="ฟาร์ม UFO หายาก",
+        }
+        local function taskValue(v)
+            v=(v or ""):match("^%s*(.-)%s*$")
+            return taskTH[v] or v
+        end
+        return "ขณะนี้: "..taskValue(taskNow).." | ถัดไป 1: "..taskValue(taskNext1)
+            .." | 2: "..taskValue(taskNext2).." | 3: "..taskValue(taskNext3)
     end
     -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
@@ -5497,7 +5624,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.7_FINDER_SCOPED_STATUS"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.8_FINDER_SCOPED_STATUS"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -5523,10 +5650,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -5559,7 +5686,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER POPUP / UFO STATUS / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -5567,7 +5694,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.7_FINDER_SCOPED_STATUS"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.8_FINDER_SCOPED_STATUS"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -6991,7 +7118,7 @@ local ZIGZAG_V196_CHILLI_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V196_CHILLI_LABELS) do TRANSLATIONS[en] = th end
 
--- ZIGZAG V1.9.7 • November update: UFO live countdown, delivery and mutation.
+-- ZIGZAG V1.9.8 • November update: UFO live countdown, delivery and mutation.
 -- Added to normal Chilli and translator-only teleport copy.
 local ZIGZAG_V197_CHILLI_LABELS = {
     ["UFO Delivery"] = "วิธีส่งไข่จาก UFO",
@@ -7011,6 +7138,30 @@ local ZIGZAG_V197_CHILLI_LABELS = {
     ["Book at chillihub.pro"] = "จองที่ chillihub.pro",
 }
 for en,th in pairs(ZIGZAG_V197_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+-- ZIGZAG V1.9.8 • November UI update, Chilli and embedded teleport copy.
+-- Only text labels. Never change callbacks, gameplay rules or option values.
+local ZIGZAG_V198_CHILLI_LABELS = {
+    ["Next UFO"] = "UFO ครั้งถัดไป",
+    ["Farm Rare UFO"] = "ฟาร์ม UFO หายาก",
+    ["UFO Delivery"] = "วิธีส่งไข่จาก UFO",
+    ["Step Count"] = "จำนวนก้าว",
+    ["Max Place Value"] = "มูลค่าสูงสุดของไข่ที่จะวาง",
+    ["Treadmill"] = "ลู่วิ่ง",
+    ["Auto Treadmill"] = "ใช้ลู่วิ่งอัตโนมัติ",
+    ["Auto Place Egg"] = "วางไข่อัตโนมัติ",
+    ["Auto Hatch & Equip"] = "ฟักไข่และสวมใส่อัตโนมัติ",
+    ["Doing now"] = "กำลังทำ",
+    ["Nothing"] = "ไม่มี",
+    ["Farm Tab > Auto Place Egg"] = "แท็บฟาร์ม > วางไข่อัตโนมัติ",
+    ["Farm Tab > Auto Treadmill"] = "แท็บฟาร์ม > ใช้ลู่วิ่งอัตโนมัติ",
+    ["Farm Tab > Auto Hatch & Equip"] = "แท็บฟาร์ม > ฟักไข่และสวมใส่อัตโนมัติ",
+    ["Farm Tab > Auto Mutation"] = "แท็บฟาร์ม > กลายพันธุ์อัตโนมัติ",
+    ["Farm Tab > Auto Steal"] = "แท็บฟาร์ม > ขโมยไข่อัตโนมัติ",
+    ["Farm Tab"] = "แท็บฟาร์ม",
+}
+for en,th in pairs(ZIGZAG_V198_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
 
 
 
@@ -7134,7 +7285,7 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if a then return "เควสต์: สำเร็จ | จับปลาได้: "..a.." ตัว" end
     local a,b = l:match("^done,%s*(%d+)%s+wins?%s*|%s*wins:%s*(%d+)$")
     if a then return "สำเร็จ "..a.." ชัยชนะ | ชัยชนะ: "..b end
-    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    -- V1.9.8 • Live UFO status and mutation status. Preserve live numbers.
     local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
     if ufoClock then
         local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
@@ -7153,6 +7304,46 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     end
     if l:match("^waiting%s*|%s*no eggs? to mutate$") then
         return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- ZIGZAG V1.9.8 • Active and countdown status (dynamic numbers are never cached).
+    local nextUfoMin,nextUfoSec=l:match("^next%s+ufo%s+in%s+(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoMin then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMin.." นาที "..nextUfoSec.." วินาที"
+    end
+    local nextUfoHour,mins,secs=l:match("^next%s+ufo%s+in%s+(%d+)%s*h%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoHour then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoHour.." ชม. "..mins.." นาที "..secs.." วินาที"
+    end
+    local nextUfoSecOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*s$")
+    if nextUfoSecOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoSecOnly.." วินาที"
+    end
+    local nextUfoMinOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*m$")
+    if nextUfoMinOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMinOnly.." นาที"
+    end
+    local taskNow,taskNext1,taskNext2,taskNext3 =
+        l:match("^doing%s+now:%s*(.-)%s*|%s*next%s+1:%s*(.-)%s*|%s*next%s+2:%s*(.-)%s*|%s*next%s+3:%s*(.-)%s*$")
+    if taskNow then
+        local taskTH={
+            idle="ว่าง",nothing="ไม่มี",none="ไม่มี",waiting="กำลังรอ",
+            off="ปิด",on="เปิด",["--"]="--",["-"]="-",
+            ["auto place egg"]="วางไข่อัตโนมัติ",
+            ["auto treadmill"]="ใช้ลู่วิ่งอัตโนมัติ",
+            ["treadmill"]="ลู่วิ่ง",
+            ["auto hatch"]="ฟักไข่อัตโนมัติ",
+            ["auto hatch & equip"]="ฟักไข่และสวมใส่อัตโนมัติ",
+            ["auto mutation"]="กลายพันธุ์อัตโนมัติ",
+            ["auto steal"]="ขโมยไข่อัตโนมัติ",
+            ["auto fuse"]="ผสมสัตว์เลี้ยงอัตโนมัติ",
+            ["farm rare ufo"]="ฟาร์ม UFO หายาก",
+        }
+        local function taskValue(v)
+            v=(v or ""):match("^%s*(.-)%s*$")
+            return taskTH[v] or v
+        end
+        return "ขณะนี้: "..taskValue(taskNow).." | ถัดไป 1: "..taskValue(taskNext1)
+            .." | 2: "..taskValue(taskNext2).." | 3: "..taskValue(taskNext3)
     end
     -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
@@ -8488,7 +8679,7 @@ local function ZIGZAG_DetectFinder(seed)
             end
         end)
     end))
-    print("[ZIGZAG V1.9.7] Chilli Finder FULL PANEL Thai translation enabled")
+    print("[ZIGZAG V1.9.8] Chilli Finder FULL PANEL Thai translation enabled")
 end
 
 --========================================================
@@ -9996,7 +10187,7 @@ local ZIGZAG_V196_VENYX_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V196_VENYX_LABELS) do TH[key(en)] = th end
 
--- ZIGZAG V1.9.7 • same November update in Venyx and queued Venyx.
+-- ZIGZAG V1.9.8 • same November update in Venyx and queued Venyx.
 local ZIGZAG_V197_VENYX_LABELS = {
     ["ufo delivery"] = "วิธีส่งไข่จาก UFO",
     ["ufo live"] = "กิจกรรม UFO กำลังดำเนินอยู่",
@@ -10013,6 +10204,29 @@ local ZIGZAG_V197_VENYX_LABELS = {
     ["auto on"] = "ออโต้ เปิด",
 }
 for en,th in pairs(ZIGZAG_V197_VENYX_LABELS) do TH[key(en)] = th end
+
+-- ZIGZAG V1.9.8 • Same November updates for Venyx and its teleport copy.
+local ZIGZAG_V198_VENYX_LABELS = {
+    ["next ufo"] = "UFO ครั้งถัดไป",
+    ["farm rare ufo"] = "ฟาร์ม UFO หายาก",
+    ["ufo delivery"] = "วิธีส่งไข่จาก UFO",
+    ["step count"] = "จำนวนก้าว",
+    ["max place value"] = "มูลค่าสูงสุดของไข่ที่จะวาง",
+    ["treadmill"] = "ลู่วิ่ง",
+    ["auto treadmill"] = "ใช้ลู่วิ่งอัตโนมัติ",
+    ["auto place egg"] = "วางไข่อัตโนมัติ",
+    ["auto hatch & equip"] = "ฟักไข่และสวมใส่อัตโนมัติ",
+    ["doing now"] = "กำลังทำ",
+    ["nothing"] = "ไม่มี",
+    ["farm tab > auto place egg"] = "แท็บฟาร์ม > วางไข่อัตโนมัติ",
+    ["farm tab > auto treadmill"] = "แท็บฟาร์ม > ใช้ลู่วิ่งอัตโนมัติ",
+    ["farm tab > auto hatch & equip"] = "แท็บฟาร์ม > ฟักไข่และสวมใส่อัตโนมัติ",
+    ["farm tab > auto mutation"] = "แท็บฟาร์ม > กลายพันธุ์อัตโนมัติ",
+    ["farm tab > auto steal"] = "แท็บฟาร์ม > ขโมยไข่อัตโนมัติ",
+    ["farm tab"] = "แท็บฟาร์ม",
+}
+for en,th in pairs(ZIGZAG_V198_VENYX_LABELS) do TH[key(en)] = th end
+
 
 
 
@@ -10112,7 +10326,7 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
         local unitTH={s="วินาที",m="นาที",h="ชั่วโมง",d="วัน"}
         return amount.." "..(unitTH[unit] or unit).."ที่แล้ว"
     end
-    -- V1.9.7 • Live UFO status and mutation status. Preserve live numbers.
+    -- V1.9.8 • Live UFO status and mutation status. Preserve live numbers.
     local ufoClock,ufoEggs,ufoGoal = l:match("^ufo%s+live,%s*(.-)%s+left,%s*eggs%s*(%d+)%s*/%s*(%d+)$")
     if ufoClock then
         local h,m,sec=ufoClock:match("^(%d+)h%s*(%d+)m%s*(%d+)s$")
@@ -10131,6 +10345,46 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     end
     if l:match("^waiting%s*|%s*no eggs? to mutate$") then
         return "กำลังรอ | ไม่มีไข่ให้กลายพันธุ์"
+    end
+    -- ZIGZAG V1.9.8 • Active and countdown status (dynamic numbers are never cached).
+    local nextUfoMin,nextUfoSec=l:match("^next%s+ufo%s+in%s+(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoMin then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMin.." นาที "..nextUfoSec.." วินาที"
+    end
+    local nextUfoHour,mins,secs=l:match("^next%s+ufo%s+in%s+(%d+)%s*h%s*(%d+)%s*m%s*(%d+)%s*s$")
+    if nextUfoHour then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoHour.." ชม. "..mins.." นาที "..secs.." วินาที"
+    end
+    local nextUfoSecOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*s$")
+    if nextUfoSecOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoSecOnly.." วินาที"
+    end
+    local nextUfoMinOnly=l:match("^next%s+ufo%s+in%s+(%d+)%s*m$")
+    if nextUfoMinOnly then
+        return "UFO ครั้งถัดไปในอีก "..nextUfoMinOnly.." นาที"
+    end
+    local taskNow,taskNext1,taskNext2,taskNext3 =
+        l:match("^doing%s+now:%s*(.-)%s*|%s*next%s+1:%s*(.-)%s*|%s*next%s+2:%s*(.-)%s*|%s*next%s+3:%s*(.-)%s*$")
+    if taskNow then
+        local taskTH={
+            idle="ว่าง",nothing="ไม่มี",none="ไม่มี",waiting="กำลังรอ",
+            off="ปิด",on="เปิด",["--"]="--",["-"]="-",
+            ["auto place egg"]="วางไข่อัตโนมัติ",
+            ["auto treadmill"]="ใช้ลู่วิ่งอัตโนมัติ",
+            ["treadmill"]="ลู่วิ่ง",
+            ["auto hatch"]="ฟักไข่อัตโนมัติ",
+            ["auto hatch & equip"]="ฟักไข่และสวมใส่อัตโนมัติ",
+            ["auto mutation"]="กลายพันธุ์อัตโนมัติ",
+            ["auto steal"]="ขโมยไข่อัตโนมัติ",
+            ["auto fuse"]="ผสมสัตว์เลี้ยงอัตโนมัติ",
+            ["farm rare ufo"]="ฟาร์ม UFO หายาก",
+        }
+        local function taskValue(v)
+            v=(v or ""):match("^%s*(.-)%s*$")
+            return taskTH[v] or v
+        end
+        return "ขณะนี้: "..taskValue(taskNow).." | ถัดไป 1: "..taskValue(taskNext1)
+            .." | 2: "..taskValue(taskNext2).." | 3: "..taskValue(taskNext3)
     end
     -- Keep unknown game data untouched; never translate arbitrary item/user names.
     return nil
@@ -11109,13 +11363,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.7 | Finder Popup + UFO Status Thai",
+            Text="V1.9.8 | UFO Countdown + Priority Thai",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER UFO STATUS FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -11153,10 +11407,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V197_FINDER_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -11166,7 +11420,7 @@ print("==============================================")
             print("✅ [ZIGZAG TP] Multi-hop Thai & purple theme queued (gameplay loader excluded)")
         end
     else
-        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.9.7 on your executor.")
+        warn("[ZIGZAG TP] This executor has no queue_on_teleport. Enable Auto Execute for V1.9.8 on your executor.")
     end
 end
 
@@ -11295,13 +11549,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.7 | Finder",
+            Text="V1.9.8 | UFO Countdown + Priority Thai",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.7 FINDER UFO STATUS FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
