@@ -1,5 +1,5 @@
 --========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.9 ALIEN BIOME / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -7,7 +7,7 @@
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.8_FINDER_SCOPED_STATUS"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.9_ALIEN_BIOME_TRANSLATION"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -1524,6 +1524,52 @@ local ZIGZAG_V198_CHILLI_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V198_CHILLI_LABELS) do TRANSLATIONS[en] = th end
 
+-- ZIGZAG V1.9.9 • ALIEN BIOME / COSMIC ECLIPSE / RARITY / ADMIN
+-- Display text only for both Chilli and teleport continuation.
+-- No gameplay, option IDs, numeric settings, callbacks or UI layout changes.
+local ZIGZAG_V199_CHILLI_LABELS = {
+    ["Alien Biome"] = "ไบโอมเอเลี่ยน",
+    ["Cosmic Eclipse"] = "สุริยุปราคาจักรวาล",
+    ["Auto Cosmic Eclipse"] = "ออโต้กิจกรรมสุริยุปราคาจักรวาล",
+    ["Goes into the Lagoon and fishes whenever the Kraken shows up"] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["Goes into the Lagoon and fishes whenever the Kraken shows up."] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["Auto Trade Pearls"] = "ออโต้แลกไข่มุก",
+    ["Auto Socket Relics"] = "ออโต้ใส่รีลิกลงช่อง",
+    ["Auto Get Alien Rod"] = "ออโต้รับคันเบ็ดเอเลี่ยน",
+    ["Fast Lagoon Trips"] = "เข้าออกลากูนอย่างรวดเร็ว",
+    ["Enter and leave the Lagoon faster"] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["Enter and leave the Lagoon faster."] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["Alien Dock"] = "ท่าเรือเอเลี่ยน",
+    ["Alien Lagoon"] = "ลากูนเอเลี่ยน",
+    ["Rarity Min Value"] = "มูลค่าขั้นต่ำแยกตามระดับ",
+    ["Pick a rarity to set its own min value"] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["Pick a rarity to set its own min value."] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["Eternal Min Value"] = "มูลค่าขั้นต่ำระดับอีเทอร์นัล",
+    ["0 = use Min Steal Value"] = "0 = ใช้มูลค่าขโมยขั้นต่ำหลัก",
+    ["Auto Watch Ads"] = "ดูโฆษณาอัตโนมัติ",
+    ["Turn on Use Admin Treadmill below"] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["Turn on Use Admin Treadmill below."] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["Common Min Value"] = "มูลค่าขั้นต่ำระดับธรรมดา",
+    ["Uncommon Min Value"] = "มูลค่าขั้นต่ำระดับไม่ธรรมดา",
+    ["Rare Min Value"] = "มูลค่าขั้นต่ำระดับแรร์",
+    ["SuperRare Min Value"] = "มูลค่าขั้นต่ำระดับซูเปอร์แรร์",
+    ["Epic Min Value"] = "มูลค่าขั้นต่ำระดับอีพิก",
+    ["Legendary Min Value"] = "มูลค่าขั้นต่ำระดับเลเจนดารี",
+    ["Mythic Min Value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["Mythical Min Value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["Cosmic Min Value"] = "มูลค่าขั้นต่ำระดับคอสมิก",
+    ["Celestial Min Value"] = "มูลค่าขั้นต่ำระดับเซเลสเชียล",
+    ["Divine Min Value"] = "มูลค่าขั้นต่ำระดับดีไวน์",
+    ["Superior Min Value"] = "มูลค่าขั้นต่ำระดับซูพีเรียร์",
+    ["Secret Min Value"] = "มูลค่าขั้นต่ำระดับซีเคร็ต",
+    ["Limited Min Value"] = "มูลค่าขั้นต่ำระดับลิมิเต็ด",
+    ["Exclusive Min Value"] = "มูลค่าขั้นต่ำระดับเอ็กซ์คลูซีฟ",
+    ["Exotic Min Value"] = "มูลค่าขั้นต่ำระดับเอ็กโซติก",
+    ["Titan Min Value"] = "มูลค่าขั้นต่ำระดับไททัน",
+}
+for en,th in pairs(ZIGZAG_V199_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+
 
 
 
@@ -1594,6 +1640,9 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if type(raw)~="string" or raw=="" then return nil end
     local t=raw:match("^%s*(.-)%s*$") or raw
     local l=string.lower(t)
+    -- V1.9.9 • dynamic Alien Biome requirement, preserving the original B/K/M numbers.
+    local neededSpeed,currentSpeed = t:match("^[Nn]eed%s+([%d%.,]+%a*)%s+[Ss]peed%s*%(([%d%.,]+%a*)%)$")
+    if neededSpeed then return "ต้องการความเร็ว "..neededSpeed.." (ปัจจุบัน "..currentSpeed..")" end
     local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
     if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
     fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
@@ -4589,6 +4638,52 @@ local ZIGZAG_V198_VENYX_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V198_VENYX_LABELS) do TH[key(en)] = th end
 
+-- ZIGZAG V1.9.9 • ALIEN BIOME / COSMIC ECLIPSE / RARITY / ADMIN
+-- Mirror the visible UI labels on Venyx and its queued teleport translator.
+-- Source controls, settings values and callback keys are unchanged.
+local ZIGZAG_V199_VENYX_LABELS = {
+    ["alien biome"] = "ไบโอมเอเลี่ยน",
+    ["cosmic eclipse"] = "สุริยุปราคาจักรวาล",
+    ["auto cosmic eclipse"] = "ออโต้กิจกรรมสุริยุปราคาจักรวาล",
+    ["goes into the lagoon and fishes whenever the kraken shows up"] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["goes into the lagoon and fishes whenever the kraken shows up."] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["auto trade pearls"] = "ออโต้แลกไข่มุก",
+    ["auto socket relics"] = "ออโต้ใส่รีลิกลงช่อง",
+    ["auto get alien rod"] = "ออโต้รับคันเบ็ดเอเลี่ยน",
+    ["fast lagoon trips"] = "เข้าออกลากูนอย่างรวดเร็ว",
+    ["enter and leave the lagoon faster"] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["enter and leave the lagoon faster."] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["alien dock"] = "ท่าเรือเอเลี่ยน",
+    ["alien lagoon"] = "ลากูนเอเลี่ยน",
+    ["rarity min value"] = "มูลค่าขั้นต่ำแยกตามระดับ",
+    ["pick a rarity to set its own min value"] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["pick a rarity to set its own min value."] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["eternal min value"] = "มูลค่าขั้นต่ำระดับอีเทอร์นัล",
+    ["0 = use min steal value"] = "0 = ใช้มูลค่าขโมยขั้นต่ำหลัก",
+    ["auto watch ads"] = "ดูโฆษณาอัตโนมัติ",
+    ["turn on use admin treadmill below"] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["turn on use admin treadmill below."] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["common min value"] = "มูลค่าขั้นต่ำระดับธรรมดา",
+    ["uncommon min value"] = "มูลค่าขั้นต่ำระดับไม่ธรรมดา",
+    ["rare min value"] = "มูลค่าขั้นต่ำระดับแรร์",
+    ["superrare min value"] = "มูลค่าขั้นต่ำระดับซูเปอร์แรร์",
+    ["epic min value"] = "มูลค่าขั้นต่ำระดับอีพิก",
+    ["legendary min value"] = "มูลค่าขั้นต่ำระดับเลเจนดารี",
+    ["mythic min value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["mythical min value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["cosmic min value"] = "มูลค่าขั้นต่ำระดับคอสมิก",
+    ["celestial min value"] = "มูลค่าขั้นต่ำระดับเซเลสเชียล",
+    ["divine min value"] = "มูลค่าขั้นต่ำระดับดีไวน์",
+    ["superior min value"] = "มูลค่าขั้นต่ำระดับซูพีเรียร์",
+    ["secret min value"] = "มูลค่าขั้นต่ำระดับซีเคร็ต",
+    ["limited min value"] = "มูลค่าขั้นต่ำระดับลิมิเต็ด",
+    ["exclusive min value"] = "มูลค่าขั้นต่ำระดับเอ็กซ์คลูซีฟ",
+    ["exotic min value"] = "มูลค่าขั้นต่ำระดับเอ็กโซติก",
+    ["titan min value"] = "มูลค่าขั้นต่ำระดับไททัน",
+}
+for en,th in pairs(ZIGZAG_V199_VENYX_LABELS) do TH[key(en)] = th end
+
+
 
 
 
@@ -4627,6 +4722,9 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if type(raw)~="string" or raw=="" then return nil end
     local t=raw:match("^%s*(.-)%s*$") or raw
     local l=string.lower(t)
+    -- V1.9.9 • dynamic Alien Biome requirement, preserving the original B/K/M numbers.
+    local neededSpeed,currentSpeed = t:match("^[Nn]eed%s+([%d%.,]+%a*)%s+[Ss]peed%s*%(([%d%.,]+%a*)%)$")
+    if neededSpeed then return "ต้องการความเร็ว "..neededSpeed.." (ปัจจุบัน "..currentSpeed..")" end
     local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
     if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
     fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
@@ -5624,7 +5722,7 @@ local ZIGZAG_BOOT_TEMPLATE = %q
 local ZIGZAG_ENV = (type(getgenv)=="function" and getgenv()) or _G
 local ZIGZAG_ACTIVE = ZIGZAG_ENV.__ZIGZAG_CHILLI_STATE
 local ZIGZAG_JOB = tostring(game.JobId or "")
-if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.8_FINDER_SCOPED_STATUS"
+if ZIGZAG_ACTIVE and ZIGZAG_ACTIVE.Release=="CHILLI_VENYX_ZIGZAG_V1.9.9_ALIEN_BIOME_TRANSLATION"
     and ZIGZAG_ACTIVE.JobId==ZIGZAG_JOB and ZIGZAG_ACTIVE.Live then
     return
 end
@@ -5650,10 +5748,10 @@ if q then
     if not ok and type(writefile)=="function" and type(readfile)=="function" then
         -- Some mobile executors impose a small queue text limit. Save the
         -- same bootstrap locally and queue a tiny reader instead, if possible.
-        local path="ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"
+        local path="ZIGZAG_CHILLI_V199_ALIEN_TP_CACHE.lua"
         local saved=pcall(writefile,path,continuation)
         if saved then
-            local tiny='local f=readfile("ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+            local tiny='local f=readfile("ZIGZAG_CHILLI_V199_ALIEN_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
             ok,err=pcall(q,tiny)
         end
     end
@@ -5686,7 +5784,7 @@ local ok,reason=pcall(runner)
 if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 ]====]
     local ZIGZAG_TRANSLATOR_SOURCE = [====[--========================================================
--- CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
+-- CHILLI + VENYX THAI - ZIGZAG V1.9.9 ALIEN BIOME / VENYX THAI ALL-DEVICE PURPLE TELEPORT SAFE FULL MERGED
 -- DIRECT SOURCE / ONE BLOCK / ANTI-FLICKER / LOW-LAG
 -- V1.6 BASE / DR. SCRAMBLE SCROLL GUARD / DYNAMIC PURPLE BORDERS (2026-10-09)
 -- Original translator/source preserved; visual theme never changes .Text
@@ -5694,7 +5792,7 @@ if not ok then warn("[ZIGZAG TP] Thai/theme source failed:",reason) end
 --========================================================
 
 local ENV = (type(getgenv) == "function" and getgenv()) or _G
-local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.8_FINDER_SCOPED_STATUS"
+local ZIGZAG_RELEASE = "CHILLI_VENYX_ZIGZAG_V1.9.9_ALIEN_BIOME_TRANSLATION"
 local ZIGZAG_JOB = tostring(game.JobId or "")
 local OLD = ENV.__ZIGZAG_CHILLI_STATE
 -- If executor Auto Execute and a teleport queue both fire, keep the already
@@ -7162,6 +7260,52 @@ local ZIGZAG_V198_CHILLI_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V198_CHILLI_LABELS) do TRANSLATIONS[en] = th end
 
+-- ZIGZAG V1.9.9 • ALIEN BIOME / COSMIC ECLIPSE / RARITY / ADMIN
+-- Display text only for both Chilli and teleport continuation.
+-- No gameplay, option IDs, numeric settings, callbacks or UI layout changes.
+local ZIGZAG_V199_CHILLI_LABELS = {
+    ["Alien Biome"] = "ไบโอมเอเลี่ยน",
+    ["Cosmic Eclipse"] = "สุริยุปราคาจักรวาล",
+    ["Auto Cosmic Eclipse"] = "ออโต้กิจกรรมสุริยุปราคาจักรวาล",
+    ["Goes into the Lagoon and fishes whenever the Kraken shows up"] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["Goes into the Lagoon and fishes whenever the Kraken shows up."] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["Auto Trade Pearls"] = "ออโต้แลกไข่มุก",
+    ["Auto Socket Relics"] = "ออโต้ใส่รีลิกลงช่อง",
+    ["Auto Get Alien Rod"] = "ออโต้รับคันเบ็ดเอเลี่ยน",
+    ["Fast Lagoon Trips"] = "เข้าออกลากูนอย่างรวดเร็ว",
+    ["Enter and leave the Lagoon faster"] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["Enter and leave the Lagoon faster."] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["Alien Dock"] = "ท่าเรือเอเลี่ยน",
+    ["Alien Lagoon"] = "ลากูนเอเลี่ยน",
+    ["Rarity Min Value"] = "มูลค่าขั้นต่ำแยกตามระดับ",
+    ["Pick a rarity to set its own min value"] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["Pick a rarity to set its own min value."] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["Eternal Min Value"] = "มูลค่าขั้นต่ำระดับอีเทอร์นัล",
+    ["0 = use Min Steal Value"] = "0 = ใช้มูลค่าขโมยขั้นต่ำหลัก",
+    ["Auto Watch Ads"] = "ดูโฆษณาอัตโนมัติ",
+    ["Turn on Use Admin Treadmill below"] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["Turn on Use Admin Treadmill below."] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["Common Min Value"] = "มูลค่าขั้นต่ำระดับธรรมดา",
+    ["Uncommon Min Value"] = "มูลค่าขั้นต่ำระดับไม่ธรรมดา",
+    ["Rare Min Value"] = "มูลค่าขั้นต่ำระดับแรร์",
+    ["SuperRare Min Value"] = "มูลค่าขั้นต่ำระดับซูเปอร์แรร์",
+    ["Epic Min Value"] = "มูลค่าขั้นต่ำระดับอีพิก",
+    ["Legendary Min Value"] = "มูลค่าขั้นต่ำระดับเลเจนดารี",
+    ["Mythic Min Value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["Mythical Min Value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["Cosmic Min Value"] = "มูลค่าขั้นต่ำระดับคอสมิก",
+    ["Celestial Min Value"] = "มูลค่าขั้นต่ำระดับเซเลสเชียล",
+    ["Divine Min Value"] = "มูลค่าขั้นต่ำระดับดีไวน์",
+    ["Superior Min Value"] = "มูลค่าขั้นต่ำระดับซูพีเรียร์",
+    ["Secret Min Value"] = "มูลค่าขั้นต่ำระดับซีเคร็ต",
+    ["Limited Min Value"] = "มูลค่าขั้นต่ำระดับลิมิเต็ด",
+    ["Exclusive Min Value"] = "มูลค่าขั้นต่ำระดับเอ็กซ์คลูซีฟ",
+    ["Exotic Min Value"] = "มูลค่าขั้นต่ำระดับเอ็กโซติก",
+    ["Titan Min Value"] = "มูลค่าขั้นต่ำระดับไททัน",
+}
+for en,th in pairs(ZIGZAG_V199_CHILLI_LABELS) do TRANSLATIONS[en] = th end
+
+
 
 
 
@@ -7232,6 +7376,9 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if type(raw)~="string" or raw=="" then return nil end
     local t=raw:match("^%s*(.-)%s*$") or raw
     local l=string.lower(t)
+    -- V1.9.9 • dynamic Alien Biome requirement, preserving the original B/K/M numbers.
+    local neededSpeed,currentSpeed = t:match("^[Nn]eed%s+([%d%.,]+%a*)%s+[Ss]peed%s*%(([%d%.,]+%a*)%)$")
+    if neededSpeed then return "ต้องการความเร็ว "..neededSpeed.." (ปัจจุบัน "..currentSpeed..")" end
     local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
     if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
     fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
@@ -10227,6 +10374,52 @@ local ZIGZAG_V198_VENYX_LABELS = {
 }
 for en,th in pairs(ZIGZAG_V198_VENYX_LABELS) do TH[key(en)] = th end
 
+-- ZIGZAG V1.9.9 • ALIEN BIOME / COSMIC ECLIPSE / RARITY / ADMIN
+-- Mirror the visible UI labels on Venyx and its queued teleport translator.
+-- Source controls, settings values and callback keys are unchanged.
+local ZIGZAG_V199_VENYX_LABELS = {
+    ["alien biome"] = "ไบโอมเอเลี่ยน",
+    ["cosmic eclipse"] = "สุริยุปราคาจักรวาล",
+    ["auto cosmic eclipse"] = "ออโต้กิจกรรมสุริยุปราคาจักรวาล",
+    ["goes into the lagoon and fishes whenever the kraken shows up"] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["goes into the lagoon and fishes whenever the kraken shows up."] = "เข้าไปในลากูนและตกปลาอัตโนมัติเมื่อคราเคนปรากฏ",
+    ["auto trade pearls"] = "ออโต้แลกไข่มุก",
+    ["auto socket relics"] = "ออโต้ใส่รีลิกลงช่อง",
+    ["auto get alien rod"] = "ออโต้รับคันเบ็ดเอเลี่ยน",
+    ["fast lagoon trips"] = "เข้าออกลากูนอย่างรวดเร็ว",
+    ["enter and leave the lagoon faster"] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["enter and leave the lagoon faster."] = "เข้าและออกจากลากูนได้รวดเร็วยิ่งขึ้น",
+    ["alien dock"] = "ท่าเรือเอเลี่ยน",
+    ["alien lagoon"] = "ลากูนเอเลี่ยน",
+    ["rarity min value"] = "มูลค่าขั้นต่ำแยกตามระดับ",
+    ["pick a rarity to set its own min value"] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["pick a rarity to set its own min value."] = "เลือกระดับความหายากเพื่อกำหนดมูลค่าขั้นต่ำเฉพาะระดับ",
+    ["eternal min value"] = "มูลค่าขั้นต่ำระดับอีเทอร์นัล",
+    ["0 = use min steal value"] = "0 = ใช้มูลค่าขโมยขั้นต่ำหลัก",
+    ["auto watch ads"] = "ดูโฆษณาอัตโนมัติ",
+    ["turn on use admin treadmill below"] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["turn on use admin treadmill below."] = "เปิดใช้ลู่วิ่งแอดมินด้านล่างก่อน",
+    ["common min value"] = "มูลค่าขั้นต่ำระดับธรรมดา",
+    ["uncommon min value"] = "มูลค่าขั้นต่ำระดับไม่ธรรมดา",
+    ["rare min value"] = "มูลค่าขั้นต่ำระดับแรร์",
+    ["superrare min value"] = "มูลค่าขั้นต่ำระดับซูเปอร์แรร์",
+    ["epic min value"] = "มูลค่าขั้นต่ำระดับอีพิก",
+    ["legendary min value"] = "มูลค่าขั้นต่ำระดับเลเจนดารี",
+    ["mythic min value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["mythical min value"] = "มูลค่าขั้นต่ำระดับมิธิค",
+    ["cosmic min value"] = "มูลค่าขั้นต่ำระดับคอสมิก",
+    ["celestial min value"] = "มูลค่าขั้นต่ำระดับเซเลสเชียล",
+    ["divine min value"] = "มูลค่าขั้นต่ำระดับดีไวน์",
+    ["superior min value"] = "มูลค่าขั้นต่ำระดับซูพีเรียร์",
+    ["secret min value"] = "มูลค่าขั้นต่ำระดับซีเคร็ต",
+    ["limited min value"] = "มูลค่าขั้นต่ำระดับลิมิเต็ด",
+    ["exclusive min value"] = "มูลค่าขั้นต่ำระดับเอ็กซ์คลูซีฟ",
+    ["exotic min value"] = "มูลค่าขั้นต่ำระดับเอ็กโซติก",
+    ["titan min value"] = "มูลค่าขั้นต่ำระดับไททัน",
+}
+for en,th in pairs(ZIGZAG_V199_VENYX_LABELS) do TH[key(en)] = th end
+
+
 
 
 
@@ -10265,6 +10458,9 @@ local function ZIGZAG_V193_STATUS_TRANSLATOR(raw)
     if type(raw)~="string" or raw=="" then return nil end
     local t=raw:match("^%s*(.-)%s*$") or raw
     local l=string.lower(t)
+    -- V1.9.9 • dynamic Alien Biome requirement, preserving the original B/K/M numbers.
+    local neededSpeed,currentSpeed = t:match("^[Nn]eed%s+([%d%.,]+%a*)%s+[Ss]peed%s*%(([%d%.,]+%a*)%)$")
+    if neededSpeed then return "ต้องการความเร็ว "..neededSpeed.." (ปัจจุบัน "..currentSpeed..")" end
     local fish=l:match("^quest:%s*done%s*|%s*fish caught:%s*(%d+)$")
     if fish then return "เควสต์: สำเร็จ | จับปลาได้: "..fish.." ตัว" end
     fish=l:match("^quest:%s*(%a+)%s*|%s*fish caught:%s*(%d+)$")
@@ -11363,13 +11559,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.8 | UFO Countdown + Priority Thai",
+            Text="V1.9.9 | Alien Biome + UFO + Priority Thai",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.9 ALIEN BIOME FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
@@ -11407,10 +11603,10 @@ print("==============================================")
             ZIGZAG_TRANSLATOR_SOURCE,ZIGZAG_BOOT_TEMPLATE)
         local ok,err=pcall(q,continuation)
         if not ok and type(writefile)=="function" and type(readfile)=="function" then
-            local path="ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"
+            local path="ZIGZAG_CHILLI_V199_ALIEN_TP_CACHE.lua"
             local saved=pcall(writefile,path,continuation)
             if saved then
-                local tiny='local f=readfile("ZIGZAG_CHILLI_V198_STATUS_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
+                local tiny='local f=readfile("ZIGZAG_CHILLI_V199_ALIEN_TP_CACHE.lua"); local r=loadstring(f); if r then r() end'
                 ok,err=pcall(q,tiny)
             end
         end
@@ -11549,13 +11745,13 @@ task.delay(2,function()
     pcall(function()
         StarterGui:SetCore("SendNotification",{
             Title="🌶️ Chilli ZIGZAG",
-            Text="V1.9.8 | UFO Countdown + Priority Thai",
+            Text="V1.9.9 | Alien Biome + UFO + Priority Thai",
             Duration=4
         })
     end)
 end)
 print("==============================================")
-print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.8 UFO PRIORITY FULL MERGED")
+print("✅ CHILLI + VENYX THAI - ZIGZAG V1.9.9 ALIEN BIOME FULL MERGED")
 print("✅ RESPONSIVE PURPLE: MOBILE / IPAD / PC + VENYX POPUPS")
 print("✅ DIRECT ORIGINAL CHILLI SOURCE")
 print("✅ LOADER + TRANSLATOR ONE BLOCK")
